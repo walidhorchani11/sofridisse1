@@ -1,0 +1,40 @@
+<div class="space-between-container">
+    <div class="page-title">Messages clients</div>
+</div>
+<div class="scrollable-content scrollable-content-messages-list grid-s-12" id="product-list">
+    <table class="table-with-headers sticky-header-table">
+        <thead>
+            <tr>
+                <th>Libellé</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="spacer"></tr>
+            {% for message in messagesClients %}
+                <tr>
+                    <td>{{message.libelle}}</td>
+                    <td>{{message.dateDebutValidite|date("d/m/Y") }}</td>
+                    <td>{{message.dateFinValidite|date("d/m/Y") }}</td>
+                    <td><a href="{{ path('SogedialSite_integration_edit_message_client', {'messageId': message.id}) }}"><i class="fa fa-2x fa-edit"></i></a>{#  <i class="fa fa-2x fa-trash"></i> #}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div id="loadingDiv" style="display: none">
+        <div class="loader-commande-point-com">
+            {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig"  with {'svg_id':1} %}
+        </div>
+    </div>
+    <div id="endLoadingDiv" style="display: none">
+        <p> Fin de la liste </p>
+    </div>
+</div>
+<div class="grid-s-12">
+    {# Bouton sauvegarde #}
+    <div class="grid-row grid-center">
+        <a href="{{ path('SogedialSite_integration_new_message_client') }}"><button type="submit" class="button blue marg-v-20"><i class="fa fa-pencil-square-o"></i> Nouveau message</button></a>
+    </div>
+</div>

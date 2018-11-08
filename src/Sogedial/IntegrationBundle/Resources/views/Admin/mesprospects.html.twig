@@ -1,0 +1,6 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block title %}Mes Prospects - Dashboard Commercial {% endblock %}
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:mesprospects.content.html.twig"
+    with {'mesProspects': mesProspects, '_societe_cc' : _societe_cc, 'numberOfProspectsLocked': numberOfProspectsLocked, 'numberOfProspectsWithAccess': numberOfProspectsWithAccess} only %}
+{% endblock %}

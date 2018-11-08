@@ -1,0 +1,45 @@
+{% if currentPage is defined %}
+    {% if currentPage == 'panier' %}
+        {% set class_price = "price_ttc" %}
+    {% elseif  currentPage == 'detailcmd' %}
+        {% set class_price = "price-ttc" %}
+    {% else %}
+        {% set class_price = "price_value" %}
+    {% endif %}
+{% else %}
+    {% set class_price = "price_value" %}
+{% endif %}
+
+<span class="{{ class_price }}">
+    {% if product.unitPriceFrom is defined %}
+        {{ product.unitPriceFrom|number_format(2, ".", " ") }}&#8239;&euro;&#8239;
+    {% else %}
+        {{ product|number_format(2, ".", " ") }}&#8239;&euro;&#8239;
+    {% endif %}
+    {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+
+    {% include "SogedialIntegrationBundle:Common:pound.unity.html.twig"  with {
+            'kilo': poid_variable is defined and poid_variable and sale_unity is defined and sale_unity == 'KILOGRAMME' 
+        }
+    %}
+<span>
+
+{% if product.isPromo is defined and product.isPromo == 1 and product.unitPriceFrom is defined and product.init_price is defined and product.init_price != null %}
+    <br/>
+    <div class="price-container">
+        <span class="{{ class_price }} init-price">
+                {{ product.init_price|number_format(2, ".", " ") }}&#8239;&euro;&#8239;
+        {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+
+        {% include "SogedialIntegrationBundle:Common:pound.unity.html.twig"  with {
+                'kilo': poid_variable is defined and poid_variable and sale_unity is defined and sale_unity == 'KILOGRAMME' 
+            }
+        %}
+        <span>
+    </div>
+{% endif %}
+
+
+{% if product.poid_variable_note is defined and product.poid_variable_note == true %}
+<span class="second-line">**</span>
+{% endif %}

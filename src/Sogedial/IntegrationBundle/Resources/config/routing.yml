@@ -1,0 +1,238 @@
+SogedialSite_accueil:
+    path:      /
+    defaults:  { _controller: SogedialIntegrationBundle:Site:index }
+
+sogedial_integration_suggestions:
+    path:      /suggestions
+    defaults:  { _controller: SogedialIntegrationBundle:Catalogue:obtenirSuggestions }
+    options:
+        expose: true
+
+sogedial_integration_dashbord:
+    path:     /{societe}/dashboard/{page}
+    defaults: { _controller: SogedialIntegrationBundle:Dashbord:index, page: 1 }
+    requirements:
+        page:  \d+
+        societe:  .*
+    options:
+        expose: true
+
+sogedial_integration_catalogue:
+    path:     /{societe}/catalogue/{page}
+    defaults: { _controller: SogedialIntegrationBundle:Catalogue:index, page: 1, tri: libelle, ordertri: 2}
+    requirements:
+        page:  \d+
+        tri: libelle|marque|prixht
+        ordertri: 1|2
+        search: \w*
+        societe:  .*
+
+sogedial_integration_societe_landing:
+    path:   /landing-page
+    defaults: { _controller: SogedialIntegrationBundle:LeftSidebar:societeLanding }
+
+sogedial_integration_assortiment_landing:
+    path:   /landing-page-assortiment
+    defaults: { _controller: SogedialIntegrationBundle:LeftSidebar:assortimentLanding }
+
+sogedial_integration_societe:
+    path:   /societe/{societe}
+    defaults: { _controller: SogedialIntegrationBundle:LeftSidebar:societeLoad}
+    requirements:
+        societe:  .*
+
+sogedial_integration_assortiment:
+    path:   /assortiment/{valeur}
+    defaults: { _controller: SogedialIntegrationBundle:LeftSidebar:assortimentLoad}
+    requirements:
+        societe:  .*
+
+sogedial_integration_product_load:
+    path:     /{societe}/catalogue/product/{page}/{lastTitle}
+    defaults: { _controller: SogedialIntegrationBundle:Catalogue:productLoad, page: 1, tri: libelle, ordertri: 2, lastTitle: ""}
+    requirements:
+        page:  \d+
+        tri: libelle|marque|prixht
+        ordertri: 1|2
+        search: \w*
+        societe:  .*
+    options:
+            expose: true
+
+sogedial_integration_fiche_produit:
+    path:     /{societe}/catalogue-fiche-produit-{code}
+    defaults: { _controller: SogedialIntegrationBundle:Produit:ficheProduit }
+    requirements:
+        code:  .*
+        societe:  .*
+
+SogedialSite_integration_order_recap:
+    path: /{societe}/order/recap
+    defaults: { _controller: SogedialIntegrationBundle:Commande:panier }
+    requirements:
+        societe:  .*
+
+SogedialSite_integration_pending_orders:
+    path: /{societe}/catalogue-commandes-encours
+    defaults: { _controller: SogedialIntegrationBundle:Commande:historiqueCommande }
+    requirements:
+        societe:  .*
+
+SogedialSite_detail_historique_commande:
+    path: /{societe}/detail-historique-commande/{id}
+    defaults: { _controller: SogedialIntegrationBundle:Commande:detailHistoriqueCommande }
+    requirements:
+        id: \d+
+        societe:  .*
+
+SogedialSite_catalogue_integration_reload_famille:
+    path:      /catalogue-dry-reload-famille/{codeFamille}/{page}
+    defaults:  { _controller: SogedialIntegrationBundle:Catalogue:familleReload, page: 1 }
+    requirements:
+        page:  \d+
+
+SogedialSite_catalogue_integration_reload_secteur:
+    path:      /catalogue-dry-reload-secteur/{codeSecteur}/{page}
+    defaults:  { _controller: SogedialIntegrationBundle:Catalogue:secteurReload, page: 1 }
+    requirements:
+        page:  \d+
+
+SogedialSite_catalogue_integration_reload_rayon:
+    path:      /catalogue-dry-reload-rayon/{codeRayon}/{page}
+    defaults:  { _controller: SogedialIntegrationBundle:Catalogue:rayonReload, page: 1 }
+    requirements:
+        page:  \d+
+
+SogedialSite_catalogue_integration_promotion_reload:
+    path:      /catalogue-dry-reload-promotion/{page}
+    defaults:  { _controller: SogedialIntegrationBundle:Catalogue:promotionsReload, page: 1 }
+    requirements:
+        page:  \d+
+
+SogedialSite_catalogue_integration_new_product_reload:
+    path:      /catalogue-dry-reload-new-product/{page}
+    defaults:  { _controller: SogedialIntegrationBundle:Catalogue:newProductReload, page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_stock_engagement_update:
+    path:     /stock-engagement-code-promotion-{id}-update
+    defaults: { _controller: SogedialIntegrationBundle:StockEngagement:update}
+    requirements:
+        id:  .*
+        stock_engagement_demande: \d+
+    methods : [POST]
+    options:
+        expose: true
+
+sogedial_integration_stock_engagement:
+    path:     /{societe}/stock-engagement-code-promotion-{id}
+    defaults: { _controller: SogedialIntegrationBundle:StockEngagement:index}
+    requirements:
+        id: \d+
+        societe: .*
+    methods : [GET]
+
+sogedial_integration_panier_valide:
+    path:     /check_panier_valide
+    defaults: { _controller: SogedialIntegrationBundle:Commande:panierValidate}
+    options:
+        expose: true
+
+sogedial_integration_moq_client_update:
+    path:     /moq_client
+    defaults: { _controller: SogedialIntegrationBundle:Catalogue:updateMOQClient}
+    methods : [POST]
+    options:
+        expose: true
+
+SogedialSite_order_read_pdf:
+    path:      /read-pdf
+    defaults:  { _controller: SogedialIntegrationBundle:Settings:readPdf }
+
+SogedialSite_signed_conditions:
+    path:      /signed-conditions
+    defaults:  { _controller: SogedialIntegrationBundle:Settings:signeConditions }
+
+SogedialSite_update_to_true_conditions:
+    path:      /true-conditions
+    defaults:  { _controller: SogedialIntegrationBundle:Settings:conditionToTrueReadySigned }
+    options:
+        expose: true
+
+SogedialSite_update_to_false_conditions:
+    path:      /false-conditions
+    defaults:  { _controller: SogedialIntegrationBundle:Settings:conditionToFalseReadySigned }
+    options:
+        expose: true
+
+SogedialSite_order_renew_current:
+    path:      /{societe}/order-{id}-current-renew
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:orderRenew }
+    requirements:
+        id: \d+
+        societe:  .*
+
+SogedialSite_comment_cmd:
+    path:      /comment/{comment}
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:commentCommande }
+    requirements:
+        comment: .*
+    options:
+        expose: true
+
+SogedialSite_validate_cmd:
+    path:      /validate-{id}-{dateLivraison}/{comment}
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:validateCommande }
+    requirements:
+        id:  \d+
+        dateLivraison: .*
+        comment: .*
+    options:
+        expose: true
+
+SogedialSite_clearCurrentOrder:
+    path:      /order/current/clear
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:clearCurrentOrder }
+    options:
+          expose: true
+
+SogedialSite_deleteCurrentOrder:
+    path:      /order/current/delete
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:deleteCurrentOrder }
+    options:
+          expose: true
+
+SogedialSite_removeProductToCurrentOrder:
+    path:      /order/current/product/remove/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:removeProductToCurrentOrder }
+    options:
+          expose: true
+
+SogedialSite_getCurrentOrderWeightVolume:
+    path:      /order/current/weight-volume
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:getCurrentOrderWeightVolume }
+    options:
+         expose: true
+
+SogedialSite_editToCurrentOrder:
+    path:      /order/current/product
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:editProductToCurrentOrder }
+    options:
+         expose: true
+
+sogedial_finish_first_visit:
+    path:      /finish-visit
+    defaults:  { _controller: SogedialIntegrationBundle:Didacticiel:finishFirstVisit }
+    options:
+         expose: true
+
+SogedialSite_recapOrderPdf:
+    path:      /order/{id}/recap/pdf
+    defaults:  { _controller: SogedialIntegrationBundle:Commande:recapOrderPdf }
+    requirements:
+        id:  \d+
+
+barcode_image:
+    path:      /barcode-image/{code}
+    defaults:  { _controller: SogedialIntegrationBundle:Produit:barcodeImage }

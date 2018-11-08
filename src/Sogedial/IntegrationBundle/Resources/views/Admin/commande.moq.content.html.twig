@@ -1,0 +1,43 @@
+{% set productId = 0 %}
+{% set tableId = 0 %}
+
+<div class="grid-s-masonry-2 grid-m-masonry-3 grid-xl-masonry-4 grid-xxl-masonry-5">
+{% for supplier, rules in commandes.suppliers %}
+    {% for rule, productsRule in rules %}
+        {% set ruleContent = rules[rule].name|split(" ") %}
+        {% if ruleContent[2] is defined and ruleContent[2] == "mixe" %}
+            <div class="unique-rule-container" data-rulenb="{{ ruleContent[0] }}" data-ruleunit="{{ ruleContent[1][:1] }}" data-uniqueruleid="{{ tableId }}">
+                {% include "SogedialIntegrationBundle:Admin:moq-card-mix.html.twig" with {
+                    "supplier": supplier,
+                    "users": users,
+                    "productRule": productsRule,
+                    "rule":  rules[rule].name,
+                    "ruleunit": ruleContent[1][:1],
+                    "tableId": tableId,
+                    "ruleAmount": ruleContent[0],
+                } %}
+            </div>
+            {% set tableId = tableId + 1 %}
+        {% else %}
+            {% for labelproduct, product in productsRule["products"] %}
+                <div class="unique-rule-container" data-rulenb="{{ ruleContent[0] }}" data-ruleunit="{{ ruleContent[1][:1] }}" data-uniqueruleid="{{ tableId }}">
+                    {% include "SogedialIntegrationBundle:Admin:moq-card.html.twig" with {
+                        "supplier": supplier,
+                        "users": users,
+                        "productRule": productsRule,
+                        "rule": rules[rule].name,
+                        "ruleunit": ruleContent[1][:1],
+                        "tableId": tableId,
+                        "trId": 0,
+                        "product": product,
+                        "labelproduct": labelproduct,
+                        "ruleAmount": ruleContent[0],
+                    } %}
+                </div>
+                {% set tableId = tableId + 1 %}
+                {% set productId = productId + 1 %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+</div>

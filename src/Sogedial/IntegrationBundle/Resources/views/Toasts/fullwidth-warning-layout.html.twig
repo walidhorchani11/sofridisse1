@@ -1,0 +1,8 @@
+<div class="warning-header-container">
+    <div id="warning-header">
+        {% block content %}{% endblock %}
+        {% if dismissable %}
+            <i id="warning-header-close" class="fa fa-times" aria-hidden="true"></i>
+        {% endif %}
+    </div>
+</div>

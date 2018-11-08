@@ -1,0 +1,13 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block title %}Mes Clients - Dashboard Commercial {% endblock %}
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:mesclients.content.html.twig"
+    with {'mesClients': mesClients, '_societe_cc' : _societe_cc, 'numberOfClientsLocked': numberOfClientsLocked, 'numberOfClientsWithoutAccess': numberOfClientsWithoutAccess, 'numberOfClientsWithAccess': numberOfClientsWithAccess} only %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $(".sticky-header-table").stickyTableHeaders();
+        });
+    </script>
+{% endblock %}

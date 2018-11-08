@@ -1,0 +1,52 @@
+.comment {
+  position: relative;
+  margin: 5px 0;
+  textarea {
+    display: block;
+    width: 500px;
+    height: 25px;
+    box-sizing: border-box;
+    padding: 5px 50px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    line-height: 15px;
+    resize: none;
+    background-color: safo-color('light');
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      font-style: italic;
+    }
+    &:-moz-placeholder { /* Firefox 19+ */
+      font-style: italic;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+      font-style: italic;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      font-style: italic;
+    }
+  }
+
+  &:before {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    z-index: 1;
+    width: 18px;
+    height: 18px;
+    content: "";
+    background: $url_75;
+    background-size:100%;
+    background-repeat: no-repeat;
+  }
+}
+
+.comment-btn {
+  position: absolute;
+  right: 17px;
+  bottom: 0;
+}

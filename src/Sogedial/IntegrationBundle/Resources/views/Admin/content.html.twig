@@ -1,0 +1,145 @@
+<section>
+    <div class="content">
+        <div class="scrollable-content scrollable-content-full-content">
+            <div class="block">
+                <div class="page-title">Panier en cours</div>
+
+                <table class="table-without-images table-with-headers">
+                    <thead>
+                        <tr>
+                            <th>Commande</th>
+                            <th>Société</th>
+                            <th>Produits</th>
+                            {% if MasterEnterprise != "sogedial" %}
+                                <th>Température</th>
+                            {% else %}
+                                <th>Livraison</th>
+                            {% endif %}
+                            <th>Total</th>
+                            <th>Statut</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="spacer"></tr>
+                        {% if panierEncours is defined and panierEncours is not empty %}
+                            {% for basket in panierEncours %}
+                                <tr>
+                                    <td class="link">
+                                        <ul>
+                                            <li class="order-name">{{ basket.nom }}</li>
+                                            <li>{{ basket.o_createdAt|date('d.m.Y', timezone="Europe/Paris") }}</li>
+                                            <li class="second-line">{{ basket.numero }}</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {{ MasterEnterprise | upper }}
+                                    </td>
+                                    <td class="link">
+                                        <ul>
+                                            <li>{{ basket.totalProducts }} références</li>
+                                            <li>{{ basket.totalQuantity }} colis</li>
+                                        </ul>
+                                    </td>
+                                    <td class="link">
+                                    <ul class="delivery">
+                                    {% if prochaineLivraison.ambient is defined and prochaineLivraison.ambient is not empty %}
+                                        <li>
+                                            <p class="small-picto yellow">
+                                                <img src="{{ image('images/corn.svg') }}" alt="Sec"/>
+                                            </p>
+                                            <span class="temp">
+                                                Sec
+                                            </span>
+                                            {% if MasterEnterprise != 'Sogedial' %}
+                                                <span class="date">
+                                                    : le {{ prochaineLivraison.ambient |date('d.m.Y', timezone="Europe/Paris") }}
+                                                </span>
+                                            {% else %}
+                                                <span class="date">&nbsp;</span>
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+
+                                    {% if prochaineLivraison.positiveCold is defined and prochaineLivraison.positiveCold is not empty %}
+                                        <li>
+                                            <p class="small-picto green">
+                                                <img src="{{ image('images/apple.svg') }}" alt="Frais"/>
+                                            </p>
+                                            <span class="temp">
+                                                Frais
+                                            </span>
+                                            {% if MasterEnterprise != 'Sogedial' %}
+                                                <span class="date">
+                                                    : le {{ prochaineLivraison.positiveCold |date('d.m.Y', timezone="Europe/Paris") }}
+                                                </span>
+                                            {% else %}
+                                                <span class="date">&nbsp;</span>
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+
+                                    {% if prochaineLivraison.negativeCold is defined and prochaineLivraison.negativeCold is not empty %}
+                                        <li>
+                                            <p class="small-picto blue">
+                                                <img src="{{ image('images/snow.svg') }}" alt="Surgelé"/>
+                                            </p>
+                                            <span class="temp">
+                                                Surgelé
+                                             </span>
+                                            {% if MasterEnterprise != 'Sogedial' %}
+                                                 <span class="date">
+                                                    : le {{ prochaineLivraison.negativeCold |date('d.m.Y', timezone="Europe/Paris") }}
+                                                </span>
+                                            {% else %}
+                                                <span class="date">&nbsp;</span>
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                                    </td>
+                                    <td class="link">
+                                        <ul class="price">
+                                            <li>
+                                            <span class="price_ttc">
+                                                    {{ basket.totalPrice|number_format(2, ",", " ") }}&nbsp;€ HT
+                                            </span>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    {# <td>
+                                    </td> #}
+                                    <td class="link">
+                                        <span class="state awaiting">En attente</span>
+                                    </td>
+                                    <td class="link center" link><a class="link"
+                                                                    href="{{ path('sogedial_integration_admin_panier_detail', {'id': basket.o_id}) }}">
+                                            <img class="detail-order"
+                                                 src="{{ image('images/arrow-right-grey.png') }}"/></a>
+                                    </td>
+                                </tr>
+                                <tr class="spacer"></tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td> Aucun panier en cours.</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                {# <td></td> #}
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+
+                <div class="block">
+                    <div class="page-title">Commandes clients</div>
+                    {% include "SogedialIntegrationBundle:Commande:tableau-commandes.html.twig"  with { "commandeEncours" : commandeEncours, "admin": true, 'preCommandeMode': preCommandeMode } %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

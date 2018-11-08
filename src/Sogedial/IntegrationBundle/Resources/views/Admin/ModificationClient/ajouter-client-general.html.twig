@@ -1,0 +1,96 @@
+{% extends "SogedialIntegrationBundle:Admin/ModificationClient:ajouter-client-template.html.twig" %}
+{% block form %}
+    <div class="scrollable-content">
+        <form method="POST" {{ form_enctype(optionsForm) }} role="optionsForm" class="material-form">
+            {% for error in optionsForm.vars.errors %}
+                <div class="warning-header-container">
+                    <div id="warning-header">
+                        {{ error.messageTemplate|trans(error.messageParameters, 'validators')~'' }}
+                    </div>
+                </div>
+            {% endfor %}
+
+
+            <div class="grid-s-12 grid-m-6">
+                <div class="material-well">
+                    <div class="form-block-title grid-padded">
+                        Paramètres client
+                    </div>
+                    {% if zoneSec %}
+                        <div class="material-form-container grid-s-12 grid-padded">
+                             <div class="form-select">
+                                    {{ form_label(optionsForm.zoneSec) }}
+                                <div class="select-container">
+                                    {{ form_widget(optionsForm.zoneSec) }}
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if zoneFrais %}
+                        <div class="material-form-container grid-s-12 grid-padded">
+                             <div class="form-select">
+                                    {{ form_label(optionsForm.zoneFrais) }}
+                                <div class="select-container">
+                                    {{ form_widget(optionsForm.zoneFrais) }}
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if zoneSurgele %}
+                        <div class="material-form-container grid-s-12 grid-padded">
+                             <div class="form-select">
+                                    {{ form_label(optionsForm.zoneSurgele) }}
+                                <div class="select-container">
+                                    {{ form_widget(optionsForm.zoneSurgele) }}
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if franco %}
+                        <div class="material-form-container grid-s-12 grid-m-12 grid-padded">
+                            <div class="form-input">
+                                {{ form_widget(optionsForm.montantFranco) }}
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                {{ form_label(optionsForm.montantFranco) }}
+                            </div>
+                        </div>
+                        <div class="material-form-container grid-s-12 grid-m-12 grid-padded">
+                            <div class="form-input form-input-checkbox custom-radio">
+                                {{ form_label(optionsForm.flagFranco) }}
+                                {{ form_widget(optionsForm.flagFranco) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if type_contrat %}
+                        <div class="material-form-container grid-s-12 grid-m-12 grid-padded">
+                            <div class="form-input form-input-checkbox custom-radio">
+                                {{ form_label(optionsForm.cgvCpv) }}
+                                {{ form_widget(optionsForm.cgvCpv) }}
+                            </div>
+                        </div>
+                        <div class="material-form-container grid-s-12 grid-m-12 grid-padded">
+                            <div class="form-input form-input-checkbox custom-radio">
+                                {{ form_label(optionsForm.alreadySigned) }}
+                                {{ form_widget(optionsForm.alreadySigned) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="grid-s-12">
+                <div class="grid-row grid-center">
+                    <button type="submit" class="button blue marg-v-20" id="_submit"><i class="fa fa-save"></i> SAUVEGARDER</button>
+                </div>
+            </div>
+            {{ form_widget(optionsForm._token) }}
+            {# form_rest(form) #}
+        </form>
+    </div>
+{% endblock %}

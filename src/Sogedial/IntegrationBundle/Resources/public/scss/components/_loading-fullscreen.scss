@@ -1,0 +1,82 @@
+.loading-fullscreen{
+	width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    padding-top: 40vh;
+    background-color: rgba(0,0,0,.6);
+    // background-color:rgba(255,255,255,.7);
+    &-hidden{
+    	display: none;
+    }
+    .loader-commande-point-com.loader-commande-point-com-white{
+    	width: 300px;
+    	height: 100px;
+    	.Ampoule,.Pomme,.Glace,.Savon,.Bouteille,.Banane,.Canette,.Lessive{
+    		fill:white;
+    		// fill:black;
+    	}
+    }
+}
+
+@keyframes spinner {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+@keyframes appears {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.ItemsSpinning{
+    transform-origin: 53% 50%;
+    animation-name: spinner;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+.loader-commande-point-com{
+    width:150px;
+    height: 100px;
+    margin:auto;
+}
+.loader-commande-point-com .loading-title{
+    text-align: center;
+    margin-left: 14px;
+    font-family: "Montserrat light";
+    color:#01366b;
+    display: block;
+}
+
+.loading-fullscreen .loader-commande-point-com .loading-title{
+    font-size: 18px;
+}
+
+.loader-commande-point-com-white .loading-title{
+    color:white;
+}
+.loader-commande-point-com.loader-commande-point-com-small{
+        width:150px;
+        height:100px;
+}
+
+.loading-point{
+    animation-name: appears;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    opacity: 0;
+}
+
+.first-point{
+    animation-delay: 0s;
+}
+.second-point{
+    animation-delay: 1s;
+}
+.third-point{
+    animation-delay: 2s;
+}

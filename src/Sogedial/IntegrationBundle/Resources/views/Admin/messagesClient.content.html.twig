@@ -1,0 +1,14 @@
+<section>
+    <div class="content">
+{#         <div class="breadcrumb-trail-container">
+            {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+        </div> #}
+        <div class="block" >
+            {% if mode == "showList" %}
+                {% include "SogedialIntegrationBundle:Admin:messagesClient.list.html.twig" with {"messagesClients": messagesClients} %}
+            {% else %}
+                {% include "SogedialIntegrationBundle:Admin:messagesClient.edit.html.twig" with {"mesClientsActifs": mesClientsActifs, "mode" : mode, "message" : message} only %}
+            {% endif %}
+        </div>
+    </div>
+</section>

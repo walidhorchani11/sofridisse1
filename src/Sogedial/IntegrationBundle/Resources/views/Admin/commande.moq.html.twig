@@ -1,0 +1,65 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block body %}
+    <section>
+        <div class="content">
+            <div class="breadcrumb-trail-container">
+                {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+            </div>
+             <div class="space-between-container-small">
+                <div class="grid-s-12">
+                    <div class="customer-filter">
+                        <h3>Afficher</h3>
+                        <a href="{{ path('sogedial_integration_admin_valid_moq_validated') }}">
+                            <p class="customer-status active">
+                                {{"Validé"|title}}
+                                <span>({{ commandes.validated }})</span>
+                            </p></a>
+                        <a href="{{ path('sogedial_integration_admin_valid_moq_to_valid') }}">
+                            <p class="customer-status blocked">
+                                {{"à valider"|title}}
+                                <span>({{ commandes.tovalid }})</span>
+                            </p>
+                        </a>
+                        <a href="{{ path('sogedial_integration_admin_valid_moq_all') }}">
+                            <p class="customer-status inactive" style="background-color: turquoise">
+                                {{"Toutes"|title}}
+                                <span>({{ commandes.tovalid + commandes.validated }})</span>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="scrollable-content scrollable-content-catalogue">
+                    <div class="grid-s-12">
+                        {% if commandes.suppliers |length == 0 %}
+                            <h1>Il n'y a pas de commandes avec MOQ</h1>
+                        {% elseif users |length == 0 %}
+                            <h1>Il n'y a pas d'utilisateurs de précommandes</h1>
+                        {% else %}
+                            {% include "SogedialIntegrationBundle:Admin:commande.moq.content.html.twig" with {"users" : users, "commandes" : commandes} %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(".button-showing-societe-list").click(function(){
+            var child = $(this).parent().parent().next(".moq-card-table");
+            var buttonContent = $(this).find(".button-toggle-societe-content");
+
+            buttonContent.toggleClass("is-hidden");
+            // child.find(".societe-list-table-header").toggleClass("societe-list-table-showed");
+            child.find(".societe-list-table-body > tr").each(function(){
+                if (!$(this).data("has-quantity")){
+                    $(this).toggleClass("societe-list-table-row-showed");
+                }
+            });
+        })
+        
+    </script>
+{% endblock %}

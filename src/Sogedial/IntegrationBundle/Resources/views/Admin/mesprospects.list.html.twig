@@ -1,0 +1,70 @@
+{% for prospect in mesProspects %}
+    <tr>
+        <td>
+            <span>
+                {% if prospect.enabled is not null %}
+                    {% if prospect.enabled %}
+                        <a href="{{ path('sogedial_integration_dashbord', { 'societe': prospect.nomEnvironnement, '_switch_user' :  prospect.username, '_societe_cc' : _societe_cc }) }}">{{ prospect.code|split('-')[1] }}</a>
+                    {% else %}
+                        <span>{{ prospect.code|split('-')[1] }}</span>
+                    {% endif %}
+                {% else %}
+                        <span>{{ prospect.code|split('-')[1] }}</span>
+                {% endif %}
+            </span>
+        </td>
+        <td class="link">
+            <span>{{ prospect.nom }}</span>
+        </td>
+        <td class="link">
+            {% if prospect.enabled is not null %}
+                {% if prospect.enabled %}
+                    <p class="customer-status active">
+                        Activé</p>
+                {% else %}
+                    <p class="customer-status blocked">Bloqué</p>
+                {% endif %}
+            {% endif %}
+        </td>
+        <td class="link">
+            <span>{{ prospect.email }}</span>
+        </td>
+        <td class="link">
+            <span>{{ prospect.libelleEnseigne }}</span>
+        </td>
+        <td class="link">
+            <span>{{ prospect.dateFinValidite|date("d/m/Y") }}</span>
+        </td>
+        {# Nombre de produits dans l'assortiment : en Stand by car trop gourmand #}
+{#         <td class="link">
+            <span>{{ prospect.nbProducts }}</span>
+        </td> #}
+        <td class="link">
+            <span>{{ prospect.nbConnexion }}</span>
+        </td>
+        <td>
+            <p class="small-picto">
+                <a href="{{ path('sogedial_integration_admin_update_prospect', {'codeProspect': prospect.code}) }}"
+                    class="edit edit-pen link"></a>
+            </p>
+            <p class="small-picto">
+                {% if prospect.enabled is not null %}
+                    {% if prospect.enabled %}
+                        <a href="{{ path('sogedial_integration_admin_prospect_disable', {'codeProspect': prospect.code}) }}"
+                            class="edit edit-lock-open"></a>
+                    {% else %}
+                        <a href="{{ path('sogedial_integration_admin_prospect_enable', {'codeProspect': prospect.code}) }}"
+                            class="edit edit-lock-closed"></a>
+                    {% endif %}
+                {% else %}
+                    <a href="#" class="edit edit-lock-inactive"></a>
+                {% endif %}
+            </p>
+            <p class="small-picto">
+                <a href="{{ path('sogedial_integration_admin_update_prospect', {'codeProspect': prospect.code, 'stepId': 3}) }}"
+                    class="edit edit-prospect link"></a>
+            </p>
+        </td>
+    </tr>
+    <tr class="spacer"></tr>
+{% endfor %}

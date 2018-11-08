@@ -1,0 +1,189 @@
+{% extends "SogedialIntegrationBundle:Layout:layout-infinite.html.twig" %}
+
+{% block body %}
+<section>
+    <div class="content">
+        <div class="scrollable-content scrollable-content-full-content">
+            {% for message in messageClients %}
+                {% include "SogedialIntegrationBundle:Toasts:message-client.html.twig" with {
+                    'message': message.text
+            } %}
+            {% endfor %}
+            {% if (is_prospect is defined and is_prospect == true) and (formattedExpirationDate is defined and formattedExpirationDate != null) %}
+                {% include "SogedialIntegrationBundle:Toasts:remaining-time-before-prospect-end.html.twig" with {
+                    'formattedExpirationDate': formattedExpirationDate,
+                    'remYears': remainingProspectTime.years,
+                    'remMonths': remainingProspectTime.months,
+                    'remDays': remainingProspectTime.days,
+                    'remHours' : remainingProspectTime.hours,
+                    'remMins' : remainingProspectTime.mins,
+                } %}
+
+                {% if prospectOptions is defined and prospectOptions is not empty %}
+                    {% include "SogedialIntegrationBundle:Toasts:prospect-options.html.twig" with {'prospectOptions': prospectOptions } %}
+                {% endif %}
+
+            {% endif %}
+
+            {% if order.o_id is null or order.o_id is empty %}
+                <div class="grid-s-12">
+                    <div class="grid-row grid-center">
+                        <a href="{{ path('sogedial_integration_catalogue', { 'societe': societe }) }}" class="button blue new-order-button"><i class="fa fa-plus"></i> Nouvelle commande</a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if order.o_id is defined and order.o_id is not empty %}
+            <div class="block">
+                <div class="page-title">Panier en cours</div>
+
+                <table class="table-without-images table-with-headers">
+                    <tr>
+                        <th>Panier du</th>
+                        <th>Société</th>
+                        <th>Produits</th>
+                        <th>Prix</th>
+                        {% if societe == 'sogedial' %}
+                            <th>Température</th>
+                        {% else %}
+                            <th>Livraison</th>
+                        {% endif %}
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td class="link">
+                            <ul>
+                                <li>{{ order.o_createdAt|date('d.m.Y', timezone="Europe/Paris") }}</li>
+                                <li class="second-line">n°: {{ order.o_numero }}</li>
+                            </ul>
+                        </td>
+                        <td class="link">
+                            <ul>
+                                <li>
+                                    <span>{{ order.entreprise | upper }}</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="link">
+                            <ul>
+                                <li>{{ order.totalProducts }} références</li>
+                                <li>{{ order.totalQuantity }} colis</li>
+                            </ul>
+                        </td>
+                        <td class="link">
+                            <ul class="price">
+                                <li>
+                                    {% if totalAmount is defined and totalAmount is not empty %}
+                                        <span class="price_ttc">
+                                                {{ totalAmount | number_format(2, ".", " ") }}&nbsp;€ {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+                                        </span>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="link">
+                            <ul class="delivery">
+                                {% if order.nextDelivery.ambient is defined and order.nextDelivery.ambient is not empty %}
+                                <li>
+                                <p class="small-picto yellow">
+                                    <img src="{{ image('images/corn.svg') }}" alt="Sec"/>
+                                </p>
+                                    <span class="temp">
+                                        Sec
+                                    </span>
+                                    {% if societe == 'sogedial' %}
+                                        <span class="date">&nbsp;</span>
+                                    {% else %}
+                                        <span class="date">
+                                            : le {{ order.nextDelivery.ambient |date('d.m.Y', timezone="Europe/Paris") }}
+                                        </span>
+                                    {% endif %}
+                                </li>
+                                {% endif %}
+                                {% if order.nextDelivery.positiveCold is defined and order.nextDelivery.positiveCold is not empty %}
+                                <li>
+                                    <p class="small-picto green">
+                                        <img src="{{ image('images/apple.svg') }}" alt="Frais"/>
+                                    </p>
+                                    <span class="temp">
+                                        Frais
+                                    </span>
+                                    {% if societe == 'sogedial' %}
+                                        <span class="date">&nbsp;</span>
+                                    {% else %}
+                                        <span class="date">
+                                            : le {{ order.nextDelivery.positiveCold |date('d.m.Y', timezone="Europe/Paris") }}
+                                        </span>
+                                    {% endif %}
+                                </li>
+                                {% endif %}
+                                {% if order.nextDelivery.negativeCold is defined and order.nextDelivery.negativeCold is not empty %}
+                                <li>
+                                    <p class="small-picto blue">
+                                        <img src="{{ image('images/snow.svg') }}" alt="Surgelé"/>
+                                    </p>
+                                    <span class="temp">
+                                        Surgelé
+                                     </span>
+                                    {% if societe == 'sogedial' %}
+                                        <span class="date">&nbsp;</span>
+                                    {% else %}
+                                        <span class="date">
+                                            : le {{ order.nextDelivery.negativeCold |date('d.m.Y', timezone="Europe/Paris") }}
+                                        </span>
+                                    {% endif %}
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </td>
+
+                        <td class="link center"><a class="link" data-toggle="tooltip" title="Finaliser votre commande"
+                                            href="{{ path('SogedialSite_integration_order_recap', { 'societe': societe }) }}"><img
+                                        class="detail-order"
+                                        src="{{ image('images/arrow-right-grey.png') }}"/></a>
+                        </td>
+                    </tr>
+                </table>
+                <a href="{% if order.o_id is defined and order.o_id is not empty %}{{ path('sogedial_integration_catalogue', { 'societe': societe }) }}{% else %}#{% endif %}"
+                   class="blue-action">
+                    Continuer votre commande</a>
+            </div>
+            {% endif %}
+
+            {% if promonews|length > 0 %}
+            <div class="block">
+                {% if multisiteService.hasFeature("promotion") %} <div class="page-title">Promos et nouveautés</div> {% else %} <div class="page-title">Nouveautés</div> {% endif %}
+                <div class="table-infos">
+                    {% if multisiteService.hasFeature("promotion") %} <a class="delete-basket right"
+                       href="{{ path('sogedial_integration_catalogue', { 'societe':societe, 'kind': 'promotion'}) }}">Toutes les
+                        promotions</a> {% endif %}
+                    <a class="delete-basket right" href="{{ path('sogedial_integration_catalogue', {'societe':societe, 'kind': 'new'}) }}">Toutes
+                        les nouveautés</a>
+                </div>
+                <table class="table-with-images">
+                    {% for promonew in promonews %}
+                        {% include "SogedialIntegrationBundle:Catalogue:product-item-line.html.twig"  with { 'societe':societe, "product": promonew, 'preCommandeMode' : false } %}
+                        <tr class="spacer"></tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endif %}
+
+            <div class="block">
+                <div class="page-title">Mes dernières commandes</div>
+                {% include "SogedialIntegrationBundle:Commande:tableau-commandes.html.twig"  with { 'societe':societe, "commandeEncours" : commandeEncours } %}
+            </div>
+        </div>
+        <div class="informations-right">
+            <span>Photos non contractuelles</span>
+            {% if societe is defined and societe == 'sofrigu' %}
+               , <span>* Prix TTC (Hors frais de livraison)</span>
+            {% else %}
+               , <span>* Prix HT (Dont Taxe sécurité sociale sur les alcools)</span>
+            {% endif %}
+            {% if MasterEnterprise != "sofridis" %}
+               , <span>** Poids et prix peuvent varier selon arrivage et découpe</span>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

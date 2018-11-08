@@ -1,0 +1,24 @@
+#catalogue {
+  .content {
+    height: calc(100vh - #{$header-height} - #{$footer-height});
+    box-sizing: border-box;
+    padding-left:$content-padding;
+    padding-top:5px;
+    margin-top: $header-height;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
+    background-color: safo-color('background-content');
+  }
+
+  .informations-right {
+    margin-top: -30px;
+  }
+
+  .informations-left {
+    margin-top: -20px;
+  }
+
+  section {
+    margin-left: $sidebar-width;
+  }
+}

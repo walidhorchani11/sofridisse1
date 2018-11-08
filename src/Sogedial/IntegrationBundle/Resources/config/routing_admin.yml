@@ -1,0 +1,605 @@
+sogedial_integration_admin_dashbord:
+    path:     /dashboard-commercial
+    defaults: { _controller: SogedialIntegrationBundle:Admin:dashboard, status: "" }
+
+sogedial_integration_admin_client_load:
+    path:     /client/list-infinie/{page}/{status}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:productLoad, status: "", page: 1}
+    requirements:
+        page:  \d+
+        status: \w*
+        clients: \w*
+    options:
+        expose: true
+
+sogedial_integration_admin_mesclients:
+    path:     /client/list
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesClients, status: "", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_mesclients_actif:
+    path:     /client/list/actif
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesClients, status: "ACTIF", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_mesclients_bloque:
+    path:     /client/list/bloque
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesClients, status: "BLOQUE", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_mesclients_inactif:
+    path:     /client/list/sans-acces
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesClients, status: "SANSLOGIN", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_mesclients_search:
+    path:     /client/search
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesClients, status: "SEARCH", page: 1 }
+    requirements:
+        page:  \d+
+        clients: \w*
+
+sogedial_integration_admin_client:
+    path:     /client/{id}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:ficheClient }
+
+sogedial_integration_admin_select_assortiment:
+    path:      /client/{id}/assortiments/select/{valeur}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:assortimentsClientSelect}
+    options:
+        expose: true
+
+
+sogedial_integration_admin_client_assortiments:
+    path:     /client/{id}/assortiments
+    defaults: { _controller: SogedialIntegrationBundle:Admin:assortimentsClient }
+    options:
+        expose: true
+
+sogedial_integration_admin_ajout_assortiment:
+    path:      /client/{id}/assortiments/new
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:assortimentsClientNew}
+    options:
+        expose: true
+
+sogedial_integration_admin_edit_assortiment:
+    path:      /client/{id}/assortiments/edit/{valeur}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:assortimentsClientEdit}
+    options:
+        expose: true
+
+sogedial_integration_admin_suppr_assortiment:
+    path:      /client/{id}/assortiments/delete/{valeur}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:assortimentsClientDelete}
+    options:
+        expose: true
+
+sogedial_integration_admin_fetch_client_assortiment_tree:
+    path:      /fetch-client-assortiment-tree/{codeClient}/{valeurAssortiment}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:fetchClientAssortimentTree, valeurAssortiment: null}
+    options:
+        expose: true
+
+# sogedial_integration_fetch_assortiment_tree_by_valeur_assortiment:
+#     path:      /fetch-client-assortiment-tree-by-valeur-assortiment/{valeurAssortiment}
+#     defaults:  { _controller: SogedialIntegrationBundle:Admin:fetchClientAssortimentTree, valeurAssortiment: null}
+#     options:
+#         expose: true
+
+sogedial_integration_admin_prospects_load:
+    path:     /prospects/list-infinie/{page}/{status}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:prospectsLoad, status: "", page: 1}
+    requirements:
+        page:  \d+
+        status: \w*
+    options:
+        expose: true
+
+sogedial_get_prospects_with_same_enseigne:
+    path:     /get-prospects-same-enseigne/{codeProspect}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:prospectsWithEnseigne }
+    options:
+        expose: true
+
+sogedial_get_clients_assortiments_with_same_enseigne:
+    path:     /get-client-assortiments-same-enseigne/{codeClient}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:assortimentsClientsWithEnseigne }
+    options:
+        expose: true
+
+sogedial_integration_admin_mesprospects:
+    path:     /prospects/list
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesProspects, status: '', page: 1 }
+    options:
+        expose: true
+
+sogedial_integration_admin_mesprospects_actif:
+    path:     /prospects/list/actif
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesProspects, status: "ACTIF", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_mesprospects_bloque:
+    path:     /prospects/list/bloque
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesProspects, status: "BLOQUE", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_ajout_prospect:
+    path:      /prospect/add/{stepId}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:addOrEditProspect, stepId: 1, mode: 'create' }
+    options:
+        expose: true
+
+sogedial_integration_admin_update_prospect:
+    path:      /prospect/edit/{stepId}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:addOrEditProspect, stepId: 1, mode: 'edit' }
+    requirements:
+        codeProspect:  .*
+    options:
+        expose: true
+
+sogedial_integration_admin_fetch_prospect_assortiment_tree:
+    path:      /fetch-prospect-assortiment-tree/{codeProspect}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:fetchProspectAssortimentTree }
+    options:
+        expose: true
+
+sogedial_integration_admin_fetch_node_children:
+    path:      /fetch-node-children
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:fetchNodeChildren }
+    options:
+        expose: true
+
+sogedial_integration_admin_submit_prospect_assortiment:
+    path:      /submit-prospect-assortiment
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:submitProspectAssortiment }
+    methods:  [ POST ]
+    options:
+        expose: true
+
+sogedial_integration_admin_submit_client_assortiment:
+    path:      /submit-client-assortiment
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:submitClientAssortiment }
+    methods:  [ POST ]
+    options:
+        expose: true
+
+sogedial_integration_admin_prospect_disable:
+    path:      /prospect/disable/{codeProspect}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:blockProspectAccess }
+    requirements:
+        codeProspect:  .*
+    options:
+        expose: true
+
+sogedial_integration_admin_prospect_enable:
+    path:      /prospect/enable/{codeProspect}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:unblockProspectAccess }
+    requirements:
+        codeProspect:  .*
+    options:
+        expose: true
+
+sogedial_integration_admin_meszones:
+    path:     /zones/list
+    defaults: { _controller: SogedialIntegrationBundle:Admin:mesZones }
+
+sogedial_integration_admin_zone:
+    path:     /zone/{id}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:ficheZone }
+    requirements:
+        id: \d+
+
+sogedial_integration_admin_moq_commande:
+    path:     /commande/moq
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandeMoq }
+    options:
+         expose: true
+
+sogedial_integration_admin_moq_valid:
+    path:     /commande/moq/valid
+    defaults: { _controller: SogedialIntegrationBundle:Admin:validMoq }
+    options:
+         expose: true
+
+sogedial_integration_admin_valid_moq_all:
+    path:     /commandes/moq-all
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandesMOQ, status: "ALL" }
+
+sogedial_integration_admin_valid_moq_validated:
+    path:     /commandes/moq-validated
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandesMOQ, status: "VALIDATED"}
+
+sogedial_integration_admin_valid_moq_to_valid:
+    path:   /commandes/moq
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandesMOQ, status: "VALID"}
+
+# Thomas Salmon:
+# Si un jour on decide que les commerciaux peuvent creer des commandes pour
+# satisfaire les moq il faudra utiliser cette route, l'action associee
+# devra renvoyer:
+# 1) le numero de commande
+# 2) un tableaux de numero de lignes de commandes
+#
+# Et puis :
+# 1) on set le(s) champs rempli(s) par les indices du tableaux
+# 2) on set les autres champs (non remplis) par l'indice du numero de commande
+#    afin de pouvoir associer le numero de commandes aux lignes commandes
+#    que l'on creera plus tard
+#
+#sogedial_integration_admin_moq_commande_not_exist:
+# ...
+
+sogedial_integration_admin_tracking_clients:
+    path:     /tracking
+    defaults: { _controller: SogedialIntegrationBundle:Admin:trackingClients }
+
+sogedial_integration_admin_tracking_clients_load:
+    path:     /tracking/{page}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:trackingClientsLoad, page: 1}
+    requirements:
+        page: \d+
+    options:
+        expose: true
+
+sogedial_integration_admin_commandes_load:
+    path:     /commandes/list-infinie/{page}/{status}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandeLoad, status: "", page: 1}
+    requirements:
+        page:  \d+
+        status: \w*
+        commandes: \w*
+    options:
+        expose: true
+
+sogedial_integration_admin_commandes_clients:
+    path:     /commandes
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandesClients, status: "", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_commandes_clients_approved:
+    path:     /commandes/approved
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandesClients, status: "STATUS_APPROVED", page: 1 }
+    requirements:
+        page:  \d+
+
+sogedial_integration_admin_commandes_clients_pending:
+    path:     /commandes/pending
+    defaults: { _controller: SogedialIntegrationBundle:Admin:commandesClients, status: "STATUS_PENDING", page: 1 }
+    requirements:
+        page:  \d+
+
+
+sogedial_integration_admin_commande_detail:
+    path: /commande/{id}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:detailCommande }
+    requirements:
+        id: \d+
+
+sogedial_integration_admin_panier_detail:
+    path: /panier/{id}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:detailPanier }
+    requirements:
+        id: \d+
+
+sogedial_integration_admin_catalogue:
+    path: /catalogue
+    defaults: {  _controller: SogedialIntegrationBundle:Admin:catalogue }
+
+sogedial_integration_admin_catalogue_photo:
+    path:      /catalogue/photo/update/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:photoAssociation }
+    options:
+        expose: true
+    requirements:
+        id:  .*
+
+sogedial_integration_admin_suggestions_clients:
+    path:      /suggestions_clients
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:obtenirSuggestions }
+    options:
+        expose: true
+
+sogedial_integration_admin_catalogue_sans_photo:
+    path:      /catalogue/produit-sans-photo
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:catalogueWithoutPhoto }
+    options:
+        expose: true
+
+sogedial_integration_produit_without_source_excel:
+    path:      /produit-without-source-excel
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:produitWithoutSourceExcel }
+
+sogedial_integration_super_admin_ca:
+    path:      /ca-catalogue-en-temps-reel
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:getCaForSuperAdmin }
+
+SogedialSite_integration_upload_ccv_file:
+    path:      /upload-ccv-file
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:uploadCcvPdf }
+
+SogedialSite_ajout_client:
+    path:      /add-update/{codeClient}/client/{step}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:editClient, step: 'login-password', mode: 'edit' }
+    requirements:
+            codeClient: .*
+    options:
+        expose: true
+
+SogedialSite_ajout_zone:
+    path:      /add-update/{codeZone}/zone
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:editZone }
+    requirements:
+            codeZone: \d+
+    options:
+        expose: true
+
+
+SogedialSite_user_disable:
+    path:      /client/disable/{codeClient}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:blockClientAccess }
+    requirements:
+        codeClient:  .*
+    options:
+        expose: true
+
+SogedialSite_command_valid:
+    path:      /command/valid/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:validCommand }
+    requirements:
+        id: \d+
+
+SogedialSite_user_enable:
+    path:      /client/enable/{codeClient}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:unblockClientAccess }
+    requirements:
+        codeClient:  .*
+    options:
+        expose: true
+
+SogedialSite_admin_list_users:
+    path:      /client/list
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:mesClients }
+
+SogedialSite_list_clients_json:
+    path:      /users-json-list
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:clientsListJson }
+    options:
+        expose: true
+
+SogedialSite_clients_with_access_json:
+    path:      /clients-with-access-json-list
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:clientsWithAccessJson }
+    options:
+        expose: true
+
+SogedialSite_clients_with_access:
+    path:      /clients-with-access-list
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:listClientsWithAccess }
+    options:
+        expose: true
+
+SogedialSite_clients_without_access_json:
+    path:      /clients-without-access-json-list
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:clientsWithoutAccessJson }
+    options:
+        expose: true
+
+SogedialSite_clients_without_access:
+    path:      /clients-without-access-list
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:listClientsWithoutAccess }
+    options:
+        expose: true
+
+SogedialSite_catalogue_integration_upload:
+    path:      /catalogue-upload/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:photoAssociation }
+    options:
+        expose: true
+    requirements:
+        id:  .*
+
+SogedialSite_catalogue_integration_get_produit_without_source_json:
+    path:      /produit-without-source-json
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:getProduitWithoutSourceJson }
+    options:
+        expose: true
+
+
+SogedialSite_catalogue_integration_get_produit_without_source:
+    path:      /produit-without-source
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:getProduitWithoutSource }
+    options:
+        expose: true
+
+
+SogedialSite_catalogue_integration_get_all_produit_json:
+    path:      /produit-all-json
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:getAllProduitJson }
+    options:
+        expose: true
+
+SogedialSite_catalogue_integration_get_all_produit:
+    path:      /produit-all
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:getAllProduit }
+    options:
+        expose: true
+
+SogedialSite_locked_clients:
+    path:      /locked-clients
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:lockedClients }
+    options:
+        expose: true
+
+SogedialSite_produit_without_source_excel:
+    path:      /produit-without-source-excel
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:produitWithoutSourceExcel }
+
+SogedialSite_tracked_users_json:
+    path:      /tracked-users-json
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:trackingUsersJson }
+    options:
+        expose: true
+
+SogedialSite_tracked_users:
+    path:      /tracked-users
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:trackingUsers }
+
+SogedialSite_clientAccess:
+    path:      /new-access
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:addClientAccess }
+
+SogedialSite_adminListProduct:
+    path:      /admin/products/list/{offset}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:scrollProduct }
+    requirements:
+        offset:  \d+
+    options:
+        expose: true
+
+SogedialSite_admin:
+    path:      /admin/
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:index }
+
+SogedialSite_adminTree:
+    path:      /admin/tree/{user_id}/
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:tree }
+    requirements:
+        id:  \d+
+
+SogedialSite_deleteAssortimentFamily:
+    path:      /admin/assortiment/delete
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:deleteAssortimentFromFamily }
+    options:
+        expose: true
+
+SogedialSite_adminTreePager:
+    path:      /admin/tree/{entity_id}/{page}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:treePager }
+    requirements:
+        entity_id:  \d+
+        page:  \d+
+
+SogedialSite_productManager:
+    path:      /admin/productManager/
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:productManager }
+    options:
+        expose: true
+
+SogedialSite_productManagerDetail:
+    path:      /admin/productManager/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:productManagerDetail }
+    requirements:
+        id:  \d+
+
+SogedialSite_validateTranslation:
+    path:      /admin/productManager/validate/{id}/{locale}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:validateTranslation }
+    requirements:
+        id:  \d+
+    options:
+        expose: true
+
+SogedialSite_unvalidateTranslation:
+    path:      /admin/productManager/unvalidate/{id}/{locale}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:unvalidateTranslation }
+    requirements:
+        id:  \d+
+    options:
+        expose: true
+
+SogedialSite_productManagerDeleteFile:
+    path:      /admin/productManager/delete/{id}/{file}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:deleteFile }
+    requirements:
+        id:  \d+
+
+SogedialSite_accessUserManager:
+    path:      /admin/accessUserManager/
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:accessUserManager }
+
+SogedialSite_accessUserManagerSearch:
+    path:      /admin/accessUserManager/search
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:searchListJson }
+    options:
+        expose: true
+
+SogedialSite_accessUserManagerByState:
+    path:      /admin/accessUserManagerByState/{state}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:accessUserManagerByState }
+    options:
+            expose: true
+    requirements:
+        state:  "[a-z]+"
+
+SogedialSite_editUser:
+    path:      /admin/accessUserManager/edit/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:editUser }
+    requirements:
+        id:  \d+
+    options:
+        expose: true
+
+SogedialSite_editUserStatus:
+    path:      /admin/accessUserManager/edit/{id}/status/{status}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:editUserStatus }
+    requirements:
+        id:  \d+
+        status: \w+
+
+SogedialSite_addUser:
+    path:      /admin/accessUserManager/add
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:addUser }
+
+SogedialSite_deleteUser:
+    path:      /admin/accessUserManager/delete/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:deleteUser }
+    requirements:
+        id:  \d+
+    options:
+            expose: true
+
+SogedialSite_accessProductManager:
+    path:      /admin/accessUserManager/product/{id}
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:accessProductManager }
+    requirements:
+        id:  \d+
+    options:
+        expose: true
+
+SogedialSite_recap_order_excel:
+    path:      /order/{id}/recap/excel
+    defaults:  { _controller: SogedialIntegrationBundle:Admin:recapOrderExcel }
+    requirements:
+        id:  \d+
+
+SogedialSite_integration_messages_clients:
+    path:      /admin/messages
+    defaults: { _controller: SogedialIntegrationBundle:Admin:messagesList }
+    options:
+        expose: true
+
+SogedialSite_integration_new_message_client:
+    path:      /admin/messages/new
+    defaults: { _controller: SogedialIntegrationBundle:Admin:messagesNew }
+    options:
+        expose: true
+
+sogedial_create_or_edit_message:
+    path:      /admin/create-or-edit-message
+    defaults: { _controller: SogedialIntegrationBundle:Admin:createOrEditMessage }
+    methods:  [ POST ]
+    options:
+        expose: true
+
+SogedialSite_integration_edit_message_client:
+    path:      /admin/messages/{messageId}
+    defaults: { _controller: SogedialIntegrationBundle:Admin:messagesEdit, messageId: "" }
+    options:
+        expose: true

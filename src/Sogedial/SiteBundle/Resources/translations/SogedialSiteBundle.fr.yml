@@ -1,0 +1,520 @@
+# src/Sogedial/SiteBundle/Resources/translations/messages.fr.yml
+
+userManager:
+  access:
+    column:
+      name: 'Nom'
+      paysvente: 'Pays de vente'
+      etat: 'Etat'
+      nature: 'Nature'
+      chiffreaffaire: "Chiffre d'affaire"
+      dateupdated: 'Date de modification'
+      datecreated: 'Date de demande'
+      email: 'Contact'
+      importationfrance: 'Importation de France'
+      actions: 'Opérations'
+      age: 'Age (jours)'
+      temps: 'Temps passé'
+      frequence: 'Connexions'
+      commandes: 'Commandes'
+      causes: 'Cause blocage'
+      contact: 'Contact'
+      derniereConnexion: "Dernière connexion"
+      
+      
+    noaccessavailable: "Il n'y a aucun élément."
+    
+    state:
+      pending: "En attente"
+      validate: "Validé"
+      lock: "Bloqué"
+      deny: "Refusé"
+      orphans: "Orphelin"
+      
+    blocktitle:
+      summary: "Récapitulatif"
+      pending: "En attente de validation"
+      validate: "En cours de validité"
+      lock: "Bloqués"
+      deny: "Refusés"
+      orphans: "Les orphelins"
+
+    action:
+      create: "Créer un accès"
+      edit: "Editer"
+      delete: "Supprimer"
+      perms: "Gérer les permissions"
+    search:
+      noresult: "Aucun accès"
+      empty: "Rechercher un accès"
+      
+  adduser:
+    pagetitle: "Ajouter un nouvel utilisateur"
+    breadcrumb: "Nouvel accès"
+
+  edituser:
+    pagetitle: "Accès N° %identifier%"
+    action:
+      lock: "Bloquer"
+      deny: "Refuser l'accès"
+      pending: "En attente de validation"
+      validate: "Valider l'accès"
+      delete: "Supprimer l'accès"
+      perms : "Sélection de l'assortiment & politique tarifaire"
+      
+  edituserstatus:
+    pagetitle: "Opération sur l'utilisateur %email%"
+    confirm :
+      lock: "Etes vous sûr de vouloir bloquer l'accès de l'utilisateur."
+      deny: "Etes vous sûr de vouloir refuser l'accès de l'utilisateur."
+      pending: "Etes vous sûr de vouloir mettre en attente l'accès de l'utilisateur."
+      validate: "Etes vous sûr de vouloir valider l'accès de l'utilisateur."
+      undefined: "L'opération souhaité n'existe pas."
+    cancel: "Retourner à l'édition de l'utilisateur"
+    
+  deleteuser :
+    pagetitle: "Supprimer l'utilisateur"
+    view: "Editer données de l'utilisateur"
+
+  productManager :
+    pagetitle: "La sélection du N° %identifier%"
+    
+  pagetitle: "Gestion des accès"
+  
+  accessBreadcrumb: "Accès"
+  
+  assort:
+    classification: "Classification"
+    selection: "Sélection"
+    price: "<span>P</span>rix"
+    promotion: "P<span>r</span>omotions"
+    exclusivity: "<span>E</span>xclusivités"
+    new: "<span>N</span>ouveautés"
+    coefficient: "<span>C</span>oefficient"
+    checked: "Check"
+    products: "Produits"
+    marque: "Marque"
+    title: "Sélection de l'assortiment"
+    titleFilter: "Filtres"
+    photo: "Avec photos"
+    nophoto: "Sans photo"
+
+productManager:
+  pagetitle: "Gestion des produits"
+  accessuser: "Gestion des permissions de l'utilisateur"
+  pdf:
+    title: "Liste des produits"
+    file: "Liste des produits"
+  excel:
+    title: "Liste des produits"
+    idmysql: "Identifiant produit"
+    file: "Liste des produits"
+    sheet: "Produits"
+    ean13: "GENCOD"
+    code: "Code Article"
+    rayon: "Rayon"
+    famille: "Famille"
+    sfamille: "Sous-Famille"
+    segment: "Segment"
+    typologie: "Typologie"
+    new: "Nouveauté"
+    yes: "Oui"
+    no: "Non"
+    libelle: "Libellé"
+    prix: "Prix"
+    promo: "Promo"
+    origine: "Origine"
+    dlcmoyenne: "DLC moyenne"
+    marque: "Marque"
+    format: "Format"
+    pcb: "PCB"
+    uv: "UV"
+    poidsbrutuvc: "Poids brut UVC"
+    poidsnetuvc: "Poids net UVC"
+    poidsbrutcolis: "Poids Brut Colis"
+    volumecolis: "Volume Colis"
+    uvccolis: "UVC par colis"
+    coliscouche: "Colis Par couche "
+    colispalette: "Colis Par palette"
+
+groupManager:
+  pagetitle: "Gestion des groupes"
+  list:
+    pagetitle: "Liste des groupes"
+  new:
+    pagetitle: "Créer un nouveau groupe"
+  edit:
+    pagetitle: "Modifier le groupe"
+  delete:
+    pagetitle: "Supprimer le groupe"
+    
+dashboard:
+  pagetitle: "Tableau de bord"
+  
+profile:
+  show:
+    pagetitle: "Mon profil"
+  edit:
+    pagetitle: "Editer mon profil"
+    
+logout: "Déconnexion"    
+
+header:
+  menu: 
+    libelle: "Menu"
+  
+menu:
+  home: "Accueil"
+  us: "Qui Sommes-Nous"
+  help: "Aide"
+  products: "Produits"
+  selectedProducts: "Produits sélectionnés"
+  brand: "Marque"
+  catalog: "Catalogue"
+  exclu: "exclusivités"
+  opp: "opportunités / destockage"
+  
+products:
+  gms: "GMS"
+  rhf: "RHF"
+  mn: "Marque nationale"
+  md: "Marque distributeur"
+  pp: "1er prix"
+  exclu: "Exclusivité"
+  previous: "Précédent"
+  next: "Suivant"
+  noproduct: "Aucun produit"
+  oneproduct: "produit"
+  moreproduct: "produits"
+  withphoto: "avec photos"
+  withoutphoto: "sans photo"
+  exportPDF: "Extraire en PDF"
+  exportExcel: "Extraire sous Excel"
+  pdf:
+    title: "Liste des produits"
+  search:
+    noresult: "Aucun résultat"
+    empty: "Rechercher un produit"
+  sortBar:
+    temp: "Température"
+    positif: "Froid Positif"
+    negatif: "Froid Négatif"
+    ambiant: "Sec"
+    typo: "Typologie"
+    gamme: "Niveau de gamme"
+    prix: "Prix"
+    autres: "Avancé"
+    triasc: "Tri Ascendant"
+    tridesc: "Tri Descendant"
+    mn: "Marque Nationale"
+    md: "Marque Distributeur"
+    pp: "Premier Prix"
+    rayon: "Rayon"
+    famille: "Famille"
+    sfamille: "Sous-Famille"
+    order: "Commande"
+    selection: "Sélection"
+    rayon: "Rayon"
+    famille: "Famille"
+    sfamille: "Sous-Famille"
+    segment: "Segment"
+    ssegment: "Sous-Segment"
+  all: "Tous"
+  filter:
+    rayon: "Rechercher un Rayon"
+    familie: "Rechercher une Famille"
+    sfamilie: "Rechercher une Sous-famille"
+    launch: "Appliquer"
+    
+product:
+  button:
+    savecrop: "Générer miniature"
+    deleteimage: "Supprimer l'image"
+    hideimage: "Ne pas afficher"
+    displayimage: "Afficher"
+    coverimage: "Sélectionner comme photo principale"
+  form:
+    new:
+      title: "Ajouter une nouvelle traduction"
+    actual:
+      title: "Liste des traductions"
+  detail:
+    description: "Description"
+    brand: "Marque"
+    origine: "Origine"
+    format: "Format"
+    pcb: "PCB"
+    dlcmoyenne: "DLC moyenne"
+    ean13: "EAN13"
+    ingredients: "Ingrédients"
+    nutrition: "Valeurs nutritionnelles"
+    logistique: "Données logistiques"
+    commande: "Commander"
+    promo: "Promo"
+    temp: "Température"
+    typo: "Typologie"
+    day: "jours"
+    poids: "Poids net"
+    ndp: "NDP"
+  nutrition:
+    calories: "Kcal/100g"
+    joules: "KJ/100g"
+    lipides: "Lipides"
+    glucides: "Glucides"
+    proteines: "Protéines"
+  colis:
+    poidsBrutUvc: "Poids Brut UVC"
+    poidsNetUvc: "Poids net UVC"
+    poidsBrutColis: "Poids Brut Colis"
+    volumeColis: "Volume Colis"
+    couchePalette: "Par Couche Palette"
+    palette: "Par Palette"
+  select:
+    all:
+      confirm : "produits correctement sélectionnés"
+      error : "Tous les produits de votre recherche sont déjà sélectionnés"
+    one :
+      confirm : "Le produit a bien été ajouté à votre sélection"
+  deselect:
+    all:
+      confirm : "produits correctement désélectionnés"
+      error : "Tous les produits de votre recherche sont déjà désélectionnés"
+    one:
+      confirm : "Le produit a bien été retiré de votre sélection"
+  order :
+    add : "Le produit a bien été ajouté à votre commande"
+    remove : "Le produit a bien été retiré de votre commande"
+  number : "Nombre de produit"
+
+order:
+  current :
+    clear : "Votre commande en cours a bien été réinitialisée"
+  admin :
+    manager :
+      pagetitle : "Gestion des commandes"
+  catalogue :
+    manager :
+      pagetitle: "Catalogue"
+  quantity : "Quantité"
+  transit :
+    yes : "Je souhaite un service de transit"
+    no : "Je ne souhaite pas un service de transit"
+  recap :
+    back : "Revenir à la commande"
+  renew :
+    success : "Votre commande a bien été renouvelée"
+  cgv:
+    title: "Conditions générales de vente"
+    agree: "J'accepte les conditions générales de vente"
+    download : "Télécharger les conditions générales de vente"
+  banner :
+     activities : |
+                  <span>Transport international,</span>
+                  <span>commissionnaire de transport,</span>
+                  <span>commissionnaire en douane agrée.</span>
+     bottomLeft : |
+                  <strong>+10 000 <sup>EVP</sup></strong>
+                  EN EXPORT
+                  MARITIME
+     bottomRight : |
+                   <strong>+ de 330 ports</strong> de
+                   livraison à travers
+                   le monde
+  modal:
+    addproduct:
+      message:
+        confirm : "Le produit a été correctement ajouté à votre commande"
+        error : "La valeur de quantité n'est pas un entier valide"
+  manager:
+    title : "Gestion des commandes"
+    blocktitle :
+      current : "Commande en cours"
+      pending : "Commandes en attente"
+      approved : "Commandes validées"
+      processed : "Commandes traitées"
+    column :
+      number : "N° Commande"
+      createdAt : "Date de commande"
+      totalProducts : "Nb. Produits"
+      temperatures : "Températures"
+      totalQuantity : "Nb. Colis"
+      totalMass : "Poids"
+      totalVolume : "Volume"
+      totalPrice : "Montant"
+      modify : "Modifier"
+      renew : "Renouveler"
+      name_user: "Nom du client"
+      status: "Statut"
+      country: "Pays"
+      typologie: "Typologie"
+      order: "Commande"
+      date: "Date"
+      container: "CTN"
+      sector: "Secteur"
+      facture: "N° facture"
+      products: "Produits"
+      packets: "colis"
+      weight: "Poids"
+      volume: "Volume"
+      amount: "Montant"
+      mb: "MB"
+
+container:
+    title: 'Prestations Logistiques'
+    empotage: 'Empotage'
+
+# Group
+group:
+    edit:
+        submit: Mettre à jour le groupe
+    show:
+        name: Nom du groupe
+    new:
+        submit: Créer le groupe
+    flash:
+        updated: Le groupe a été mis à jour
+        created: Le groupe a été créé
+        deleted: Le groupe a été supprimé
+
+# Security
+"Bad credentials": Nom d'utilisateur ou mot de passe incorrect
+
+security:
+    login:
+        username: "Nom d'utilisateur"
+        password: "Mot de passe"
+        remember_me: Se souvenir de moi
+        submit: Connexion
+        forgotpassword: "Mot de passe oublié ?"
+        askaccess: "Demander un Accès"
+        infoE: "Informations de l'Entreprise"
+        infoC: "Informations du Contact"
+        infoCx: "Informations de Connexion"
+    create:
+        title: "Créer un Accès"
+        savePending: "En attente de validation"
+        saveValidate: "Valider l'accès"
+    update:
+        title: "Modifier un Accès"
+
+# Profile
+profile:
+    show:
+        username: Nom d'utilisateur
+        email: Adresse e-mail
+    edit:
+        submit: Mettre à jour
+    flash:
+        updated: Le profil a été mis à jour
+
+# Password change
+change_password:
+    submit: Modifier le mot de passe
+    flash:
+        success: Le mot de passe a été modifié
+
+# Registration
+registration:
+    check_email: Un e-mail a été envoyé à l'adresse %email%. Il contient un lien d'activation sur lequel il vous faudra cliquer afin d'activer votre compte.
+    confirmed: Félicitations %username%, votre compte est maintenant activé.
+    back: Retour à la page d'origine.
+    submit: Enregistrer
+    flash:
+        user_created: L'utilisateur a été créé avec succès
+    email:
+        subject: Bienvenue %username% !
+        message: |
+            Bonjour %username% !
+
+            Pour valider votre compte utilisateur, merci de vous rendre sur %confirmationUrl%
+
+            Cordialement,
+            L'équipe.
+
+# Password resetting
+resetting:
+    password_already_requested: Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.
+    check_email: Un e-mail a été envoyé à l'adresse %email%. Il contient un lien sur lequel il vous faudra cliquer afin de réinitialiser votre mot de passe.
+    request:
+        invalid_username: Le nom d'utilisateur ou l'adresse e-mail "%username%" n'existe pas.
+        username: "Nom d'utilisateur ou adresse e-mail"
+        submit: Réinitialiser le mot de passe
+    reset:
+        submit: Modifier le mot de passe
+    flash:
+        success: Le mot de passe a été réinitialisé avec succès
+    email:
+        subject: Réinitialisation de votre mot de passe
+        message: |
+            Bonjour %username% !
+
+            Pour réinitialiser votre mot de passe, merci de vous rendre sur %confirmationUrl%
+
+            Cordialement,
+            L'équipe.
+
+# Global strings
+layout:
+    logout: Déconnexion
+    login: Connexion
+    register: Inscription
+    logged_in_as: Connecté en tant que %username%
+
+# Form field labels
+form:
+    group_name: "Nom du groupe"
+    username: "Nom d'utilisateur"
+    email: "Adresse e-mail"
+    current_password: "Mot de passe actuel"
+    password: "Mot de passe"
+    password_confirmation: "Vérification"
+    new_password: "Nouveau mot de passe"
+    new_password_confirmation: "Vérification"
+    label:
+      raisonSociale: "Raison Sociale *"
+      nomEntreprise: "Nom d'accès *"
+      adresse1: "Adresse 1 *"
+      adresse1Optinnal: "Adresse 1 "
+      adresse2: "Adresse 2 *"
+      adresse2Optinnal: "Adresse 2 "
+      codePostal: "Code Postal *"
+      codePostalOptinnal: "Code Postal "
+      ville: "Ville *"
+      villeOptinnal: "Ville "
+      pays: "Pays *"
+      standard: "Numéro Standard *"
+      standardOptinnal: "Numéro Standard "
+      validate: "Sauvegarder"
+      denomination: "Libellé *"
+      ingredients: "Ingrédients *"
+      description: "Description *"
+      save: "Sauvegarder"
+      addFile: "Ajouter un fichier"
+      createaccess: "Demander l'accès"
+      addPhoto: "Ajouter une photo"
+      addFile: "Ajouter un document"
+      fileType: "Type de document"
+    
+footer:
+    title: "Affichage"
+
+flashbag:
+  accessrequest: "Votre demande de compte à bien été effectuée"
+  accesserrorenterprise: "Vous devez sélectionner une entreprise ou en créer une nouvelle"
+
+1positif : "Froid Positif"
+2negatif : "Froid Négatif"
+3ambiant : Sec
+
+Facturation:
+  order: 
+    action:
+      back: "Revenir"
+      pdf: "Format PDF"
+      sign: "Signer la commande"
+      download : "Télécharger le fichier"
+      cancel: "Annuler"
+      backToCatalog : "Retour au catalogue"
+  message: |
+    Nous vous invitons à poursuivre votre commande à l'aide du fichier Excel en cours de téléchargement.
+    Merci de retourner ce dernier complété à nos équipes commerciales:

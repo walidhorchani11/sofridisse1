@@ -1,0 +1,5 @@
+{% extends "SogedialIntegrationBundle::layout-stockengagement.html.twig" %}
+
+{% block body %}
+    {% include "SogedialIntegrationBundle:StockEngagement:form.html.twig" with {'alert' : 'La demande a bien été prise en compte.'} %}
+{% endblock %}

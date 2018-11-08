@@ -1,0 +1,56 @@
+parameters:
+    sogedial.listener.maintenance.class: Sogedial\IntegrationBundle\Listener\MaintenanceListener
+    sogedial.listener.ajax_authentification.class: Sogedial\IntegrationBundle\Listener\AjaxAuthenticationListener
+    sogedial.listener.switch_user_listener.class:  Sogedial\IntegrationBundle\Listener\SwitchUserListener
+    order_validation_subscriber.class: Sogedial\IntegrationBundle\EventListener\OrderValidationSubscriber
+
+
+services:
+    sogedial_integration.catalogue:
+        class: Sogedial\SiteBundle\Service\CatalogueManagerService
+        arguments: [@security.token_storage, "@doctrine.orm.entity_manager", "@sogedial.multisite", "@sogedial.product", "@sogedial.recherche", "@service_container", "@sogedial.colis"]
+
+    sogedial_integration.commande:
+        class: Sogedial\SiteBundle\Service\CommandeService
+        arguments:
+            - @security.token_storage
+            - @doctrine.orm.entity_manager
+            - @sogedial.multisite
+            - @sogedial.product
+            - @sogedial.mysql
+            - @security.authorization_checker
+            - @sogedial.historique_ligne_commande
+            - @sogedial.promotion
+            - @sogedial.export
+            - @sogedial_as400.commande.file
+            - @sogedial.colis
+            - @sogedial_site.validationday
+        lazy:  true
+
+    sogedial.listener.maintenance:
+        class: %sogedial.listener.maintenance.class%
+        arguments: ["@kernel"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    
+    ajax.authentication.listener:
+        class: %sogedial.listener.ajax_authentification.class%
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onCoreException, priority: 1000 }
+
+
+    sogedial.listener.switch_user_listener:
+        class: %sogedial.listener.switch_user_listener.class%
+        arguments: [@security.token_storage, "@doctrine.orm.entity_manager", "@sogedial.multisite", @security.authorization_checker, @router]
+        tags:
+            - { name: kernel.event_listener, event: security.switch_user, method: onSwitchUser }
+    
+    sogedial_integration.i18n:
+        class: Sogedial\SiteBundle\Service\InternationalizationService
+        arguments: []
+
+    order_validation_subscriber:
+        class: %order_validation_subscriber.class%
+        arguments: ["@doctrine.orm.entity_manager", "@sogedial_integration.commande", "@security.token_storage", "@sogedial_as400.commande.file", "@security.authorization_checker"]
+        tags:
+            - { name : kernel.event_subscriber }

@@ -1,0 +1,15 @@
+{% if remYears is defined and remYears > 0 %}
+    {{ remYears }} {% if remYears > 1 %} ans {% else %} an {% endif %}
+{% endif %}
+{% if remMonths is defined and remMonths > 0 %}
+    {{ remMonths }} mois
+{% endif %}
+{% if remDays > 0 %}
+    {{ remDays }} {% if remDays > 1 %} jours {% else %} jour {% endif %}
+    {% if remHours > 0 %} et {% endif %}
+{% endif %}
+{% if remHours > 0 %}
+    {{ remHours }} {% if remHours > 1 %} heures {% else %} heure {% endif %}
+{% elseif remDays == 0 %}
+    {{ remMins }} {% if remMins > 1 %} minutes {% else %} minute {% endif %}
+{% endif %}

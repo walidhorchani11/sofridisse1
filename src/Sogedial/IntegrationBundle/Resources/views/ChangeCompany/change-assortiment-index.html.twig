@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Changer de société</title>
+        {% stylesheets '@SogedialIntegrationBundle/Resources/public/css/style.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+        {% endstylesheets %}
+    </head>
+
+    <body id="change-company-page">
+        <section id="change-company-section">
+            <div>
+                <ul>
+                    {% for assortiment in listAssortiments %}
+                        <a href="{{ path('sogedial_integration_assortiment', {'valeur': assortiment.valeur }) }}">
+                            <li class="company-card">
+                                <div class="company-card-centering-container">
+                                    <div class="company-card-centering-subcontainer">
+                                        <p class="change-company-company-name">{{assortiment.nom}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </body>
+</html>

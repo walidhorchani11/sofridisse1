@@ -1,0 +1,242 @@
+.button-list{
+  margin-bottom:5px;
+  .button{
+    height:30px;
+    line-height: 30px;
+    &.button-list-item{
+      margin-right:5px;
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.new-order-button{
+  margin-top:30px;
+}
+
+.button {
+  display: inline-block;
+  height: 35px;
+  padding: 0 20px;
+  // margin-top: 20px;
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  line-height: 35px;
+  color: safo-color('light');
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 30px;
+  border:none;
+  cursor: pointer;
+  border:none;
+  outline: none;
+  &~ a.disabled{
+    opacity: .6;
+    cursor: default;
+    &:hover{
+      cursor: default;
+    }
+  }
+  a{
+    color:white;
+    text-decoration: none;
+  }
+  &.no-margin {
+    margin-top: 0;
+  }
+
+  i{
+    font-size: 1.7em;
+    line-height: 0.5em;
+    vertical-align: -25%;
+    margin-right: 5px;
+  }
+
+  &.blue {
+    background-color: safo-color('primary-dark');
+    border:none;
+    color:white;
+    width:unset;
+
+    &:hover {
+      background-color: safo-color('primary-dark', 1);
+      border:none;
+      width:unset;
+    }
+    &-outline{
+      border: 2px solid #01366b;
+      color: #01366b;
+      background-color:transparent;
+      height: 20px;
+      line-height: 20px;
+      padding: 0 10px;
+      transition: all .3s ease-in-out;
+      &:hover{
+        background-color: safo-color('primary-dark');
+        color:white;
+        transition: all .3s ease-in-out;
+      }
+    }
+  }
+
+
+
+  &.new-order {
+    position: relative;
+    background-color: safo-color('primary-dark');
+
+    &:before {
+      position: absolute;
+      top: 2px;
+      left: 15px;
+      display: block;
+      width: 23px;
+      height: 23px;
+      font-family: safo-font('picto');
+      font-size: 23px;
+      content: "\f067";
+    }
+  }
+
+  &.export-order {
+    position: relative;
+    background-color: safo-color('primary-dark');
+
+    &:before {
+      position: absolute;
+      top: 2px;
+      left: 15px;
+      display: block;
+      width: 23px;
+      height: 23px;
+      font-family: safo-font('picto');
+      font-size: 23px;
+      content: "\f15b";
+    }
+  }
+
+  &.border-blue {
+    height: 35px;
+    // margin: 25px 0 0;
+    line-height: 35px;
+    cursor: pointer;
+
+    &:before {
+      color: safo-color('primary-light');
+    }
+  }
+
+  &.light-blue {
+    background-color: safo-color('primary-light');
+
+    &:hover {
+      background-color: safo-color('primary-light', 1);
+    }
+  }
+
+  &.border-blue {
+    height: 38px;
+    line-height: 38px;
+    color: safo-color('primary-light');
+    background-color: transparent;
+    border: 1px solid safo-color('primary-light');
+
+    &:hover {
+      color: safo-color('primary-light', 1);
+      border: 1px solid safo-color('primary-light', 1);
+    }
+  }
+}
+
+.button2 {
+  display: block;
+  height: 28px;
+  margin-top: 7px;
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  line-height: 28px;
+  color: safo-color('light');
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 30px;
+
+  &.blue {
+    background-color: safo-color('primary-dark');
+
+    &:hover {
+      background-color: safo-color('primary-dark', 1);
+    }
+  }
+}
+
+.blue-action {
+  display: block;
+  width: calc(100% - 10px);
+  height: 36px;
+  font-family: safo-font('sans-serif');
+  font-size: 14px;
+  line-height: 36px;
+  color: safo-color('light');
+  text-align: center;
+  text-decoration: none;
+  background-color: safo-color('primary');
+
+  &:hover {
+    background-color: safo-color('primary', 1);
+  }
+}
+
+.button-download {
+  position: relative;
+  padding: 0 23px 0 55px;
+  cursor: pointer;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 22px;
+    display: block;
+    width: 23px;
+    height: 23px;
+    font-family: safo-font('picto');
+    font-size: 23px;
+    content: "\f019";
+  }
+}
+
+.new-order-button-container{
+  display: table-cell;
+  text-align: right;
+  padding-right:10px;
+  padding-left: 20px;
+  width: 1%;
+  vertical-align: middle;
+  white-space:nowrap;
+}
+
+// .button-save:before {
+//   position: absolute;
+//   top: 0;
+//   left: 22px;
+//   display: block;
+//   width: 23px;
+//   height: 23px;
+//   font-family: safo-font('picto');
+//   font-size: 23px;
+//   content: "\f0c7";
+// }
+
+
+.enjoyhint .didacticiel-button,.enjoyhint .enjoyhint_close_btn{
+  border: 2px solid white;
+  color: white;
+  &:hover{
+    color: white;
+    background: safo-color('primary-dark');
+    border: 2px solid safo-color('primary-dark');
+  }
+}

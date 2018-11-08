@@ -1,0 +1,77 @@
+{% extends "SogedialIntegrationBundle:Layout:layout-infinite.html.twig" %}
+{% block title %}Mes Prospects - Dashboard Commercial {% endblock %}
+{% block body %}
+<section>
+    <div class="content">
+        <div class="breadcrumb-trail-container">
+            {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+        </div>
+        <div class="block" id="product-list">
+            <div class="space-between-container">
+                <div class="page-title">Assortiments du client</div>
+                <div class="grid-s-6 grid-s-offset-6">
+                    <a href="{{ path('sogedial_integration_admin_ajout_assortiment', {"id": code_client}) }}" class="button no-margin blue grid-pull-right content-padded-right">Créer un assortiment</a>
+                </div>
+            </div>
+            <div class="scrollable-content scrollable-content-user-list">
+                <table class="table-without-images table-with-headers">
+                    <thead>
+                        <tr>
+                            <th>Ref.</th>
+                            <th>Nom</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="spacer"></tr>
+                        {% for assortiment in assortiments %}
+                            {% if societe == 'sofrigu' %}
+                                {% set valeur = '777' %}
+                            {% else %}
+                                {% set valeur = assortiment.valeur %}
+                            {% endif %}
+                            <tr>
+                                <td>
+                                    <span>{{ assortiment.valeur }}</span>
+                                </td>
+                                <td class="link">
+                                    <span>{{ assortiment.nom }}</span>
+                                </td>
+                                <td>
+                                {% if assortiment.as400assortiment == false %}
+                                    <p class="small-picto">
+                                        <a href="{{ path('sogedial_integration_admin_edit_assortiment', {"id": code_client, "valeur": valeur}) }}" class="edit edit-pen link" data-toggle="tooltip" title="&Eacute;diter"></a>
+                                    </p>
+                                    <p class="small-picto">
+                                        <a href="{{ path('sogedial_integration_admin_suppr_assortiment', {"id": code_client, "valeur": valeur}) }}" onclick="return confirm('Etes vous sur d'effacer cet assortiment?');" class="edit edit-trash link" data-toggle="tooltip" title="Supprimer"></a>
+                                    </p>
+
+                                {% else %}
+                                    <p class="small-picto">
+                                        <a href="#" class="edit edit-pen link disabled" data-toggle="tooltip" title="&Eacute;diter"></a>
+                                    </p>
+                                    <p class="small-picto">
+                                        <a href="#" class="edit edit-trash link disabled" data-toggle="tooltip" title="Supprimer"></a>
+                                    </p>
+                                {% endif %}
+
+                                {% if assortiment.assortimentCourant == true %}
+                                    <p alt="Choisir l'assortiment" class="small-picto">
+                                        <a alt="Choisir l'assortiment" href="{{ path('sogedial_integration_admin_select_assortiment', {"id": code_client, "valeur": valeur}) }}" class="edit assortiment-chosen link"></a>
+                                    </p>
+                                {% else %}
+                                    <p alt="Choisir l'assortiment" class="small-picto">
+                                        <a alt="Choisir l'assortiment" href="{{ path('sogedial_integration_admin_select_assortiment', {"id": code_client, "valeur": valeur}) }}" class="edit assortiment-not-chosen link" data-toggle="tooltip" title="Choisir comme assortiment par d&eacute;faut"></a>
+                                    </p>
+                                {% endif %}
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

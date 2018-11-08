@@ -1,0 +1,257 @@
+{% extends "SogedialIntegrationBundle:Admin:moq-card-frame.html.twig" %}
+{% set card_type = 'card' %}
+{% set show_min_col = false %}
+
+
+{% block header %}
+    <div class="moq-card-header">
+        <div class="grid-s-12">
+            <div class="moq-card-general-info-container">
+                 {% if (hasParent is not defined or (hasParent is defined and hasParent != 1)) %}
+                    <div class="moq-card-general-info">
+                        Fournisseur : {{ supplier }}
+                    </div>
+                    <div class="moq-card-general-info">
+                        MOQ : {{ rule }}
+                    </div>
+                {% endif %}
+                <div class="moq-card-product-name moq-card-product-info">
+                    {{ labelproduct | title }}
+                </div>
+            </div>
+        </div>
+        <div class="grid-s-12">
+            <div class="grid-s-12 grid-m-4 ">
+                <div class="grid-s-12 grid-m-11">
+                    <div class="moq-card-status-image-container grid-s-4 grid-s-offset-4 grid-m-12 grid-m-offset-0">
+                        <div class="moq-card-product-image-container">
+                            <div class="moq-card-product-image-subcontainer">
+                                <img src="{{ baseUrl ~ product.ean13 }}" class="moq-card-product-image" alt="Product image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-m-8 grid-s-12">
+                <div class="moq-card-product-info-container"
+                     data-trid="0"
+                     data-pcb="{{ product.pcb }}"
+                     data-weight="{{ product.weight }}"
+                     data-pallet="{{ product.pallet }}"
+                     data-price="{{ product.price }}"
+                    {% if ruleContent[2] is defined and ruleContent[2] == "groupé" %}
+                        data-othersquantities="{{ product.othersQuantity }}"
+                    {% else %}
+                        data-othersquantities="0"
+                    {% endif %}
+                    id="product{{ productId }}">
+                    <div class="moq-card-product-info-subcontainer moq-card-product-info">
+                        <div class="grid-s-4">
+                            EAN13 : 
+                        </div>
+                        <div class="grid-s-8 text-right">{{ product.ean13 }}</div>
+                    </div>
+                    <div class="moq-card-product-info-subcontainer moq-card-product-info">
+                        <div class="grid-s-5">
+                            Prix (&euro;) : 
+                        </div>
+                        <div class="grid-s-7 text-right">{{ product.price }}</div>
+                    </div>
+                    <div class="moq-card-product-info-subcontainer moq-card-product-info">
+                        <div class="grid-s-6">
+                            Poids (kg) :
+                        </div>
+                        <div class="grid-s-6 text-right">{{ product.weight }}</div>
+                    </div>
+                    <div class="moq-card-product-info-subcontainer moq-card-product-info">
+                        <div class="grid-s-5">
+                            PCB :
+                        </div>
+                        <div class="grid-s-7 text-right">{{ product.pcb }}</div>
+                    </div>
+                    <div class="moq-card-product-info-subcontainer moq-card-product-info">
+                        <div class="grid-s-5">
+                            Palette :
+                        </div>
+                        <div class="grid-s-7 text-right">{{ product.pallet }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+
+    <div class="grid-s-12">
+        <div class="grid-row grid-center">
+            <div class="button-showing-societe-list button blue-outline marg-v-10">
+                <span class="button-toggle-societe-content">
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>&nbsp;&nbsp;Afficher sociétés
+                </span>
+                <span class="is-hidden button-toggle-societe-content">
+                    <i class="fa fa-caret-up" aria-hidden="true"></i>&nbsp;&nbsp;Cacher sociétés
+                </span>
+            </div>
+        </div>
+    </div>
+    <table class="moq-card-table">
+        {% set tdId = 0 %}
+
+        {% set usersProductRule = [] %}
+        {% for user in users %}
+            {% set exist = false %}
+            {% for ligneCommandes in product %}
+                {% for ligneCommande in ligneCommandes %}
+                    {% if ligneCommande.user == user.code %}
+                        {% set usersProductRule = usersProductRule|merge([
+                            {
+                                "nom" : user.nom ~ " (Commande " ~ ligneCommande.commande ~ ")",
+                                "code": ligneCommande.code,
+                                "quantity": ligneCommande.quantity,
+                                "moq_quantity": ligneCommande.moq_quantity
+                            }]) %}
+                        {% set exist = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            {% if exist == false %}
+                {% set usersProductRule = usersProductRule|merge([{"nom" : user.nom, "code": user.code}]) %}
+            {% endif %}
+        {% endfor %}
+        <thead class="societe-list-table-header">
+                <tr>
+                    <th class="moq-card-table-header">Société</th>
+                    {% if show_min_col %}
+                        <th class="moq-card-table-header">Min</th>
+                    {% endif %}
+                    <th class="moq-card-table-header text-right">Quantité</th>
+                </tr>
+        </thead>
+        <tbody  class="societe-list-table-body">
+            {% for user in usersProductRule %}
+                <tr data-has-quantity="{% if user.quantity is defined %}true{% else %}false{% endif %}" class="societe-list-table-row{% if user.quantity is defined %}-showed{% endif %}">
+                    <td>
+                        {{ user.nom | title }}
+                    </td>
+                    {% if show_min_col %}
+                        <td class="center moq-card-table-cell-with-side-spacing">
+                        {% if user.moq_quantity is defined %}
+                             {% include "SogedialIntegrationBundle:Admin:moq-card-product-qmin.html.twig" with {"moq_quantity": user.moq_quantity} %}
+                        {% endif %}
+                        </td>
+                    {% endif %}
+                    <td class="center">
+                        {% if user.quantity is defined %}
+                            <div
+                                class="prix_ht-center quantityForm"
+                                data-code="{{user.code}}"
+                                data-tableid="{{tableId}}"
+                                data-trid="{{trId}}"
+                                data-tdid="{{tdId}}"
+                            >
+                                {% if productRule.status != 1 %} <span class="select-minus minus">-</span> {% endif %}
+                                <input id="input{{ loop.index0 }}" type="text" style="width: 30px;" class="select-quantity quantity commande_exist" value="{{user.quantity}}" {% if productRule.status == 1 %} disabled {% endif %}/>
+                                {% if productRule.status != 1 %} <span class="select-plus plus">+</span> {% endif %}
+                            </div>
+                            {% set tdId = tdId + 1 %}
+                        {% else %}
+                            <div
+                                class="prix_ht-center"
+                            >
+                                <input type="text" style="width: 30px;" class="select-quantity quantity commande_exist" value="0" disabled/>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            {% if ruleContent[2] is defined and ruleContent[2] == "groupé" %}
+                <tr data-has-quantity="{% if product.othersQuantity is defined and product.othersQuantity > 0 %}true{% else %}false{% endif %}" class="societe-list-table-row{% if product.othersQuantity is defined and product.othersQuantity > 0 %}-showed{% endif %}">
+                    <td {% if show_min_col %}colspan="2"{% endif %}>
+                        Autres plateformes
+                    </td>
+                    <td class="others_quantities center">
+                        <div
+                            class="prix_ht-center"
+                        >
+                            <input type="text" class="select-quantity quantity commande_exist moq-card-select-quantity" value="{{ product.othersQuantity }}" disabled/>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+        <tbody>
+            <tr>
+                <td class="moq-card-general-info" {% if show_min_col %}colspan="2"{% endif %}>Total Colis</td>
+                <td class="center moq-card-general-info">
+                    <span class="totalProductPackage">{{ product.totalPerProduct }}</span>&nbsp;
+                </td>
+            </tr>
+            <tr>
+                 {% if ruleunit == 'c' %}
+                    {% set rule_desc = 'colis' %}
+                    {% set rule_unit = '' %}
+                    {% set rule_class = 'totalProductPackage' %}
+                    {% set rule_calc = product.totalPerProduct  %}
+                {% elseif ruleunit == 'u' %}
+                    {% set rule_desc = 'unité' %}
+                    {% set rule_unit = '' %}
+                    {% set rule_class = 'totalProductUC' %}
+                    {% set rule_calc = product.totalGlobalUC %}
+                {% elseif ruleunit == 'e' %}
+                    {% set rule_desc = 'montant' %}
+                    {% set rule_unit = '€' %}
+                    {% set rule_class = 'totalProductPrice' %}
+                    {% set rule_calc = product.totalGlobalPrice %}
+                {% elseif ruleunit == 'k' %}
+                    {% set rule_desc = 'masse' %}
+                    {% set rule_unit = 'kg' %}
+                    {% set rule_class = 'totalProductWeight' %}
+                    {% set rule_calc = product.totalGlobalWeight %}
+                {% elseif ruleunit == 'p' %}
+                    {% set rule_desc = 'palette' %}
+                    {% set rule_unit = '' %}
+                    {% set rule_class = 'totalProductPallet' %}
+                    {% if product.pallet > 0 %}
+                        {% set rule_calc = product.totalGlobalPallet %}
+                    {% else %}
+                        {% set rule_calc = 0 %}
+                    {% endif %}
+                {% endif %}
+
+                {% if ruleunit != 'c' %}
+                    <td class="moq-card-general-info" {% if show_min_col %}colspan="2"{% endif %}>Total {{ rule_desc }}</td>
+                    <td class="center moq-card-general-info">
+                        <span class="{{ rule_class }}">{{ rule_calc }}</span> {{ rule_unit }}
+                    </td>
+                {% endif %}
+            </tr>
+            {% if ruleAmount is defined and rule_calc is defined and (hasParent is not defined or (hasParent is defined and hasParent != 1)) %}
+                <tr>
+                    <td class="moq-card-general-info" {% if show_min_col %}colspan="2"{% endif %}>Ratio</td>
+                    {% if (ruleAmount is defined) and (ruleAmount != 0) %}
+                        {% set flooredRuleAmount = (rule_calc / ruleAmount * 100) | round(0, 'floor') %}
+                        <td
+                            class="center moq-card-general-info moq-card-rule-ratio-container"
+                            data-ratiostatus=
+                                {% if flooredRuleAmount < 80 %}
+                                    "insufficient"
+                                {% elseif (flooredRuleAmount >= 80) and (flooredRuleAmount < 100) %}
+                                    "needs-validation"
+                                {% else %}
+                                    "valid"
+                                {% endif %}
+                        >
+                            <span class="moq-card-rule-ratio">
+                                {{ flooredRuleAmount }}
+                            </span>&nbsp;%
+                        </td>
+                    {% else %}
+                        <td class="moq-card-general-info"></td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

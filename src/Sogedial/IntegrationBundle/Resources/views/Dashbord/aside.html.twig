@@ -1,0 +1,53 @@
+{% set splitArray = commercialInfo.numero1|split('', 2) %}
+{% set splitArray1 = commercialInfo.numero2|split('', 2) %}
+{% set splitArray2 = commercialInfo.fax|split('', 2) %}
+{% set mobilePhone = splitArray|join(' ') %}
+{% set fixPhone = splitArray1|join(' ') %}
+{% set faxPhone = splitArray2|join(' ') %}
+
+<aside class="main-menu">
+    <div class="sidebar-entreprise-container">
+        <div class="sidebar-entreprise-name">{{ entreprise | upper }}</div>
+        <a class="change-company" href="{{ path('sogedial_integration_societe_landing') }}" alt="Changer société" title="Changer société"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+    </div>
+    <div id="commercial">
+        <div class="group-clear">
+            <p class="avatar">{{ commercialInfo.prenom | first }}</p>
+            <span>Votre commercial</span>
+            <div class="name">{{ commercialInfo.nom | upper }} {{ commercialInfo.prenom | capitalize }}&nbsp;</div>
+        </div>
+        <p class="line"></p>
+
+        {% if (mobilePhone and mobilePhone != '') %}
+            <a href="#" class="contact phone">
+                <img src="{{ image('images/icon-phone.png') }}" alt="Téléphone"
+                    height="19px" width="20px"/>{{ mobilePhone }}
+            </a>
+        {% endif %}
+        {% if (fixPhone and fixPhone != '') %}
+            <a href="#" class="contact phone">
+                <img src="{{ image('images/icon-mobile.png') }}" alt="Portable" title="Portable"
+                    height="19px" width="20px"/>{{ fixPhone }}
+            </a>
+        {% endif %}
+        {% if (faxPhone and faxPhone != '') %}
+            <a href="#" class="contact phone">
+                <img src="{{ image('images/icon-fax.png') }}" alt="Fax" height="19" width="20"
+                    title="Fax"/>{{ faxPhone }}
+            </a>
+        {% endif %}
+        {% if (commercialInfo.email and commercialInfo.email != '') %}
+            <a href="#" class="contact mail">
+                <img src="{{ image('images/icon-mail.png') }}" alt="Mail" height="19px"
+                    width="20px"/>{{ commercialInfo.email |lower }}
+            </a>
+        {% endif %}
+    </div>
+    <ul>
+        <li><a class="sidebar-element-with-icon sidebar-element-commandes" href="{{ path('SogedialSite_integration_pending_orders', { 'societe': societe }) }}">Mes commandes</a></li>
+        <li><a class="sidebar-element-with-icon sidebar-element-catalogue show-catalogue" href="{{ path('sogedial_integration_catalogue', { 'societe': societe }) }}">Catalogue</a></li>
+        {#<li><a class="sidebar-element-with-icon sidebar-element-assortiments" href="{{ path('sogedial_integration_assortiment_landing') }}">Assortiment</a></li>#}
+        <li><a class="sidebar-element-with-icon sidebar-element-panier last" href="{{ path('SogedialSite_integration_order_recap', { 'societe': societe }) }}">Panier en cours</a></li>
+        {# <li><a class="sidebar-element-with-icon sidebar-element-didacticiel launch-didacticiel last">Didacticiel</a></li> #}
+    </ul>
+</aside>

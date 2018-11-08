@@ -1,0 +1,200 @@
+.background-picture{
+    background-image: url('/images/bg-home.jpg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    position: relative;
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+}
+
+.naming_commande_com{
+  font-family: safo-font("sans-serif", "light");
+  color: safo-color("primary-dark");
+  margin-top:7px;
+  margin-bottom: 50px;
+}
+
+.logo_commande_com{
+  background-image:url('/images/logo_commande_com.svg');
+  background-size:100%;
+  width:80px;
+  height:80px;
+  margin:auto;
+  margin-top: 40px;
+}
+
+#login-form {
+  position: relative;
+  // float: left;
+  width: 100vw;
+  height: 100vh;
+  // box-sizing: border-box;
+  // padding-top: 290px;
+  // padding-right: 30%;
+  // padding-bottom: 180px;
+  // padding-left: 30%;
+  background-color: safo-color('primary-dark', 0, 0.8);
+
+  // background: linear-gradient(to bottom, safo-color('primary-dark', 0, 0.9) 0, safo-color('primary-dark', 0, 0.9) 100%), url("/images/bg-home.jpg");
+  // background-size: cover;
+
+  .login-form-well{
+    background-color:safo-color("gallery-grey");
+    border-radius:15px;
+    padding-left:15px;
+    padding-right:15px;
+    margin-left:4.16666666665%;
+    margin-top: 5vh;
+    @media screen and (min-width: 768px){
+      margin-top: 15vh;
+      margin-left: 16.6666666667%;
+    }
+    @media screen and (min-width: 992px){
+      margin-top: 15vh;
+      margin-left: 37.5%;
+    }
+    @media screen and (min-width: 1680px){
+      margin-left: 41.6666666667%;
+    }
+    // padding:50px;
+    moz-box-shadow: 0px 10px 20px -5px #2b2b2b;
+    -webkit-box-shadow: 0px 10px 20px -5px #2b2b2b;
+    -o-box-shadow: 0px 10px 20px -5px #2b2b2b;
+    box-shadow: 0px 10px 20px -5px #2b2b2b;
+  }
+
+  
+
+  #login-logo {
+    position: absolute;
+    top: 155px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    height: 92px;
+  }
+
+  // input {
+  //   display: block;
+  //   width: 100%;
+  //   height: 46px;
+  //   box-sizing: border-box;
+  //   padding-left: 20px;
+  //   margin-top: 30px;
+  //   font-family: safo-font('sans-serif', 'light');
+  //   font-size: 16px;
+  //   color: safo-color('primary-dark');
+  //   border: none;
+  //   border-radius: 3px;
+
+  //   &:-moz-placeholder {
+  //     color: safo-color('primary-dark');
+  //   }
+
+  //   &:-ms-input-placeholder {
+  //     color: safo-color('primary-dark');
+  //   }
+  // }
+
+  // input::-webkit-input-placeholder {
+  //   color: safo-color('primary-dark');
+  // }
+
+  // input::-moz-placeholder {
+  //   color: safo-color('primary-dark');
+  // }
+}
+
+.forgot-password {
+  display: block;
+  margin-top: 10px;
+  font-family: safo-font('sans-serif', 'light');
+  font-size: 16px;
+  color: safo-color('light');
+  text-align: right;
+  text-decoration: none;
+}
+
+.ask-access {
+  display: block;
+  float: left;
+  margin-top: 10px;
+  font-family: safo-font('sans-serif', 'light');
+  font-size: 16px;
+  color: safo-color('light');
+  text-align: right;
+  text-decoration: none;
+}
+
+#login-error {
+  // position: absolute;
+  // top: -48px;
+  // left: 0;
+  font-family: safo-font('sans-serif');
+  font-size: 16px;
+  color: safo-color('error');
+}
+
+.login-button {
+  // margin: 50px auto;
+  cursor: pointer;
+  margin-bottom: 40px;
+  margin-top: 40px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.error-message + .login-button{
+  margin-top: 0;
+}
+
+.custom-icon{
+  &:before{
+    content:'';
+    width:20px;
+    height:20px;
+    position:absolute;
+    left:0;
+    top:-2px;
+    background-size:100%;
+  }
+  &-user{
+    &:before{
+      background-image:url("/images/custom_icon_user.svg");  
+    }
+  }
+  &-password{
+    &:before{
+      background-image:url("/images/custom_icon_password.svg");
+    }
+  }
+}
+
+.label-with-custom-icon{
+  margin-left:25px;
+}
+
+input[type="text"],input[type="password"]{
+  &.input-empty:not(:focus) ~ label{
+    .custom-icon{
+      &:before{
+        top:1px;
+      }
+      &-password:before{
+        background-image:url("/images/custom_icon_password_neutral.svg");
+      }
+      &-user:before{
+        background-image:url("/images/custom_icon_user_neutral.svg");
+      }
+    }
+  }
+}
+
+.material-form-container {
+  .form-input.login-input{
+    margin-bottom: 0;
+  }
+}

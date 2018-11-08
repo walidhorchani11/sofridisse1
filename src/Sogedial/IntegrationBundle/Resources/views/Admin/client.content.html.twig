@@ -1,0 +1,183 @@
+{% block body %}
+    {% if clientInfo is defined and clientInfo is not empty %}
+        <section>
+            <div class="content">
+                <div class="breadcrumb-trail-container">
+                    <div id="breadcrumb"><a href="{{ path('sogedial_integration_admin_dashbord') }}">Dashboard</a> &gt; <a
+                                href="#">Mes clients</a> &gt; {{ clientInfo.nom }}
+                    </div>
+                </div>
+
+                <div class="container">
+                    <h1 class="left">{{ clientInfo.nom }}</h1>
+                    {% if hasLogin %}
+                        {% if clientInfo.enabled %}
+                            <p class="customer-status active">Activés</p>
+                        {% else %}
+                            <p class="customer-status blocked">Bloqué</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="customer-status inactive"> Inactif </p>
+                    {% endif %}
+
+                    <a href="{{ path('SogedialSite_ajout_client', {'codeClient': clientInfo.code}) }}" class="edit edit-pen"></a>
+
+
+                    <div class="clear"></div>
+                    <h2>{{ clientInfo.code }}</h2>
+                    {% if hasLogin %}
+                    <div class="block">
+                        <div class="page-title">Prochaines livraisons possibles</div>
+
+                        <div id="next-delivery">
+                            <div class="next-delivery">
+                                <p class="picto yellow">
+                                    <img src="{{ image('images/corn.svg') }}" alt="Sec"/>
+                                </p>
+
+                                <div class="next-delivery-informations">
+                                    <p class="type">Sec</p>
+
+                                    <p class="date">Lundi 17h</p>
+
+                                    <p class="limit">avant 17h aujourd'hui</p>
+                                </div>
+                                <a class="right" href="{{ path('sogedial_integration_catalogue', { 'societe': societe, '_switch_user' :  clientInfo.username}) }}" class="edit">
+                                    <img src="{{ image('images/arrow-right.png') }}"/>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% if   order.o_id is defined and order.o_id is not empty %}
+
+                        <div class="block">
+                            <div class="page-title">Panier en cours</div>
+
+                            <table class="table-without-images table-with-headers">
+                                <thead>
+                                    <tr>
+                                        <th>Panier du</th>
+                                        <th>Produits</th>
+                                        <th>Livraison possible</th>
+                                        <th>Prix</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <ul>
+                                                <li>{{ order.o_createdAt|date('d.m.Y', timezone="Europe/Paris") }}</li>
+                                                <li class="second-line">n°: {{ order.o_numero }}</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>{{ order.totalProducts }} références</li>
+                                                <li>{{ order.totalQuantity }} colis</li>
+                                            </ul>
+                                        </td>
+
+                                        <td>
+                                            <ul class="delivery">
+                                                <li><p class="small-picto yellow"><img
+                                                                src="{{ image('images/corn.svg') }}" alt="Sec"/>
+                                                    </p>
+                                                    {% set tomorrow = "now"|date_modify("+1 day") %}
+                                                    Sec : le {{ tomorrow|date('d.m.Y', timezone="Europe/Paris") }}</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="price">
+                                                <li>
+                                                    {% if totalAmount is defined and totalAmount is not empty %}
+                                                        <span class="price_ttc">
+                                                {{ totalAmount.totalAmount }}&nbsp;€ HT
+                                        </span>
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a href="{% if order.o_id is defined and order.o_id is not empty %}
+{{ path('sogedial_integration_admin_panier_detail', {'id': order.o_id}) }}{% else %}#{% endif %}"
+                               class="blue-action">
+                                Afficher le panier du client </a>
+                        </div>
+                    {% endif %}
+                    {#% if hasLogin %#}
+                    <div class="block">
+                        <div class="page-title">Historique des commandes</div>
+
+                        <table class="table-without-images table-with-headers">
+                            <thead>
+                                <tr>
+                                    <th>Commande</th>
+                                    <th>Contenaire</th>
+                                    <th>Produits</th>
+                                    <th>Livraison</th>
+                                    <th>Prix</th>
+                                    <th>Statut</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="spacer"></tr>
+                                {% for  pendingOrder in commandeEncours |slice(0,5) %}
+                                    <tr>
+                                        <td>
+                                            <ul>
+                                                <li>{{ pendingOrder.o_updatedAt|date('d.m.Y', timezone="Europe/Paris") }}</li>
+                                                <li class="second-line">n°: {{ pendingOrder.o_numero }}</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>1 contenaire sec</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>{{ pendingOrder.totalProducts }} références</li>
+                                                <li>{{ pendingOrder.totalQuantity }} colis</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="delivery">
+                                                <li>
+                                                    <p class="small-picto yellow"><img
+                                                                src="{{ image('images/corn.svg') }}" alt="Sec"/>
+                                                    </p>
+                                                    Le {{ pendingOrder.o_deliveryDate|date('d.m.Y', timezone="Europe/Paris") }}
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="price">
+                                                <li>
+                                                    <span class="price_ttc">{{ pendingOrder.totalPrice|number_format(2, ",", " ") }}
+                                                       &nbsp;€ HT</span></li>
+                                            </ul>
+                                        </td>
+                                        <td><span class="state sent">Validée</span></td>
+                                        <td class="link center"><a class="link"
+                                                                        href="{{ path('sogedial_integration_admin_commande_detail', {'id': pendingOrder.o_id}) }}">
+                                                <img class="detail-order"
+                                                     src="{{ image('images/arrow-right-grey.png') }}"/></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </section>
+    {% else %}
+        Client non existant ou n'est pas encore actif.
+    {% endif %}
+{% endblock %}

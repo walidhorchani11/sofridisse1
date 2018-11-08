@@ -1,0 +1,152 @@
+#customer {
+  background-color: safo-color('primary');
+
+  section {
+    margin-left: $sidebar-width;
+
+    .content {
+      height: calc(100vh - #{$header-height});
+      padding-left: $content-padding;
+      padding-top:5px;
+      margin-top: $header-height;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      background-color: safo-color('background-content');
+    }
+  }
+
+  .block {
+    margin-bottom: 30px;
+  }
+
+  .table a {
+    position: relative;
+    top: 5px;
+  }
+
+  table a {
+    position: relative;
+    top: 5px;
+  }
+
+  .main-menu .mCSB_inside > .mCSB_container {
+    margin-right: 0;
+  }
+}
+
+.customer-status {
+  float: left;
+  height: 20px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &.inactive {
+    color: safo-color('text-neutral-dark');
+    background-color: safo-color('text-neutral-light');
+  }
+
+  &.active {
+    color: safo-color('light');
+    background-color: safo-color('order-status-ok');
+  }
+
+  &.blocked {
+    color: safo-color('light');
+    background-color: safo-color('error');
+  }
+}
+
+.customer-filter {
+  // height: 50px;
+  // // margin: 10px 0;
+
+  h3 {
+    float: left;
+    margin-right: 15px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    line-height: 34px;
+    color: safo-color('text-neutral');
+  }
+}
+
+.add-customer {
+  margin-top: 0 !important;
+  color: safo-color('light') !important;
+}
+
+.customer {
+  .block {
+    margin-bottom: 50px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .customer-status {
+    position: relative;
+    margin-top: 22px;
+    margin-left: 20px;
+    cursor: default;
+
+    &:after {
+      position: absolute;
+      top: 0;
+      right: -30px;
+      width: 1px;
+      height: 30px;
+      content: "";
+      background-color: safo-color('text-neutral');
+    }
+  }
+
+  .next-delivery {
+    position: relative;
+    display: inline-block;
+    width: 25%;
+    height: $header-height;
+    margin-right: 1%;
+    background: safo-color('light');
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .next-delivery-informations {
+    position: absolute;
+    top: 6px;
+    left: 80px;
+    line-height: 2px;
+
+    .type {
+      font-family: safo-font('sans-serif');
+      font-size: 12px;
+      color: safo-color('text-neutral');
+    }
+
+    .date {
+      font-family: safo-font('sans-serif', 'semi-bold');
+      font-size: 16px;
+      color: safo-color('primary-dark');
+    }
+
+    .limit {
+      font-family: safo-font('sans-serif');
+      font-size: 12px;
+      color: safo-color('primary-dark');
+    }
+  }
+
+  .new-order {
+    margin-top: 15px;
+  }
+}

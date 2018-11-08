@@ -1,0 +1,28 @@
+{% extends "SogedialIntegrationBundle:Admin/ModificationClient:ajouter-client-template.html.twig" %}
+{% block form %}
+    <h2 class="title">Enseigne et assortiment</h2>
+    <form method="POST" {{ form_enctype(enseigneAssortimentForm) }} role="enseigneAssortimentForm">
+        <table class="edit-client-table">
+            <tr>
+                <td>
+                    {{ form_label(enseigneAssortimentForm.enseigne) }}
+                </td>
+                <td>
+                    {{ form_widget(enseigneAssortimentForm.enseigne) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(enseigneAssortimentForm.assortiment) }}
+                </td>
+                <td>
+                    {{ form_widget(enseigneAssortimentForm.assortiment) }}
+                </td>
+            </tr>
+        </table>
+        <div>
+            <button type="submit" class="button border-blue" id="_submit_credentials"><i class="fa fa-save"></i> SAUVEGARDER</button>
+        </div>
+        {{ form_widget(enseigneAssortimentForm._token) }}
+    </form>
+{% endblock %}

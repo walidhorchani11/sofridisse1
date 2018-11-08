@@ -1,0 +1,17 @@
+{% extends "SogedialIntegrationBundle:Toasts:fullwidth-prospect-warning-layout.html.twig" %}
+{% set dismissable = false %}
+{% block content %}
+
+    {% if prospectOptions.comment is defined and prospectOptions.comment is not empty %}
+        <p>{{ prospectOptions.comment }}</p>
+    {% endif %}
+
+    {% if prospectOptions.delivryDates is defined and prospectOptions.delivryDates is not empty %}
+        <p><strong>Jours de livraison</strong> : {{ prospectOptions.delivryDates }}</p>
+    {% endif %}
+
+    {% if prospectOptions.franco is defined and prospectOptions.franco is not empty %}
+        <p><strong>Montant minimum d'une commande</strong> : {{ prospectOptions.franco }} €</p>
+    {% endif %}
+
+{% endblock %}

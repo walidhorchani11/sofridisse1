@@ -1,0 +1,104 @@
+#loadingDiv {
+  width: 100%;
+  font-family: safo-font('sans-serif', 'semi-bold');
+  font-size: 14px;
+  color: safo-color('primary-dark');
+  text-align: center;
+  overflow: hidden;
+}
+
+#endLoadingDiv {
+  width: 100%;
+  font-family: safo-font('sans-serif', 'semi-bold');
+  font-size: 14px;
+  color: safo-color('primary-dark');
+  text-align: center;
+}
+
+.loader {
+  position: relative;
+  width: 3em;
+  height: 3em;
+  margin: 10px auto;
+  font-size: 10px;
+  text-indent: -9999em;
+  border-top: 1.1em solid safo-color('text-neutral-light');
+  border-right: 1.1em solid safo-color('text-neutral-light');
+  border-bottom: 1.1em solid safo-color('text-neutral-light');
+  border-left: 1.1em solid safo-color('primary-dark');
+  border-radius: 50%;
+  -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+          animation: load8 1.1s infinite linear;
+
+  &:after {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+  }
+}
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.fullscreen-loader:before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  cursor: default;
+  content: "";
+  background-color: safo-color('dark', 0, .5);
+  transition: background-color 1s;
+}
+
+.loader-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  display: table;
+  width: 100px;
+  height: 100px;
+  padding: 15px;
+  margin: auto;
+  overflow: hidden;
+  background-color: safo-color('light');
+  border-radius: 100%;
+  box-shadow: 0 0 8px 0 safo-color('dark', 0, .2), 0 0 20px 0 safo-color('dark', 0, .2);
+
+  .loader {
+    display: table-cell;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+  }
+}
+

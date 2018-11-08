@@ -1,0 +1,43 @@
+<div class="grid-padded-small">
+    <div class="moq-card-container {% if card_type == 'card-mix' %} moq-card-mix-container {% elseif card_type == 'card' %} moq-card-product-container {% endif %}"
+        {% if hasParent is not defined or hasParent != 1 %}
+            {% if product is defined %}
+                {% if product.status == true %}
+                    data-validated="1"
+                {% else %}
+                    data-validated="0"
+                {% endif %} 
+            {% elseif productRule is defined  %}
+                {% if productRule.status == true %}
+                    data-validated="1"
+                {% else %}
+                    data-validated="0"
+                {% endif %} 
+            {% endif %}
+        {% endif %}>
+        {% if hasParent is not defined or hasParent != 1 %}
+            <div class="moq-card-validation-status">
+            {% if (product.status is defined and product.status == false) or (productRule is defined and productRule.status == false) %}
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;&nbsp;à valider
+            {% else %}
+                <i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;&nbsp;validé
+            {% endif %}
+            </div>
+        {% endif %}
+        <div class="moq-card-subcontainer" >
+            <div class="grid-s-12">
+                {% block header %}{% endblock %}
+                {% block content %}{% endblock %}
+            </div>
+            {% if (hasParent is not defined or hasParent != 1) and ((product.status is defined and product.status == false) or (productRule is defined and productRule.status == false)) %}
+                <div class="grid-s-12">
+                    <div class="grid-row grid-center">
+                        <div id="rule_{{ tableId }}" class="moq-card-validation-button button blue">
+                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Valider
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

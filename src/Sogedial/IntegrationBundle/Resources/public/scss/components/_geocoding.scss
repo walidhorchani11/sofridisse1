@@ -1,0 +1,9 @@
+/* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+  $table-width: 420px;
+  $padding: 20px;
+  height: 437px;
+  width: calc(100% - #{$table-width} - #{$padding});
+  border: 1px solid safo-color('primary-light');
+}

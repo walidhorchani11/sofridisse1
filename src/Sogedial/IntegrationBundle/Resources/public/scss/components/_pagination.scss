@@ -1,0 +1,38 @@
+.pagination {
+  float: left;
+  width: 700px;
+  margin-top: -8px;
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    a {
+      display: block;
+      float: left;
+      width: 21px;
+      height: 21px;
+      padding: 1px;
+      margin-right: 25px;
+      margin-bottom: 10px;
+      font-family: safo-font('sans-serif');
+      font-size: 12px;
+      line-height: 20px;
+      color: safo-color('text-neutral');
+      text-align: center;
+      text-decoration: none;
+      border-radius: 50px;
+
+      &.pagination-left-arrow {
+        width: 10px;
+        text-align: left;
+      }
+
+      &.active {
+        color: safo-color('light');
+        cursor: default;
+        background-color: safo-color('primary-dark');
+      }
+    }
+  }
+}

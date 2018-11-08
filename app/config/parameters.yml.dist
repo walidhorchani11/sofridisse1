@@ -1,0 +1,30 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     catalogue.sofridis.fr
+    database_user:     cat-sofridis
+    database_password: 6lpt78D42
+
+    mailer_transport:  smtp
+    mailer_host:       192.168.70.3
+    mailer_auth_mode:  null
+    mailer_encryption: null
+    # renseigner email + mot de passe pour les test
+    mailer_user:       ~
+    mailer_password:   ~
+    mailer_port: 25
+
+    locale:            fr
+    secret:            ThisTokenIsNotSoSecretChangeIt
+    upload_dir: '%kernel.root_dir%/../web/images/product/original'
+    default_img: '%kernel.root_dir%/../web/images/product/no-photo.png'
+    cache_img_dir: '%kernel.root_dir%/../web/cache'
+    export_excel_dir: '%kernel.root_dir%/../web/cache/excel'
+    image_sofridis: '%kernel.root_dir%/../web/images/upload_photo'
+    cgv_upload_dir: '%kernel.root_dir%/../web/uploads/pdf'
+    elastic_host : localhost
+    elastic_port : 9200
+    baseUrl: 'http://photos.groupesafo.com/wsse/cb8f190153190ebe8598ac49e86ebf37/75/75/'
+    baseUrlProduit : 'http://photos.groupesafo.com/wsse/cb8f190153190ebe8598ac49e86ebf37/320/220/'
+    maintenance: false # permet de mettre le site en mode maintenance si true

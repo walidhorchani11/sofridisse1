@@ -1,0 +1,12 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:commandes.clients.content.html.twig" with {'commandesEncours': commandesEncours, 'commandeCounterByStatus': commandeCounterByStatus, 'preCommandeMode': preCommandeMode, 'societe': societe } only %}
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript">
+    $(function () {
+        $(".sticky-header-table").stickyTableHeaders();
+    });
+	</script>
+{% endblock %}

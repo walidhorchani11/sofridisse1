@@ -1,0 +1,23 @@
+ <section>
+     {% include "SogedialIntegrationBundle:Layout:header.html.twig" with { 'societe' : societe,'displayPreviousArrow': 'true', 'leftSide': 'date', 'rightSide': 'client-commercial' } %}
+
+    <div class="content">
+        <div id="breadcrumb">
+            <a href="{{ path('sogedial_integration_dashbord', { 'societe': societe }) }}">Accueil</a>
+        </div>
+        <div>
+            <h1>Demande de stock engagement supplémentaire pour le produit « {{promotion.produit.denominationProduitBase}} » ({{ code_produit }})</h1>
+            <form method="POST" action="{{ path('sogedial_integration_stock_engagement_update', {'id': promotion.code}) }}">
+                <div class="container">
+                    <p>Stock engagement initial (colis) : {{ promotion.stockEngagement }} <p>
+                    <p>Stock engagement restant (colis) : {{ promotion.stockEngagementRestant }} </p>
+                    <p><label>Demande de stock supplémentaire : <input type="number" name="stock_engagement_demande" id="stock_engagement_demande" min="0" required="required"><label></p>
+                    {% if alert is defined %}
+                        <p class="success-text">{{alert}}</p>
+                    {% endif %}
+                </div>
+                <input class="blue-action" type="submit" value="Envoyer la demande">
+            </form>
+        </div>
+    </div>
+</section>

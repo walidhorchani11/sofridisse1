@@ -1,0 +1,81 @@
+{% if codeSociete is defined and codeSociete == '401' %}
+    {% set template = 'SogedialIntegrationBundle:Admin:ajouter-prospect-template-tmp-sge.html.twig' %}
+{% else %}
+    {% set template = 'SogedialIntegrationBundle:Admin:ajouter-prospect-template.html.twig' %}
+{% endif %}
+
+{% extends template %}
+
+{% block form %}
+    {% spaceless %}
+        <div class="scrollable-content">
+        <form method="POST" {{ form_enctype(form) }} role="form" class="material-form">
+            {{ form_errors(form) }}
+
+            <div class="grid-s-12">
+                <div class="material-well">
+                    <div class="form-block-title grid-padded">
+                        Offre commerciale
+                    </div>
+                    {% if franco %}
+                        <div class="material-form-container grid-s-12 grid-m-4 grid-padded">
+                            <div class="form-input">
+                                {{ form_widget(form.montantFranco) }}
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                {{ form_label(form.montantFranco) }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if zoneSec %}
+                        <div class="material-form-container grid-s-12 grid-m-8 grid-padded">
+                            <div class="form-select">
+                                {{ form_label(form.zoneSec) }}
+                                <div class="select-container">
+                                    {{ form_widget(form.zoneSec) }}
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if zoneFrais %}
+                        <div class="material-form-container grid-s-12 grid-m-8 grid-padded">
+                            <div class="form-select">
+                                {{ form_label(form.zoneFrais) }}
+                                <div class="select-container">
+                                    {{ form_widget(form.zoneFrais) }}
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if zoneSurgele %}
+                        <div class="material-form-container grid-s-12 grid-m-8 grid-padded">
+                            <div class="form-select">
+                                {{ form_label(form.zoneSurgele) }}
+                                <div class="select-container">
+                                    {{ form_widget(form.zoneSurgele) }}
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="grid-s-12">
+                <div class="grid-row grid-center">
+                    {# Bouton sauvegarde #}
+                    <button type="submit" class="button blue marg-v-20" id="_submit"><i class="fa fa-save"></i> SAUVEGARDER</button>
+                </div>
+            </div>
+            {{ form_widget(form._token) }}
+        </form>
+    </div>
+{% endspaceless %}
+{% endblock %}

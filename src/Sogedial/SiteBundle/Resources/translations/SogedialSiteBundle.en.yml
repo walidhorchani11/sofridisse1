@@ -1,0 +1,525 @@
+# src/Sogedial/SiteBundle/Resources/translations/messages.en.yml
+
+userManager: 
+  access: 
+    column:
+      name: 'Name' 
+      paysvente: 'Selling country' 
+      etat: 'State' 
+      nature: 'Nature' 
+      chiffreaffaire: "Turnover"
+      dateupdated: 'Modification Date'
+      datecreated: 'Date of creation'
+      email: 'Contact'
+      importationfrance: 'Importation from France'
+      actions: 'Operations'
+      age: 'Age (days)'
+      temps: 'Time spent'
+      frequence: 'Connexions'
+      commandes: 'Orders'
+      causes: 'Cause of the blockage'
+      contact: 'Contact'
+      derniereConnexion: "Last login"
+
+
+    noaccessavailable: "There is no element"
+
+    state:
+      pending: "Pending"
+      validate: "Validate"
+      lock: "Locked"
+      deny: "Denied"
+      orphans: "Orphan"
+
+    blocktitle:
+      summary: "Summary"
+      pending: "Pending"
+      validate: "Validate"
+      lock: "Locked"
+      deny: "Denied"
+      orphans: "Les orphans"
+
+    action:
+      create: "Create an access"
+      edit: "Edit"
+      delete: "Delete"
+      perms: "Manage permissions"
+    search:
+      noresult: "no result"
+      empty: "Search for an access"
+
+  adduser:
+    pagetitle: "Add a new user"
+    breadcrumb: "New access"
+
+  edituser:
+    pagetitle: "Access N° %identifier%"
+    action:
+      lock: "to block"
+      deny: "deny the access"
+      pending: "Awaiting validation"
+      validate: "Validate the access"
+      delete: "Delete the access"
+      perms : "Selection of range and pricing policy"
+
+  edituserstatus:
+    pagetitle: "Operating on the user %email%"
+    confirm :
+      lock: "Are you sure you want to block the user access ?"
+      deny: "Are you sure you want to deny the user access"
+
+      pending: "Are you sure you want to put on hold the user access ?"
+      validate: "Are you sure you want to validate the user access?"
+      undefined: "The operation does not exist"
+
+    cancel: " Return to the user edition "
+
+  deleteuser :
+    pagetitle: " Delete the user "
+    view: " Edit the user datas "
+
+  productManager :
+    pagetitle: "Selection of the N° %identifier%"
+
+  pagetitle: " Manage access"
+
+  accessBreadcrumb: "Access"
+
+  assort:
+    classification: "Classification"
+    selection: "Selection"
+    price: "<span>P</span>rice"
+    promotion: "P<span>r</span>omotions"
+    exclusivity: "<span>E</span>xclusivities"
+    new: "<span>N</span>ews"
+    coefficient: "<span>C</span>oefficient"
+    checked: "Check"
+    products: "Products"
+    marque: "Brand"
+    title: "Assortment Selection"
+    titleFilter: "Filters"
+    photo: "With photos"
+    nophoto: "Without photo"
+
+productManager:
+  pagetitle: "Products Managment"
+  accessuser: "Management of user’s permissions"
+  pdf:
+    title: "Products list"
+    file: "Products list"
+  excel:
+    title: "Products list"
+    idmysql: "Product identifier"
+    file: "Products list"
+    sheet: "Products"
+    ean13: "GENCOD"
+    code: "Article’s code"
+    rayon: "Shelf"
+    famille: "Family"
+    sfamille: "Sub-Family"
+    segment: "Segment"
+    typologie: "Typology"
+    new: "New products"
+    yes: "Yes"
+    no: "No"
+    libelle: "Libel"
+    prix: "Price"
+    promo: "Promo"
+    origine: "Origin"
+    dlcmoyenne: "Shelf life"
+    marque: "Brand"
+    format: "Format"
+    pcb: "By How Much"
+    uv: "Selling Unit"
+    poidsbrutuvc: "Gross Weight Selling Unit"
+    poidsnetuvc: "Net Weight Selling Unit"
+    poidsbrutcolis: "Gross Package’s Weight"
+    volumecolis: "Package’s Volume"
+    uvccolis: "Selling Unit/Package"
+    coliscouche: "Packages by layer "
+    colispalette: "Packages by palet"
+
+groupManager:
+  pagetitle: "Group Management"
+  list:
+    pagetitle: "Groups list"
+  new:
+    pagetitle: "Create a new group"
+
+  edit:
+    pagetitle: "Edit the group"
+  delete:
+    pagetitle: "Delete group"
+
+dashboard:
+  pagetitle: "Dashboard"
+
+profile:
+  show:
+    pagetitle: "My profile"
+  edit:
+    pagetitle: "Edit my profile"
+
+logout: "Logout"
+
+header:
+  menu:
+    libelle: "Menu"
+
+menu:
+  home: "Home"
+  us: "About us"
+  help: "Help"
+  products: "Products"
+  selectedProducts: "Selected products"
+  brand: "Brand"
+  catalog: "Catalog"
+  exclu: "Exclusivity"
+  opp: "opportunities / clearance sale"
+
+products:
+  gms: "FMCG"
+  rhf: "Catering"
+  mn: "National brand"
+  md: "Private label"
+  pp: "Discount"
+  exclu: "Exclusivity"
+  previous: "Previous"
+  next: "Next"
+  noproduct: "No product"
+  oneproduct: "product"
+  moreproduct: "products"
+  withphoto: "With photo"
+  withoutphoto: "Without photo"
+  exportPDF: "Download PDF file"
+  exportExcel: "Download Excel file"
+  pdf:
+    title: "Products list"
+  search:
+    noresult: "no result"
+    empty: "Search for a product"
+  sortBar:
+    temp: "Temperature"
+    positif: "Positive cold"
+    negatif: "Negative cold"
+    ambiant: "Dry"
+    typo: "Typology"
+    gamme: "Range level"
+    prix: "Price"
+    autres: "Advanced"
+    triasc: "Ascending sorting"
+    tridesc: "Descending sorting"
+    mn: "National Brand"
+    md: "Private label"
+    pp: "Discount"
+    rayon: "Shelf"
+    famille: "Family"
+    sfamille: "Sub-Family"
+    order: "Order"
+    selection: "Select"
+    rayon: "Shelf"
+    famille: "Family"
+    sfamille: "Sub-Family"
+    segment: "Segment"
+    ssegment: "Sub-Segment"
+  all: "all"
+  filter:
+    rayon: "Search for a shelf"
+    familie: "Search for a family"
+    sfamilie: "Search for a sub-family"
+    launch: "Launch"
+
+product:
+  button:
+    savecrop: "Generate miniature"
+    deleteimage: "Delete photo"
+    hideimage: "Hide"
+    displayimage: "Display"
+    coverimage: "Select as main photo"
+  form:
+    new:
+      title: "Add a new translation"
+    actual:
+      title: "translation list"
+  detail:
+    description: "Description"
+    brand: "Brand"
+    origine: "Origin"
+    format: "Format"
+    pcb: "By How Many"
+    dlcmoyenne: "Average Shelf life"
+    ean13: "EAN13"
+    ingredients: "Ingredients"
+    nutrition: "Nutritionnal values"
+    logistique: "Logistics details"
+    commande: "Order"
+    promo: "Promo"
+    temp: "Temperature"
+    typo: "Typology"
+    day: "Days"
+    poids: "Net weight"
+    ndp: "Customs nomenclature"
+  nutrition:
+    calories: "Kcal/100g"
+    joules: "KJ/100g"
+    lipides: "Lipid"
+    glucides: "Carbohydrate"
+    proteines: "Protein"
+  colis:
+    poidsBrutUvc: "Gross weight"
+    poidsNetUvc: "Net weight"
+    poidsBrutColis: "Gross weight Package"
+    volumeColis: "Package volume"
+    couchePalette: "By palet layer"
+    palette: "By palet"
+  select:
+    all:
+      confirm : "Products correctly selected"
+      error : "All products of your research have already been selected"
+    one :
+      confirm : "The product has been added to your selection"
+  deselect:
+    all:
+      confirm : "Products correctly selected"
+      error : "All products of your research are already deselected"
+    one:
+      confirm : "The product has been removed of you selection"
+  order :
+    add : "The product has been added to your order"
+    remove : "The product has been removed from your order"
+  number : "Number of products "
+
+order:
+  current :
+    clear : "Your order has been reset"
+  admin :
+    manager :
+      pagetitle : "Orders management "
+  quantity : "Quantity"
+  transit :
+    yes : "I need transit service "
+    no : "I don’ t need transit service "
+  recap :
+    back : "Back to the order "
+  renew :
+    success : "Your order has been renewed"
+  cgv:
+    title: "General terms and conditions of sale"
+    agree: "I agree the general conditions of sales"
+    download : "Download the general conditions of sales"
+  banner :
+     activities : |
+                  <span> International transport,</span>
+                  <span> commissionar transport,</span>
+                  <span>custom broker.</span>
+     bottomLeft : |
+                  <strong>+10 000 <sup>EVP</sup></strong>
+                  EN EXPORT
+                  MARITIME
+     bottomRight : |
+                   <strong>+ de 330 ports</strong>
+                   shipment worldwide
+
+  modal:
+    addproduct:
+      message:
+        confirm : " The product has been corectly added to your order."
+        error : " The quantity value is not an valid integer"
+  manager:
+    title : " Orders management "
+    blocktitle :
+      current : " Current order "
+      pending : " Pending order "
+      approved : " Approved order "
+      processed : " Processed order "
+    column :
+      number : " Order’s number "
+      createdAt : " Order’s date "
+      totalProducts : " Nb products "
+      temperatures : "Temperatures"
+      totalQuantity : " Nb packages "
+      totalMass : "Weight"
+      totalVolume : "Volume"
+      totalPrice : "Amount"
+      modify : "Modify"
+      renew : "Renew"
+      name_user: "Client’s name"
+      status: "Status"
+      country: "Country"
+      typologie: "Typology"
+      order: "Order"
+      date: "Date"
+      container: "CTN"
+      sector: "Sector"
+      facture: "Order nb"
+      products: "Products"
+      packets: "Package"
+      weight: "Weight"
+      volume: "Volume"
+      amount: "Amount"
+      mb: "MB"
+
+container:
+    title: 'Logistic service'
+    empotage: 'Stuffing'
+
+# Group
+group:
+    edit:
+        submit:  update the group
+    show:
+        name: group’s name
+    new:
+        submit:  create the group
+    flash:
+        updated: this group has been updated
+        created: this group has been created
+        deleted: this group has been deleted
+
+# Security
+"Bad credentials":  incorrect  user name or incorrect password
+
+security:
+    login:
+        username: "User name"
+        password: "Password"
+        remember_me: Remember me
+        submit:  Login
+        forgotpassword: "Forgotten Password"
+        askaccess: "Ask for an access"
+        infoE: "Company information"
+        infoC: "Contact Information"
+        infoCx: "Login information"
+    create:
+        title: "Create an access"
+        savePending: "Awaiting for validation/in progress"
+
+        saveValidate: "Validate the access"
+    update:
+        title: "Edit an access"
+
+# Profile
+profile:
+    show:
+        username: user name
+        email: email adress
+    edit:
+        submit: update
+    flash:
+        updated: The profile has been updated
+
+# Password change
+change_password:
+    submit: Modify the password
+    flash:
+        success: The password has been  modified
+
+# Registration
+registration:
+    check_email: An email has been sent to the adress %email%. It contains an activation link on which you can click.
+    confirmed: Congratulation %username%, your account is now activated.
+    back:  Back to the previous page.
+
+    submit:    submit
+    flash:
+
+        user_created: User has been created with success
+
+    email:
+        subject: Welcome %username% !
+        message: |
+            Hi %username% !
+
+            To validate your user account, thanks to go to %confirmationUrl%
+
+
+            Regards
+            SOGEDIAL’s team
+
+# Password resetting
+resetting:
+    password_already_requested: A new password has been asked for this user within the last 24 hours.
+    check_email: An email has been sent at the following address  %email%. It contain a link to reinitialize your password.
+    request:
+        invalid_username: This user name or email adress does not exist"%username%"
+
+        username: "User name or email adress"
+        submit: Reset the password
+    reset:
+        submit: Edit the password
+    flash:
+        success: Your password has been reseted with success
+    email:
+        subject: Password reinitialisation
+        message: |
+            Hi %username% !
+
+            To reset your password thanks to go to %confirmationUrl%
+
+            Cordialement,
+            L'équipe.
+
+# Global strings
+layout:
+    logout: logout
+    login:  login
+    register:  register
+    logged_in_as: Logged in as %username%
+
+# Form field labels
+form:
+    group_name: "Group Name"
+    username: "User name"
+    email: "Email adress"
+    current_password: "Current password"
+    password: "Password"
+    password_confirmation: "Verification"
+    new_password: "New password"
+    new_password_confirmation: "Confirmation"
+    label:
+      raisonSociale: "Corporate name *"
+      nomEntreprise: "Access number*"
+      adresse1: "Address 1 *"
+      adresse1Optinnal: "Address 1 "
+      adresse2: "Address 2 *"
+      adresse2Optinnal: "Address 2 "
+      codePostal: "Zip code *"
+      codePostalOptinnal: "Zip code"
+      ville: "City*"
+      villeOptinnal: "City"
+      pays: "Country *"
+      standard: "Head office number*"
+      standardOptinnal: "Head office number "
+      validate: "Save"
+      denomination: "Libel *"
+      ingredients: "Ingredients *"
+      description: "Description *"
+      save: "Save"
+      createaccess: "Ask for the access"
+      addFile: "Add a  photo"
+
+footer:
+    title: "Display"
+
+flashbag:
+  accessrequest: "Your account request has been successfully taken into account"
+  accesserrorenterprise: "You must select a company or create a new one"
+
+1positif : Positive cold
+2negatif : Negative cold
+3ambiant : Dry
+
+Facturation:
+  order:
+    action:
+      back: "Back"
+      pdf: "PDF Format"
+      sign: "Sign the order"
+      download : Download
+      cancel: "Cancel"
+      backToCatalog : "Back to Catalog"
+    message: |
+         We invite you to continue your order with the Excel file now downloading.
+         Thank you to return it completed to our sales team:
+
+

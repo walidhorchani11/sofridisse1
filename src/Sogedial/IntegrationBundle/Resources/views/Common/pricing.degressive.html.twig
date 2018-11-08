@@ -1,0 +1,12 @@
+{% for key,value in products %}
+<li>
+    <span class="second-line degressive">
+        {{ key }}+&#8239;:&#8239;{{ value|number_format(2, ".", " ") }}&#8239;&euro;&nbsp;
+        {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+        {% include "SogedialIntegrationBundle:Common:pound.unity.html.twig"  with {
+                'kilo': product.poid_variable is defined and product.poid_variable and product.sale_unity is defined and product.sale_unity == 'KILOGRAMME' 
+            } 
+        %}
+    </span>
+</li>
+{% endfor %}

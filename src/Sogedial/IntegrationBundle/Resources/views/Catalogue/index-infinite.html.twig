@@ -1,0 +1,34 @@
+{% extends "SogedialIntegrationBundle:Layout:layout-infinite.html.twig" %}
+
+{% block body %}
+    <section>
+        <div class="content">
+            {% if (preCommandeMode is defined and preCommandeMode == true) %}
+                {% include "SogedialIntegrationBundle:Toasts:remaining-time-before-validation.html.twig" with {
+                    'shippingMode': shippingMode,
+                    'formattedNextValidationDate': formattedNextValidationDate,
+                    'formattedNextDeliveryDate' : formattedNextDeliveryDate,
+                    'remDays': remainingValidationTime.days,
+                    'remHours': remainingValidationTime.hours,
+                    'remMins': remainingValidationTime.mins
+                } %}
+            {% endif %}
+            {% if (is_prospect is defined and is_prospect == true) and (formattedExpirationDate is defined) %}
+                {% include "SogedialIntegrationBundle:Toasts:remaining-time-before-prospect-end.html.twig" with {
+                    'formattedExpirationDate': formattedExpirationDate,
+                    'remYears': remainingProspectTime.years,
+                    'remMonths': remainingProspectTime.months,
+                    'remDays': remainingProspectTime.days,
+                    'remHours' : remainingProspectTime.hours,
+                    'remMins' : remainingProspectTime.mins,
+                } %}
+            {% endif %}
+            {% if (preCommandeMode is defined and preCommandeMode == true) or ((is_prospect is defined and is_prospect == true) and (formattedExpirationDate is defined)) %}
+                {% set hasToastHeader = true %}
+            {% else %}
+                {% set hasToastHeader = false %}
+            {% endif %}
+            {% include "SogedialIntegrationBundle:Common:table-catalogue-infinite.html.twig"  with {'societe': societe,'listProductsByRayon': listProductsByRayon, 'listRayons': listRayons, 'thisPage': thisPage, 'tri': tri, 'ordertri': ordertri, 'search': search, 'lastTitle' : lastTitle, 'shippingMode': shippingMode, 'hasToastHeader': hasToastHeader, 'clientInfo': clientInfo } %}
+        </div>
+    </section>
+{% endblock %}  

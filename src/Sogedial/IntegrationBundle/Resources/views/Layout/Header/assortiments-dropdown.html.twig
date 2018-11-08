@@ -1,0 +1,9 @@
+<div id="infobar-assortiments-dropdown" class="hidden infobar-header-dropdown">
+    {% for assortiment in listAssortiments %}
+        <a href="{{ path('sogedial_integration_assortiment', {'valeur': assortiment.valeur }) }}" class="grid-row">
+            <div class="grid-s-12 grid-padded marg-v-10">
+                {{ assortiment.nom }}
+            </div>
+        </a>
+    {% endfor %}
+</div>

@@ -1,0 +1,66 @@
+<div class="breadcrumb-trail-container">
+    {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+</div>
+<div class="scrollable-content scrollable-content-catalogue{% if hasToastHeader is defined and hasToastHeader == true %}-with-toast{% endif %}" id="product-list">
+    <table class="table-with-images table-with-headers sticky-header-table">
+        <thead>
+            <tr>
+                <th class="catalogue-table-image">Image</th>
+                <th>
+                    Libellé produit
+                </th>
+                {% if multisiteService.hasFeature('poidsVolume') %}
+                    <th>kg - m<sup>3</sup></th>
+                {% else %}
+                    <th class="responsive-catalogue-hidden-on-mobile">Marque</th>
+                {% endif %}
+                <th class="responsive-catalogue-hidden-on-mobile">
+                    PCB
+                </th>
+                <th>
+                    {% if societe is defined and societe == 'sofrigu' %}
+                        Prix unitaire TTC<sup>*</sup>
+                    {% else %}
+                        Prix unitaire HT<sup>*</sup>
+                    {% endif %}
+                </th>
+                <th>Quantités ({% if MasterEnterprise == "sofrigu" %}unités{% else %}colis{% endif %})</th>
+                <th class="total_price_container">Total&nbsp;{% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}<sup>*</sup></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="spacer"></tr>
+            {{ render(controller('SogedialIntegrationBundle:Catalogue:tableCatalogue', { 'societe': societe, 'listProductsByRayon': listProductsByRayon, 'listRayons': listRayons, 'lastTitle' : lastTitle, 'clientInfo': clientInfo })) }}
+        </tbody>
+    </table>
+    <div id="loadingDiv" style="display: none">
+        <div class="loader-commande-point-com">
+            {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig" with {'svg_id':1} %}
+        </div>
+        {# <p>Chargement</p>
+        <div class="loader">Chargement...</div> #}
+    </div>
+    <div id="endLoadingDiv" style="display: none">
+        <p> Fin de la liste </p>
+    </div>
+</div>
+
+<div class="informations-right">
+    <span>Photos non contractuelles</span>
+    {% if societe is defined and societe == 'sofrigu' %}
+       , <span>* Prix TTC (Hors frais de livraison)</span>
+    {% else %}
+       , <span>* Prix HT (Dont Taxe sécurité sociale sur les alcools)</span>
+    {% endif %}
+    {% if MasterEnterprise != "sofridis" %}
+       , <span>** Poids et prix peuvent varier selon arrivage et découpe</span>
+    {% endif %}
+</div>
+
+{% block javascript %}
+    <script type="text/javascript">
+        $(function () {
+            $(".sticky-header-table").stickyTableHeaders();
+        });
+    </script>
+{% endblock %}

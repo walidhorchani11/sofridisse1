@@ -1,0 +1,5 @@
+{% extends "SogedialIntegrationBundle:Layout:layout-infinite.html.twig" %}
+
+{% block body %}
+    {% include "SogedialIntegrationBundle:Produit:content.html.twig"  with {'societe': societe, 'product': product, 'clientInfo': clientInfo, 'commercialInfo': commercialInfo, 'result': result, 'baseUrlProduit': baseUrlProduit, 'preCommandeMode' : preCommandeMode, 'productHasMoq': productHasMoq, "moq_client": moq_client, 'currentPage': currentPage } only %}
+{% endblock %}

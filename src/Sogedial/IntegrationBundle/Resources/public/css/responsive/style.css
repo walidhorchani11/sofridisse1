@@ -1,0 +1,166 @@
+/* RESPONSIVE MANUEL */
+@media (max-width: 1024px) {
+/*    #login-form form {
+        position: relative;
+        height: 800px;
+    }*/
+
+    .price p:first-child {
+        top: 12px;
+        left: -50px;
+    }
+
+    #order .table-cell {
+        line-height: 20px;
+    }
+
+    #order .content {
+        height: inherit !important;
+    }
+
+    .dialog-content {
+        max-width: 35%;
+    }
+
+    .button.new-order {
+        background-color: #01366B;
+        padding: 0 80px;
+    }
+
+    .basket-msg {
+      line-height: 16px;
+      display: inline-block;
+      width: 200px;
+    }
+}
+
+@media (max-width: 991px) {
+    .button.new-order {
+        background-color: #01366B;
+        padding: 0 80px;
+    }
+
+/*    #login-form form {
+        position: relative;
+        height: 800px;
+    }*/
+
+    header #infobar {
+      /* width: 100%; */
+    }
+
+    /* CORRECTIF FICHE PRODUIT */
+    #product .product-img .new-large {
+        width: 61px;
+        height: 61px;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+    }
+
+/*    #catalogue section,
+    #product .content,
+    #dashboard section,
+    #customer section,
+    #import-basket section,
+    #my-orders section {
+        margin-left: 0;
+    }*/
+
+    #menu {
+        display: block;
+    }
+
+    #infobar-table-menu-icon {
+        display: table-cell;
+    }
+
+    /* INDEX GESTION HORAIRE SUR DEUX LIGNES */
+    #dashboard section .content .next-delivery-informations .limit,
+    .customer .next-delivery-informations .limit {
+        line-height: initial;
+        margin-top: -8px;
+    }
+
+    #login {
+        width: 100%;
+        height: 100%;
+    }
+
+    #login-form {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* DASHBOARD HARMONISATION DES TABLEAUX */
+    .table-cell {
+        line-height: 16px;
+        font-size: 11px;
+        padding: 0 9px;
+    }
+
+    .table-cell ul {
+        line-height: 13px;
+        padding: 10px 0;
+    }
+
+    .table-cell ul li {
+        margin-bottom: 8px;
+    }
+
+    .table-cell ul.delivery,
+    #recap-basket .table-cell {
+        line-height: 15px;
+    }
+
+    .small-picto {
+        margin-top: -3px;
+    }
+
+    .cat-container {
+        width: 40px;
+    }
+
+    .price {
+        /* font-size: 28px; */
+    }
+
+    .price sup {
+        font-size: 18px;
+    }
+
+    .table-infos .nb-product {
+        margin-left: 15%;
+    }
+
+    .secondary-basket .price {
+        margin-top: -5px !important;
+        margin-left: 50%;
+    }
+
+    .delivery_date {
+        margin-left: 10px;
+    }
+
+    #customer .button {
+        padding: 0 20px;
+    }
+
+    .customer-filter .customer-status {
+        width: 90px;
+        margin-right: 5px;
+    }
+
+    .delivery-time .table .table-cell p {
+        margin-left: -25px;
+    }
+
+    .delivery-time .table .table-cell {
+        padding-left: 70px;
+    }
+
+    #recap-basket .medium-picto {
+        margin: 17px -27px 0 0;
+    }
+}
+

@@ -1,0 +1,46 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block body %}
+    <section>
+        <div class="content add-prospect">
+            <div class="breadcrumb-trail-container">
+                {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+            </div>
+            <div class="block">
+                <div class="space-between-container-small">
+                    <div class="grid-s-6">
+                        <div class="page-title">{{ stepTitle }}</div>
+                    </div>
+                    <div class="grid-s-6 grid-padded">
+                        <ul class="prospect-nav grid-pull-right">
+                            {% set stepsAmount = 4 %}
+                            {% set stepsNames = ["Informations client", "Mot de passe", "Dates de validité", "Sélection des options"] %}
+                            {% set stepsIcons = ["fa-user", "fa-lock", "fa-calendar", "fa-cog"] %}
+                            {% for i in 1..stepsAmount %}
+                                <li title="{{ stepsNames[i - 1] }}">
+                                    <a
+                                        {% if (codeProspect is defined) %}
+                                            href="{{ path(prospectRoute, { 'stepId': i, 'codeProspect': codeProspect }) }}"
+                                        {% else %}
+                                            href="{{ path(prospectRoute, { 'stepId': i }) }}"
+                                        {% endif %}
+                                        class="button blue {% if (i > stepId) and (mode == 'create') %}prospect-nav-disabled{% endif %}"
+                                    >
+                                        <span class="fa {{ stepsIcons[i - 1] }} prospect-nav-item" alt="{{ stepsNames[i - 1] }}"></span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="container-edit-client material">
+                    {% block form %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% javascripts %}
+    {{ parent() }}
+{% endjavascripts %}
+
+{% endblock %}

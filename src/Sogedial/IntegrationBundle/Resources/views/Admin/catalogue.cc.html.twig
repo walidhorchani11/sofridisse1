@@ -1,0 +1,5 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block title %}Catalogue vue commercial{% endblock %}
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:catalogue.content.html.twig" with {'products': products, 'commercialInfo': commercialInfo, 'families': families, 'baseUrl': baseUrl, "societe": societe} only %}
+{% endblock %}

@@ -1,0 +1,10 @@
+.git*
+node_modules
+.bowerrc
+bower.json
+composer.*
+Gruntfile.js
+package.json
+phpunit.xml
+/config
+/bin

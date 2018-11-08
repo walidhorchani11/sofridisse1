@@ -1,0 +1,150 @@
+body {
+  margin: 0;
+  background-color: safo-color('background-content');
+  overflow: hidden;
+}
+
+ul,ol {
+  padding-left: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+// https://css-tricks.com/snippets/css/clear-fix/
+.group-clear {
+  &:after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: .6;
+}
+
+.normal-line-height {
+  line-height: normal;
+}
+
+input[type=checkbox] {
+  // float: left;
+  // opacity: 0;
+  position:absolute;
+  left: -9999px;
+  top:-9999px;
+  + label {
+    position: relative;
+    float: left;
+    margin: 0 0 0 20px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    line-height: 20px;
+    color: safo-color('text-neutral-dark');
+    cursor: pointer;
+
+    ~ label {
+      margin: 0 0 0 40px;
+    }
+  }
+
+  + label::before {
+    position: absolute;
+    top: -3px;
+    left: -35px;
+    display: block;
+    width: 25px;
+    height: 25px;
+    content: ' ';
+    background: safo-color('light');
+    border: 1px solid safo-color('text-neutral-light');
+  }
+
+  + label::after {
+    position: absolute;
+    top: -2px;
+    left: -34px;
+    z-index: 1;
+    display: block;
+    width: 23px;
+    height: 23px;
+    content: ' ';
+    background: url($data_uri_0) no-repeat center center;
+    opacity: 0;
+    -webkit-transition: all .2s ease;
+        -ms-transition: all .2s ease;
+            transition: all .3s ease;
+    -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+            transform: scale(0);
+  }
+
+  &:checked + label::after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+input[type="date"] {
+  padding: 4px;
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  color: safo-color('primary-light');
+  border: 1px solid safo-color('primary-light');
+}
+
+h2.title {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-family: safo-font('sans-serif');
+  font-size: 16px;
+  color: safo-color('primary-dark');
+
+  + a {
+    margin-top: 45px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('primary-dark');
+    text-decoration: none;
+  }
+}
+
+.wrappable {
+  white-space: normal !important;
+}
+
+.bold-text{
+  font-family: safo-font('sans-serif', 'semi-bold');
+}

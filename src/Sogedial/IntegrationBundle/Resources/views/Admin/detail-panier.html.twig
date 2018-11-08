@@ -1,0 +1,379 @@
+{% extends "SogedialIntegrationBundle:Layout:layout-infinite.html.twig" %}
+{% block body %}
+
+    {% if admin is defined and admin == true %}
+        {% set breadcrumbHome = "Dashboard" %}
+        {% set
+            breadcrumbList = {
+                labelList: "Commandes Client",
+                pathList: path('sogedial_integration_admin_commandes_clients')
+            }
+        %}
+
+        {% if orderStatut is defined and orderStatut == 'STATUS_CURRENT' %}
+
+            {% set breadcrumbOrderStatut = "Panier Client" %}
+            {% set breadcrumbOrderNumber = "Panier n°#{orderNumber} du #{orderUpdate|date('d.m.Y', timezone='Europe/Paris')}" %}
+            {% set titleOrder = "Panier n° #{ orderNumber } - Client : #{ clientInfo.nom }" %}
+        {% else %}
+            {% set breadcrumbOrderStatut = "Commandes Client" %}
+            {% set breadcrumbOrderNumber = "Commande n°#{orderNumber} du #{orderUpdate|date('d.m.Y', timezone='Europe/Paris')}" %}
+            {% set titleOrder = "Commande n° #{ orderNumber } - Client : #{ clientInfo.nom }" %}
+        {% endif %}
+    {% else %}
+        {% set breadcrumbHome = "Accueil" %}
+        {% set
+            breadcrumbList = {
+                labelList: "Historique de mes commandes",
+                pathList: path('SogedialSite_integration_pending_orders', { 'societe': societe })
+            }
+        %}
+
+        {% if orderStatut is defined and orderStatut == 'STATUS_CURRENT' %}
+            {% set breadcrumbOrderStatut = " Détail panier" %}
+            {% set breadcrumbOrderNumber = "Panier n°#{orderNumber} du #{orderUpdate|date('d.m.Y', timezone='Europe/Paris')}" %}
+            {% set titleOrder = "Panier n° #{ orderNumber } - Client : #{ clientInfo.nom }" %}
+        {% else %}
+            {% set breadcrumbOrderStatut = "Détail commande" %}
+            {% set breadcrumbOrderNumber = "Détail de la commande n°#{orderNumber}" %}
+            {% set titleOrder = "Détail de la commande n° #{ orderNumber }" %}
+        {% endif %}
+    {% endif %}
+
+    <section>
+        <div class="content">
+            {% if admin is not defined or admin != true %}
+                <div class="breadcrumb-trail-container">
+                    {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+                </div>
+            {% endif %}
+            <div class="container">
+                    {% if admin is defined and admin == true %}
+                        <div class="page-title">Commande n° {{ orderNumber }} - Client : {{ clientInfo.nom }}</div>
+                    {% endif %}
+                    {# 
+                        Supprime l'espace reservé au commentaire / bouton export si on a aucun des deux
+                     #}
+                    {% if commentaire is defined and commentaire != ""
+                         or admin is defined and admin == true and orderStatut != 'STATUS_CURRENT' and multisiteService.hasFeature("exportBDC") %}
+                        <div class="basket-subheader-container space-between-container-small">
+                                <div class="grid-s-6">
+                                    {% if commentaire is defined and commentaire != "" %}
+                                    <div class="comment">
+                                        <textarea readonly="" rows="1" cols="40" maxlength="40">{{ commentaire | replace({'-': ' '}) }}</textarea>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            {% if admin is defined and admin == true  and orderStatut != 'STATUS_CURRENT' and multisiteService.hasFeature("exportBDC") %}
+                                <div class="grid-s-6">
+                                    <div class="grid-pull-right">
+                                        <a href="{{ path('SogedialSite_recap_order_excel', {'id' : order.id}) }}"  class="left button border-blue" target="_blank"><i class="fa fa-file"></i> Exporter</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {#
+                    Informations sur la liste des produits de ligneCommande
+                    On affiche un message si pas de produits (cas ou la commande vient de l'exterieur)
+                #}
+                {% if listRayons is defined and listRayons is not empty %}
+                <div class="scrollable-content {% if admin is defined and admin == true %} scrollable-content-basket-admin {% else %} scrollable-content-basket {% endif %} {% if commentaire is defined and commentaire != ""
+                         or admin is defined and admin == true and orderStatut != 'STATUS_CURRENT' and multisiteService.hasFeature("exportBDC") %}scrollable-content-basket-admin-with-header{% endif %}">
+                    <div class="table-basket">
+                        <table class="table-with-images table-with-headers sticky-header-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Libellé produit</th>
+                                    {% if multisiteService.hasFeature('poidsVolume') %}
+                                        <th>kg - m<sup>3</sup></th>
+                                    {% else %}
+                                        <th class="responsive-catalogue-hidden-on-mobile">Marque</th>
+                                    {% endif %}
+                                    <th class="responsive-catalogue-hidden-on-mobile">PCB</th>
+                                    <th>
+                                        Prix unitaire {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+                                    </th>
+                                    <th>Quantités</th>
+                                    <th>Colisage</th>
+                                    <th>Total {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="spacer"></tr>
+                                {% for listRayon in listRayons %}
+                                    <tr>
+                                        <th colspan="11">{{ listRayon }}</th>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                    {% for key, product in listProductsByRayon %}
+                                        {% if product.sf_fr == listRayon %}
+                                            {% if (product.moq is defined) and (product.moq == null) %}
+                                                {% set classProduitMOQ = "" %}
+                                            {% elseif (product.moq is defined) and (product.moq == false) %}
+                                                {% set classProduitMOQ = "highlighted-warning" %}
+                                            {% elseif (product.moq is defined) and (product.moq == true) %}
+                                                {% set classProduitMOQ = "highlighted-ok" %}
+                                            {% else %}
+                                                {% set classProduitMOQ = "" %}
+                                            {% endif %}
+                                            <tr class="item {{classProduitMOQ}}">
+                                                    <td class="img">
+                                                    {% if societe != "sogedial" or nbrProduct < 200 %}
+                                                        {% set imagePath = baseUrl ~ product.ean13 %}
+                                                        <img src="{{ imagePath }}" alt="{{ product.denominationProduitBase }}">
+                                                    {% endif %}
+
+                                                    {% if (product.natureCode == 'NOUVEAUTE' or product.promotion is defined and product.promotion != null) %}
+                                                        <div class="product-badge-container {% if societe == "sogedial" and nbrProduct > 200 %} product-badge-container-centered {% endif %}">
+                                                            {% if (product.natureCode == 'NOUVEAUTE') %}
+                                                                <div class="new"></div>
+                                                            {% endif %}
+                                                            {% if (product.promotion is defined and product.promotion != null) %}
+                                                                <div class="sale"></div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                {% endif %}
+                                                <td>
+                                                    <ul class="item">
+                                                        <li>{{ product.denominationProduitBase }}</li>
+                                                        <li class="reference {% if not multisiteService.hasFeature('poidsVolume') %} responsive-catalogue-hidden-on-desktop {% endif %}">{{ product.marque }}</li>
+                                                        <li>
+                                                            {% if preCommandeMode is defined and preCommandeMode == true %}
+                                                                {% set marketingCodeSplit = product.marketingCode|split(' ')[0]  %}
+                                                                {% if marketingCodeSplit == 'AVION' %}
+                                                                    {% set livraison = "plane" %}
+                                                                {% else %}
+                                                                    {% set livraison = "boat" %}
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% set livraison = "truck" %}
+                                                            {% endif %}
+                                                            {% include "SogedialIntegrationBundle:Common:pictograme.html.twig"  with { "temperature": product.temperature, "livraison" : livraison } %}                                                    
+                                                        </li>
+                                                        <li class="reference">Réf: {{ product.code[4:] }} -
+                                                            {% if MasterEnterprise|capitalize == "Sogedial" %}
+                                                                {% if product.dureeDeVie %}
+                                                                    DLV indicative : {{ product.dureeDeVie }} {% if product.dureeDeVie > 1 %} jours {% else %} jour {% endif %}
+                                                                {% elseif product.dlcProduit %}
+                                                                    DLV indicative : {{ product.dlcProduit }}
+                                                                {% endif %}
+                                                            {% else %}
+                                                                EAN : {{ product.ean13 }}
+                                                            {% endif %}
+                                                        </li>
+                                                        <li class="reference">
+                                                            {% if preCommandeMode == true and product.produitMeti is defined and product.produitMeti is null and clientInfo.isClientMeti == true %}
+                                                                Attention : produit non encore référencé dans METI
+                                                            {% endif %}
+                                                            {% if preCommandeMode == true and  product.produitMeti is defined and product.produitMeti is not null %}
+                                                                Réf meti: {{product.produitMeti}}
+                                                            {% endif %}
+                                                        </li>
+
+                                                    </ul>
+                                                </td>
+                                                {% if multisiteService.hasFeature('poidsVolume') %}
+                                                    <td>
+                                                        <div>{{ product.poidsColis is defined ? product.poidsColis : 0 }}&nbsp;kg</div>
+                                                        <div>{{ product.volumeColis is defined ? product.volumeColis : 0}}&nbsp;m<sup>3</sup></div>
+                                                    </td>
+                                                {% else %}
+                                                    <td class="responsive-catalogue-hidden-on-mobile">{{ product.marque }}</td>
+                                                {% endif %}
+                                                <td class="responsive-catalogue-hidden-on-mobile">
+                                                    <ul>
+                                                        {% if product.poid_variable is defined and product.poid_variable and product.sale_unity is defined and product.sale_unity == 'KILOGRAMME'  %}
+                                                            <div class="price_from">Environ</div>
+                                                            <li><span class="item-unit">{{ product.pcb }} kilo{% if product.pcb > 1 %}s{% endif %}</span></li>
+                                                        {% else %}
+                                                            <li><span class="item-unit">{{ product.pcb }} unité{% if product.pcb > 1 %}s{% endif %}</span></li>
+                                                        {% endif %}
+                                                        <li><span class="second-line">par colis</span></li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul class="price">
+                                                        <li>{% include "SogedialIntegrationBundle:Common:pricing.html.twig"  with { "product": product, "poid_variable" : product.poid_variable, "sale_unity": product.sale_unity, "currentPage": "detailcmd", 'societe': societe } %}</li>
+                                                        <li><span class="second-line">{{ product.colisPrice }}&#8239;&euro; par colis</span></li>
+                                                        <li class="responsive-catalogue-hidden-on-desktop"><span class="second-line" data-pricepcb="{{ product.pcb }}">({{ product.pcb }} unité{% if product.pcb > 1 %}s{% endif %})</span></li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    {{ product.quantite }}
+                                                    {% if (product.history is defined) and (product.history|length > 1 ) %}
+                                                        <div class="history-container">
+                                                            <a href="#" id="show_history"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                                                            <table class="history">
+                                                                <thead>
+                                                                    <th>Modifié le</th>
+                                                                    <th>Qté</th>
+                                                                    <th>Responsable</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for idhistory, history in product.history  %}
+                                                                        <tr>
+                                                                            <td>{{history.createdAt|date("d/m/Y")}}</td>
+                                                                            <td>{{history.quantite}}</td>
+                                                                            {% if idhistory == 0 %}
+                                                                                <td>{{clientInfo.nom}}</td>
+                                                                            {% else %}
+                                                                                <td>{{history.modifier.nom}} ({{history.modifier.entreprise.nomEnvironnement|capitalize}})</td>
+                                                                            {% endif %}
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if societe == 'sofrigu' and product.sale_unity is defined and  product.sale_unity == 'KILOGRAMME' %}
+                                                        Kilogramme
+                                                    {% elseif societe == 'sofrigu' and product.sale_unity is not defined or product.sale_unity is empty %}
+                                                        Unité
+                                                    {% else %}
+                                                        Colis
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <span class="catalogue-panier total_price">{{ product.totalPrice | number_format(2, ".", " ") }} €</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="spacer"></tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% else %}
+                <div class="table-basket">
+                    <p>
+                        La liste des produits n'est pas disponible
+                    </p>
+                </div>
+                {% endif %}
+
+                {#
+                    Informations generales sur la commande
+                #}
+                <table class="table-with-headers product-type panier-barre">
+                    <tr>
+                      <th>Passée le</th>
+                      <th>Livraison le</th>
+                      <th>N&deg; de commande</th>
+                      {% if multisiteService.hasFeature('poidsVolume') %}
+                        <th>kg - m<sup>3</sup></th>
+                      {% endif %}
+                      <th>Validée par</th>
+                      <th>Statut</th>
+                      <th style="text-align: right">Montant</th>
+                    </tr>
+                    <tr>
+                        <td class="grid-pad-l-20">
+                            {{ order.updatedAt|date('d.m.Y', timezone="Europe/Paris") }}
+                        </td>
+                        <td>
+                            {{ order.deliveryDate|date('d.m.Y', timezone="Europe/Paris") }}
+                        </td>
+                        <td>
+                            {{ order.numero }}
+                        </td>
+                        {% if multisiteService.hasFeature('poidsVolume') %}
+                            <td>
+                                <div class="normal-line-height">
+                                    <div>{{ poidsTotal is defined and poidsTotal is not empty ? poidsTotal : 0 }}&nbsp;kg</div>
+                                    <div>{{ volumeTotal is defined and volumeTotal is not empty ? volumeTotal : 0 }}&nbsp;m<sup>3</sup></div>
+                                </div>
+                            </td>
+                        {% endif %}
+                        <td>
+                            {{ displayName }}
+                        </td>
+                        <td class="state {% if orderStatusLibelle starts with 'En attente' %} awaiting {% else %} sent {% endif %}">
+                            {{ orderStatusLibelle }}
+                        </td>
+
+                        <td class="catalogue-panier total_price">
+                            {% set sumTotalPrice = 0 %}
+                            {% if orderProducts.ambient.sumPrice is defined and orderProducts.ambient.sumPrice is not empty %}
+                                {% set sumTotalPrice = sumTotalPrice + orderProducts.ambient.sumPrice %}
+                            {% endif %}
+
+                            {% if orderProducts.positiveCold.sumPrice is defined and orderProducts.positiveCold.sumPrice is not empty %}
+                                {% set sumTotalPrice = sumTotalPrice + orderProducts.positiveCold.sumPrice %}
+                            {% endif %}
+
+                            {% if orderProducts.negativeCold.sumPrice is defined and orderProducts.negativeCold.sumPrice is not empty %}
+                                {% set sumTotalPrice = sumTotalPrice + orderProducts.negativeCold.sumPrice %}
+                            {% endif %}
+
+                            {{sumTotalPrice | number_format(2, ".", " ") }} &#8239;&euro;
+                        </td>
+
+                    </tr>
+                </table>
+                {#
+                    Informations sur les bons de la commande
+                #}
+                {% if bonPreparations is defined and bonPreparations is not empty %}
+                <h2 class="title">Bons de préparations</h2>
+                <div class="table-basket">
+                    <table class="table-without-images product-type panier-barre">
+                        <thead>
+                        <tr>
+                            <th>Dates de livraison</th>
+                            <th>Dates de facturation</th>
+                            <th>Numéros de facturation</th>
+                            <th>Colis de facturations</th>
+                            <th>Montants de facturation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for bp in bonPreparations %}
+                            <tr>
+                                <td class="grid-pad-l-20">{{ bp.deliveryDate | date('d.m.Y', timezone="Europe/Paris") }}</td>
+                                <td>{{ bp.dateFacturation | date('d.m.Y', timezone="Europe/Paris")}}</td>
+                                <td>{{ bp.numeroFacturation }}</td>
+                                <td>{{ bp.colisFacture }}</td>
+                                <td>{{ bp.montantFacturation }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3">Total: </th>
+                                <th>{{ bonPreparationsTotal.totalColisFacturation }}</th>
+                                <th>{{ bonPreparationsTotal.totalMontantFacturation }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                {% endif %}
+                <div class="informations-right">
+                    <span>Photos non contractuelles</span>
+                {% if societe is defined and societe == 'sofrigu' %}
+                    , <span>* Prix TTC (Hors frais de livraison)</span>
+                {% else %}
+                    , <span>* Prix HT (Dont Taxe sécurité sociale sur les alcools)</span>
+                {% endif %}
+                    {% if MasterEnterprise != "sofridis" %}
+                    , <span><sup>**</sup> Poids et prix peuvent varier selon arrivage et découpe</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $(".sticky-header-table").stickyTableHeaders();
+        });
+    </script>
+    {% endblock %}
+{% endblock %}

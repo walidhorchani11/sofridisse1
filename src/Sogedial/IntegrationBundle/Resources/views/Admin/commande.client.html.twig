@@ -1,0 +1,5 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block title %}Détail Commande client n° {{ orderNumber }}{% endblock %}
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:commande.client.content.html.twig" %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% if temperature == 'SEC' %}
+    <p class="small-picto yellow left"><img
+                src="{{ image('../images/corn.svg') }}"
+                alt="Sec">
+    </p>
+{% elseif temperature == 'FRAIS' %}
+    <p class="small-picto green left"><img
+                src="{{ image('../images/apple.svg') }}"
+                alt="Frais">
+    </p>
+{% elseif temperature == 'SURGELE' %}
+    <p class="small-picto blue left"><img
+                src="{{ image('../images/snow.svg') }}"
+                alt="Surgelé">
+    </p>
+{% endif %}
+{% if multisiteService.hasFeature("livraison") %}
+    {% if livraison == 'truck' %}
+        <p class="small-picto">
+            <img class="truck"
+                    src="{{ image('../images/truck.png') }}"
+                    alt="Livraison par camion">
+        </p>
+    {% elseif livraison == 'plane' %}
+        <p class="small-picto">
+            <img class="truck"
+                    src="{{ image('../images/plane.png') }}"
+                    alt="Livraison par avion">
+        </p>
+    {% elseif livraison == 'boat' %}
+        <p class="small-picto">
+            <img class="truck"
+                    src="{{ image('../images/boat.png') }}"
+                    alt="Livraison par bateau">
+        </p>
+    {% endif %}
+{% endif %}

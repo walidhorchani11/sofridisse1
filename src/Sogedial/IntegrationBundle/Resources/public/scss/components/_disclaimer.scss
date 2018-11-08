@@ -1,0 +1,23 @@
+.informations-right {
+  float: right;
+  // margin-top: 15px;
+  // margin-bottom: 15px;
+  font-family: safo-font('sans-serif');
+  font-size: 10px;
+  line-height: 12px;
+  color: safo-color('text-neutral');
+  text-align: right;
+}
+
+.informations-left {
+  float: right;
+  float: left;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-family: safo-font('sans-serif');
+  font-size: 10px;
+  line-height: 8px;
+  color: safo-color('text-neutral');
+  text-align: right;
+  text-align: left;
+}

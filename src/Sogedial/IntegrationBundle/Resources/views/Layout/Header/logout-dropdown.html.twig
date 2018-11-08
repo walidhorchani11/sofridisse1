@@ -1,0 +1,19 @@
+<div id="infobar-logout-dropdown" class="hidden infobar-header-dropdown">
+    <div id="infobar-commercial-info" class="group-clear">
+        <div id="infobar-table-avatar">
+            {{ clientInfo.nom | first }}
+        </div>
+        <div id="infobar-table-account">
+            <div id="account-info">
+                <p class="name">{{ clientInfo.nom | capitalize }}</p>
+                <p class="commercial-name">Commercial: {{ commercialInfo.nom | upper }} {{ commercialInfo.prenom | capitalize }}</p>
+            </div>
+        </div>
+    </div>
+    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+        {% set disconnectLink = path('sogedial_integration_admin_mesclients', app.request.query.all|merge({'_switch_user': '_exit', '_societe_cc': null})) %}
+    {% else %}
+        {% set disconnectLink = path('fos_user_security_logout') %}
+    {% endif %}
+    <a href="{{ disconnectLink }}" class="blue-action">Se déconnecter</a>
+</div>

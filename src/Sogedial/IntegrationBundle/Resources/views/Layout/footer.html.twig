@@ -1,0 +1,159 @@
+{% if footerType == 'catalogue' %}
+    <div id="basket" class="catalogue-basket">
+        <span class="panier left">Panier&nbsp;:</span>
+
+        {% if order.counts['ambient'] is defined %}
+
+            <span class="select-ambient" data-count="{{ order.counts['ambient'] }}">
+            <span class="small-picto yellow left"><img src="{{ image('images/corn.svg') }}" alt="Sec"></span>
+            <span class="name left">Sec&nbsp;:</span>
+            <span class="nb-products left">{{ order.counts['ambient'] }}&nbsp;produit{% if order.counts['ambient'] > 1 %}s{% endif %}</span>
+            {% if multisiteService.hasFeature('poidsVolume') %}
+            <span class="name left">
+                <!--<span id="ambientWeight">0</span>&nbsp;kg /--> &nbsp;(&nbsp;<span id="ambientVolume">0</span>&nbsp;m3&nbsp;)
+            </span>
+            {% endif %}
+            </span>
+        {% endif %}
+
+        {% if order.counts['positiveCold'] is defined %}
+            <span class="select-positiveCold" data-count="{{ order.counts['positiveCold'] }}">
+            <span class="small-picto green left"><img src="{{ image('images/apple.svg') }}" alt="Frais"></span>
+            <span class="name left">Frais&nbsp;:</span>
+            <span class="nb-products left">{{ order.counts['positiveCold'] }}&nbsp;produit{% if order.counts['positiveCold'] > 1 %}s{% endif %}</span>
+            {% if multisiteService.hasFeature('poidsVolume') %}
+            <span class="name left">
+                <!--<span id="positiveColdWeight">0</span>&nbsp;kg /--> &nbsp;(&nbsp;<span id="positiveColdVolume">0</span>&nbsp;m3&nbsp;)
+            </span>
+            {% endif %}
+            </span>
+        {% endif %}
+
+        {% if order.counts['negativeCold'] is defined %}
+            <span class="select-negativeCold" data-count="{{ order.counts['negativeCold'] }}">
+            <span class="small-picto blue left"><img src="{{ image('images/snow.svg') }}" alt="Surgelé"></span>
+            <span class="name left">Surgelé&nbsp;:</span>
+            <span class="nb-products left">{{ order.counts['negativeCold'] }}&nbsp;produit{% if order.counts['negativeCold'] > 1 %}s{% endif %}</span>
+            {% if multisiteService.hasFeature('poidsVolume') %}
+            <span class="name left">
+                <!--<span id="negativeColdWeight">0</span>&nbsp;kg /--> &nbsp;(&nbsp;<span id="negativeColdVolume">0</span>&nbsp;m3&nbsp;)
+            </span>
+            {% endif %}
+            </span>
+        {% endif %}
+        {% if multisiteService.hasFeature('poidsVolume') %}
+        <!-- Partie JS a ameliorer
+        <div class="price poidsVolume"> Poids / Volume total :
+            {# <span id="poidsVolumeCurrent">{{ poidsTotal }} KG / {{ volumeTotal  }} m3</span>  #}
+        </div>
+        -->
+        {% endif %}
+
+        <div class="price" id="cat-basket-price">
+            Total :
+            <span id="totalHT">
+                {% if totalAmount is defined and totalAmount is not empty %}
+                    {{ totalAmount|number_format(2, ".", " ") }}
+                {% else %}
+                    0
+                {% endif %}
+            </span>
+            &nbsp;€&nbsp;{% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+        </div>
+
+        <div class="new-order-button-container">
+            <div class="button blue order-button-to-order" id="order">
+                <a href="{{ path('SogedialSite_integration_order_recap', {'societe': societe }) }}" ><i class="fa fa-shopping-cart"></i> Commander</a>
+            </div>
+        </div>
+    </div>
+
+{% elseif footerType == 'panier' %}
+    <div id="basket">
+        <span id="basket_error"></span>
+
+        <div class="cgv">
+            <input id="agree" type="checkbox" name="agree" value="">
+            <label for="agree">J’accepte les <a href="#" id="cgv-link-new">conditions générales de vente</a></label>
+        </div>
+
+
+        {% if multisiteService.hasFeature('poidsVolume') %}
+            <!--
+            <div class="price poidsVolume">
+                Poids / Volume total : <span id="poidsVolumeCurrent">{{ poidsTotal }} KG / {{ volumeTotal  }} m3</span>
+            </div>
+            -->
+        {% endif %}
+
+        <div class="price" id="cat-basket-price">
+            Total :
+            <span id="totalHT">
+                    {% if orderProducts.ambient.sumPrice is defined and orderProducts.ambient.sumPrice is not empty %}
+                        {{ (orderProducts.ambient.sumPrice + orderProducts.positiveCold.sumPrice + orderProducts.negativeCold.sumPrice) | number_format(2, ".", " ") }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </span>
+            &nbsp;€&nbsp;{% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+        </div>
+
+        <div class="new-order-button-container" id="{% if is_prospect or is_prospect == true or isEactif == 0 %}validateProspect{% else %}validate-btn{% endif %}">
+            <div id="order" class="button blue {% if is_prospect is defined and is_prospect == true or isEactif == 0 %} disabled {% endif %}" >
+                <i class="fa fa-check"></i>Valider
+                <a href="" class="fa-carret-up"></a>
+            </div>
+        </div>
+
+    </div>
+
+
+{% elseif footerType == 'detail-commande' and commandeAs400 == false %}
+    <div id="basket" class="basket">
+        
+        {% if state == 1 %} <span class="basket-msg ">Panier déjà en cours, il n'est pas possible de renouveler cette commande.</span>{% endif %}
+        <div class="price">
+            Total :{% if orderTotalAmount is defined and orderTotalAmount is not empty %}
+                {{ orderTotalAmount|number_format(2, ".", " ") }} {% endif %}€ {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+        </div>
+        
+        <div class="new-order-button-container">
+            <div id="order" class="button blue {% if state == 1 %} disabled {% endif %}">
+                <a href="{{ path('SogedialSite_order_renew_current', {'societe': societe, 'id': orderId}) }}"
+                    class="{% if state == 1 %} disabled {% endif %}"><i class="fa fa-shopping-cart"></i> Renouveler la commande</a>
+            </div>
+        </div>
+    </div>
+
+{% elseif footerType == 'panier-admin' %}
+    <div id="basket" class="basket">
+        <div class="cgv">
+            <input id="agree" type="checkbox" name="agree" value="" disabled="disabled" checked>
+            <label for="agree">J’accepte les conditions générales de vente</label>
+        </div>
+
+        <div class="right">
+
+        </div>
+        {% if multisiteService.hasFeature('poidsVolume') %}
+            <!--
+            <div class="poidsVolume"> Poids / Volume total : <span id="poidsVolumeCurrent"> {{ orderProducts.poidsTotal }} KG / {{ orderProducts.volumeTotal  }} m3</span>
+            <div>
+            -->
+        {% endif %}
+        <div class="price">
+            Total :{% if orderProducts.ambient.sumPrice is defined and orderProducts.ambient.sumPrice is not empty %}
+                {{ orderProducts.ambient.sumPrice|number_format(2, ".", " ") }} {% endif %}€ {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+        </div>
+  </div>
+{% endif %}
+<div id="loading-fullscreen" class="loading-fullscreen loading-fullscreen-hidden">
+    <div class="loader-commande-point-com loader-commande-point-com-white">
+        {% if footerType == 'panier' %} 
+            {% set current_svg_id = 3 %}
+        {% else %}
+            {% set current_svg_id = 4 %}
+        {% endif %}
+        {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig" with {'svg_id': current_svg_id} %}
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="wrapper">
+    <section class="content-header">
+        <h1>
+            Profile Utilisateur
+        </h1>
+        <ol class="breadcrumb">
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')%}
+                <li><a href="{{ path('SogedialSite_admin_list_users') }}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+            {% else %}
+                <li><a href="{{ path('SogedialSite_catalogue_integration') }}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+            {% endif %}
+            <li class="active">Profile utilisateur</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle"
+                             src="{{ image('images/default-50x50.gif') }}" alt="User profile picture">
+
+                        <h3 class="profile-username text-center">{{ app.security.getToken().getUser().getPrenom() }} {{ app.security.getToken().getUser().getNom() }}</h3>
+
+                        <p class="text-muted text-center">Software Engineer</p>
+
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Followers</b> <a class="pull-right"></a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Following</b> <a class="pull-right"></a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Friends</b> <a class="pull-right"></a>
+                            </li>
+                        </ul>
+
+                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    </div>
+                </div>
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">A propos de moi</h3>
+                    </div>
+                    <div class="box-body">
+                        <strong><i class="fa fa-book margin-r-5"></i> Etudes</strong>
+
+                        <p class="text-muted">
+                        </p>
+                        <hr>
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> Pays</strong>
+
+                        <p class="text-muted"></p>
+                        <hr>
+                        <strong><i class="fa fa-pencil margin-r-5"></i> Compétences</strong>
+
+                        <p>
+                            <span class="label label-danger">UI Design</span>
+                            <span class="label label-success">Coding</span>
+                            <span class="label label-info">Javascript</span>
+                            <span class="label label-warning">PHP</span>
+                            <span class="label label-primary">Node.js</span>
+                        </p>
+                        <hr>
+                        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#settings" data-toggle="tab">Paramètres</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="settings">
+                            <form class="form-horizontal"
+                                  action="{{ path('fos_user_profile_edit') }}" {{ form_start(form) }} method="POST"
+                                  class="fos_user_profile_edit" novalidate>
+                                {{ form_widget(form) }}
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <input class="btn btn-danger" type="submit" value="Mettre à jour"/>
+                                    </div>
+                                </div>
+                                {{ form_rest(form) }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="control-sidebar-bg"></div>
+</div>

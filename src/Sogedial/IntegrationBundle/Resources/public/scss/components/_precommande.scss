@@ -1,0 +1,55 @@
+.precommande-catalog-label {
+  position: relative;
+  padding-left: 26px;
+  font-size: 12px;
+  color: safo-color('order-status-awaiting');
+  font-family: safo-font('sans-serif');;
+
+  &:before {
+    position: absolute;
+    top: 4px;
+    left: 14px;
+    width: 7px;
+    height: 7px;
+    content: '';
+    background-color: safo-color('order-status-awaiting');
+    border-radius: 10px;
+  }
+}
+.commande-catalog-label {
+  position: relative;
+  padding-left: 26px;
+  font-size: 12px;
+  color: safo-color('order-status-ok');
+  font-family: safo-font('sans-serif');;
+
+  &:before {
+    position: absolute;
+    top: 4px;
+    left: 14px;
+    width: 7px;
+    height: 7px;
+    content: '';
+    background-color: safo-color('order-status-ok');
+    border-radius: 10px;
+  }
+}
+
+.panier-catalog-label {
+  position: relative;
+  padding-left: 26px;
+  font-size: 12px;
+  color: safo-color('error');
+  font-family: safo-font('sans-serif');;
+
+  &:before {
+    position: absolute;
+    top: 4px;
+    left: 14px;
+    width: 7px;
+    height: 7px;
+    content: '';
+    background-color: safo-color('error');
+    border-radius: 10px;
+  }
+}

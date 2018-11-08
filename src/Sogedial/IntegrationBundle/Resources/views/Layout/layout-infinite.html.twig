@@ -1,0 +1,377 @@
+{% if not (routeName is defined) %}
+{% set routeName = app.request.attributes.get('_route') %}
+{% endif %}
+
+{# According to the route name, we know on which page we presently are, thus we can define several parameters #}
+{% if routeName == 'sogedial_integration_dashbord' %}
+    {% set args = {
+        bodyClass: '',
+        bodyId: 'dashboard',
+        headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+        pageTitle: 'Dashboard',
+        privileges: 'client',
+        sidebarType: 'client-dashboard'
+    } %}
+{% elseif ((routeName == 'sogedial_integration_catalogue') or (routeName starts with 'SogedialSite_catalogue')) %}
+        {% set args = {
+            bodyClass: '',
+            bodyId: 'catalogue',
+            footerParams: {'societe': societe,'footerType': 'catalogue', 'order': result.order, 'totalAmount': totalAmount, 'poidsTotal': poidsTotal, 'volumeTotal': result.volumeTotal},
+            headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+            pageTitle: 'Catalogue',
+            privileges: 'client',
+            sidebarType: 'client-catalogue'
+        } %}
+{% elseif routeName == 'sogedial_integration_fiche_produit' %}
+    {% set args = {
+        bodyClass: 'secondary-header',
+        bodyId: 'product',
+        footerParams: {'societe': societe, 'footerType': 'catalogue', 'order': result.order, 'totalAmount': totalAmount},
+        headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+        pageTitle: 'Fiche produit',
+        privileges: 'client',
+        sidebarType: 'client-catalogue'
+    } %}
+{% elseif routeName == 'SogedialSite_integration_order_recap' %}
+    {% set args = {
+        bodyClass: 'secondary-header basket-page',
+        bodyId: 'import-basket',
+        footerParams: {'footerType': 'panier', 'orderProducts': orderProducts, "societe" : societe, 'volumeTotal' : volumeTotal, 'poidsTotal' : poidsTotal, 'is_prospect': is_prospect, 'isEactif': isEactif },
+        headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+        pageTitle: 'Panier',
+        privileges: 'client',
+        sidebarType: 'client-catalogue'
+    } %}
+
+
+{% elseif routeName == 'SogedialSite_integration_pending_orders' %}
+    {% if preCommandeMode is defined and preCommandeMode == 1 %}
+        {% set args = {
+            bodyClass: 'secondary-header order-pages',
+            bodyId: 'my-orders',
+            headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+            pageTitle: 'Détail commande',
+            privileges: 'client',
+            sidebarType: 'client-catalogue'
+        } %}
+    {% else %}
+        {% set args = {
+            bodyClass: 'secondary-header order-pages',
+            bodyId: 'my-orders',
+            headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+            pageTitle: 'Détail commande',
+            privileges: 'client',
+            sidebarType: 'client-dashboard'
+        } %}
+    {% endif %}
+{% elseif routeName == 'SogedialSite_detail_historique_commande' %}
+    {% set args = {
+        bodyClass: 'secondary-header order-pages',
+        bodyId: 'my-orders',
+        footerParams: {'societe': societe, 'footerType': 'detail-commande', 'orderId': orderId, 'orderTotalAmount': orderTotalAmount, 'state': state, 'commandeAs400': listRayons is empty},
+        headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'search-product', 'rightSide': 'client-commercial-hidden-on-mobile'},
+        pageTitle: 'Historique',
+        privileges: 'client',
+        sidebarType: (preCommandeMode is defined and preCommandeMode == 1) ? 'client-catalogue' :'client-dashboard'
+    } %}
+{% elseif routeName starts with 'sogedial_integration_stock_engagement' %}
+    {% set args = {
+        bodyClass: 'demande-stock-engagement secondary-header',
+        bodyId: 'dashboard',
+        headerParams: {'displayPreviousArrow': 'true', 'leftSide': 'date', 'rightSide': 'client-commercial'},
+        pageTitle: 'Demande de stock engagement',
+        privileges: 'client',
+        sidebarType: 'client-catalogue'
+    } %}
+{% elseif routeName starts with 'SogedialSite_user_disable' %}
+    {% set args = {
+    bodyClass: 'commercial',
+    bodyId: 'dashboard',
+    headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+    pageTitle: 'Liste de mes clients',
+    privileges: 'admin',
+    sidebarType: 'admin'
+    } %}
+{% elseif routeName starts with 'SogedialSite_user_enable' %}
+    {% set args = {
+    bodyClass: 'commercial',
+    bodyId: 'dashboard',
+    headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+    pageTitle: 'Liste de mes clients',
+    privileges: 'admin',
+    sidebarType: 'admin'
+    } %}
+{% elseif routeName starts with 'sogedial_integration_admin_mesclients' %}
+    {% set args = {
+    bodyClass: 'commercial',
+    bodyId: 'dashboard',
+    headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+    pageTitle: 'Liste de mes clients',
+    privileges: 'admin',
+    sidebarType: 'admin'
+    } %}
+{% elseif ((routeName starts with 'sogedial_integration_admin') or (routeName == 'SogedialSite_ajout_client')) %}
+    {% if routeName == 'sogedial_integration_admin_panier_detail' %}
+        {% set args = {
+            bodyClass: 'commercial',
+            bodyId: 'dashboard',
+            headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+            pageTitle: 'Dashboard Commercial',
+            privileges: 'admin',
+            sidebarType: 'admin'
+        } %}
+    {% elseif routeName == 'sogedial_integration_admin_dashbord' %}
+        {% set args = {
+            bodyClass: 'commercial',
+            bodyId: 'dashboard',
+            headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'false', 'leftSide': 'search-client', 'rightSide': 'date'},
+            pageTitle: 'Dashboard Commercial',
+            privileges: 'admin',
+            sidebarType: 'admin'
+        } %}
+    {% else %}
+        {% set args = {
+            bodyClass: 'commercial',
+            bodyId: 'dashboard',
+            headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+            pageTitle: 'Dashboard Commercial',
+            privileges: 'admin',
+            sidebarType: 'admin'
+        } %}
+    {% endif %}
+{% elseif routeName == 'sogedial_integration_admin_catalogue_sans_photo' %}
+    {% set args = {
+        bodyClass: 'commercial',
+        bodyId: 'dashboard',
+        headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+        pageTitle: 'Catalogue vue commercial',
+        privileges: 'admin',
+        sidebarType: 'admin'
+    } %}
+{% elseif routeName == 'sogedial_integration_super_admin_ca' %}
+    {% set args = {
+        bodyClass: 'commercial',
+        bodyId: 'dashboard',
+        pageTitle: 'Chiffre d\'affaire - Catalogue Sofridis',
+        privileges: 'super-admin',
+        sidebarType: 'admin'
+    } %}
+{% elseif routeName == 'SogedialSite_integration_upload_ccv_file' %}
+    {% set args = {
+        bodyClass: 'commercial',
+        bodyId: 'dashboard',
+        headerParams: {'isAdmin': 'true', 'displayPreviousArrow': 'true', 'leftSide': 'search-client', 'rightSide': 'date'},
+        pageTitle: 'Uploader un fichier CCV',
+        privileges: 'admin',
+        sidebarType: 'admin'
+    } %}
+{% endif %}
+
+{% if args is defined  %}
+    {% set headerParams = args.headerParams %}
+    {% set headerParams = headerParams|merge({"preCommande": preCommandeMode is defined and preCommandeMode == 1 }) %}
+    {% set args = args|merge({"headerParams" : headerParams }) %}
+{% endif %}
+
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ args.pageTitle }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# Additional meta tags for child templates #}
+    {% block meta %}{% endblock %}
+
+    {# Common stylesheets for all pages #}
+    {% stylesheets
+        '@SogedialIntegrationBundle/Resources/public/css/jquery-ui.css'
+        '@SogedialIntegrationBundle/Resources/public/css/blue.css'
+        '@SogedialIntegrationBundle/Resources/public/css/jquery-confirm.css'
+        '@SogedialIntegrationBundle/Resources/public/css/font-awesome.min.css'
+        '@SogedialIntegrationBundle/Resources/public/css/responsive/style.css'
+        '@SogedialIntegrationBundle/Resources/public/css/jquery.mCustomScrollbar.min.css'
+        '@SogedialIntegrationBundle/Resources/public/css/toastr.min.css'
+        '@SogedialIntegrationBundle/Resources/public/css/style.css'
+        '@SogedialIntegrationBundle/Resources/public/enjoyhint/enjoyhint.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+
+    {# Additional stylesheets specific to child templates #}
+    {% block stylesheets %}{% endblock %}
+
+    {# Exceptionally, load the toast script ahead of all else to be able to use toasts generated from any twig #}
+    <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js') }}" type="text/javascript"></script>
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/toastr.min.js' %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+</head>
+
+<body id="{{ args.bodyId }}" class="{{ args.bodyClass }}">
+
+    {# Sidebar #}
+    {% if args.sidebarType is defined %}
+        {% if args.sidebarType == 'client-dashboard' %}
+            {% include "SogedialIntegrationBundle:Dashbord:aside.html.twig" with {'societe':societe, 'listSociete' : listSociete, 'commercialInfo': commercialInfo, 'clientInfo': clientInfo, 'entreprise': entreprise} only %}
+        {% elseif args.sidebarType starts with 'client-catalogue' %}
+            <aside id="menuCatalogue" {% if not(args.footerParams is defined) %} class="sidebar-no-footer" {% endif %}>
+                <div id="menuCatalogueChild">
+                    {{ render(controller('SogedialIntegrationBundle:Catalogue:sidebarInfinite', { 'societe':societe, 'request': request, 'standalone': true})) }}
+                </div>
+            </aside>
+        {% elseif args.sidebarType == 'admin' %}
+            {{ render(controller("SogedialIntegrationBundle:LeftSidebar:Index", {'commercialInfo': commercialInfo})) }}
+        {% endif %}
+    {% endif %}
+
+    {# Header #}
+    {% if args.headerParams is defined %}
+        {% include "SogedialIntegrationBundle:Layout:header.html.twig" with args.headerParams %}
+    {% endif %}
+
+    {# Content, must be overriden in the child template #}
+    {% block body %}{% endblock %}
+
+    {# Footer #}
+    {% if args.footerParams is defined %}
+        {% include "SogedialIntegrationBundle:Layout:footer.html.twig"  with args.footerParams only %}
+    {% endif %}
+
+    {% if app.session.flashBag.has('success_validate_precommande') %}
+        {% for msg in app.session.flashBag.get('success_validate_precommande') %}
+            <script>
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "3000",
+                    "extendedTimeOut": "3000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "tapToDismiss": false
+                };
+                toastr.success({{ msg | json_encode() | raw }});
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    <script>
+        window.masterEnterprise = {{ MasterEnterprise|json_encode|raw }};
+
+        {#var showDidacticiel = false;#}
+        {#{% if is_granted('ROLE_PREVIOUS_ADMIN')  %}#}
+            {#showDidacticiel = false;#}
+        {#{% else %}#}
+            {#{% if app.security.getToken().getUser().isPremiereVisite() == true %}#}
+                {#showDidacticiel = true;#}
+            {#{% endif %}#}
+        {#{% endif %}#}
+    </script>
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script>
+        var locale = $('html').attr('lang');
+    </script>
+
+
+    {# Common scripts for all pages #}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112485015-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-112485015-1');
+    </script>
+
+
+    {% javascripts
+        '@SogedialIntegrationBundle/Resources/public/js/jquery-ui.js'
+        '@SogedialIntegrationBundle/Resources/public/js/datepicker-fr.js'
+        '@SogedialIntegrationBundle/Resources/public/js/jquery-confirm.js'
+        '@SogedialIntegrationBundle/Resources/public/js/icheck.min.js'
+        '@SogedialIntegrationBundle/Resources/public/js/dialog.js'
+        '@SogedialIntegrationBundle/Resources/public/js/jquery.slimscroll.min.js'
+        '@SogedialIntegrationBundle/Resources/public/js/stickyHeaders.js'
+        '@SogedialIntegrationBundle/Resources/public/enjoyhint/enjoyhint.min.js'
+        '@SogedialIntegrationBundle/Resources/public/js/detect-zoom.min.js'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+
+    <script>
+
+    var requestsReference = {};
+
+    {% if args.privileges == 'client'  %}
+        {% if client is defined %}
+            var codeClient = "{{ client }}";
+        {% endif %}
+        {% if features is defined %}
+            var features = {{features|json_encode|raw}};
+        {% endif %}
+        {{ "var sbs_url_suggest = 'sogedial_integration_suggestions';" }}
+        {{ "var url_infinite = 'sogedial_integration_product_load';"}}
+        {{ "var cmd_url_infinite = 'sogedial_integration_admin_commandes_load';"}}
+    {% elseif args.privileges == 'admin' or args.privileges == 'super-admin' %}
+        {{ "var sbs_url_suggest = 'sogedial_integration_admin_suggestions_clients';" }}
+        {{ "var url_infinite = 'sogedial_integration_admin_client_load';"}}
+        {{ "var cmd_url_infinite = 'sogedial_integration_admin_commandes_load';"}}
+    {% endif %}
+    {% if preCommandeMode is defined and preCommandeMode == 1 %}
+        var preCommandeMode = true;
+    {% else %}
+        var preCommandeMode = false;
+    {% endif %}
+    </script>
+
+
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/infinite-scroll.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/dynamicHandlers.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/suggest.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% if args.privileges == 'client' %}
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/script.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {# Scripts for admin privileges #}
+    {% elseif args.privileges == 'admin' %}
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/script-bo.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {# Scripts for super-admin privileges #}
+    {% elseif args.privileges == 'super-admin' %}
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/countUp.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+    {% endif %}
+
+    {# Additional scripts specific to child templates #}
+    {% block javascripts %}{% endblock %}
+
+</body>
+</html>

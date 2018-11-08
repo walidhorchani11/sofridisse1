@@ -1,0 +1,19 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block body %}
+	{% include "SogedialIntegrationBundle:Admin:messagesClient.content.html.twig" with { "messagesClients": messagesClients, "mesClientsActifs": mesClientsActifs, "mode" : mode, "message": message } only %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+	{% javascripts
+		'@SogedialIntegrationBundle/Resources/public/js/formFrontManager.js'
+		'@SogedialIntegrationBundle/Resources/public/js/messageClients.js'
+
+		%}
+	    <script src="{{ asset_url }}" type="text/javascript"></script>
+	    <script type="text/javascript">
+            $(function () {
+                $(".sticky-header-table").stickyTableHeaders();
+            });
+        </script>
+	{% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,8 @@
+<div class="success-header-container">
+    <div id="success-header">
+        {% block content %}{% endblock %}
+        {% if dismissable %}
+            <i id="success-header-close" class="fa fa-times" aria-hidden="true"></i>
+        {% endif %}
+    </div>
+</div>

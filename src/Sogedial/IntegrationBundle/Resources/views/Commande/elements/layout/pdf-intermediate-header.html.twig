@@ -1,0 +1,76 @@
+<table class="borderStyle" style="margin-bottom: 8px; font-size: 9px;" with="40%">
+    <thead>
+    <tr style="background-color: #dddddd">
+        <th style="text-align: center">Coordonnées client</th>
+        <th style="text-align: center">Coordonnées du commercial Commande.com</th>
+    </tr>
+    </thead>
+    <tr>
+        <td width="20%">
+            <table class="lgo" style="margin-top: 2px; font-size: 9px;">
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Nom :</strong></td>
+                    <td style="text-align: left;">{{ clientInfos.nom | upper | default('Non renseigné') }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Email :</strong></td>
+                    <td style="text-align: left;">{{ clientInfos.email |default('Non renseignée') }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Adresse :</strong></td>
+                    <td style="text-align: left;">{{ clientInfos.adresse1 | default('') | capitalize }} {{ clientInfos.adresse2 | default('') | capitalize }} {{ clientInfos.codePostale | default('00000') }} {{ clientInfos.ville | default('Non renseignée') }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Tél :</strong></td>
+                    <td style="text-align: left;">{{ telephone }}</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+        <td width="20%">
+            <table class="lgo" style="margin-top: 2px; font-size: 9px;">
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Société :</strong></td>
+                    <td style="text-align: left;">{{ entrepriseInfos.nomEnvironnement | upper }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Nom :</strong></td>
+                    <td style="text-align: left;">{{ commercialInfo.nom | upper }} {{ commercialInfo.prenom | capitalize }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Email :</strong></td>
+                    <td style="text-align: left;">{{ commercialInfo.email }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Fixe :</strong></td>
+                    <td style="text-align: left;">{{ commercialInfo.numero1 }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Mobile :</strong></td>
+                    <td style="text-align: left;">{{ commercialInfo.numero2 }}</td>
+                </tr>
+
+                <tr>
+                    <td style="padding-left: 12px;"><strong>Fax :</strong></td>
+                    <td style="text-align: left;">{{ commercialInfo.fax }}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

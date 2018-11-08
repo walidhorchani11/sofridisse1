@@ -1,0 +1,13 @@
+{% extends "SogedialIntegrationBundle:Toasts:fullwidth-warning-layout.html.twig" %}
+{% set dismissable = false %}
+{% block content %}
+    Accès disponible jusqu'au {{ formattedExpirationDate | lower }}, il vous reste
+        {% include "SogedialIntegrationBundle:Utils:remaining-time.html.twig" with {
+            'remYears': remYears,
+            'remMonths': remMonths,
+            'remDays': remDays,
+            'remHours': remHours,
+            'remMins': remMins
+        } %}
+    avant la fermeture de votre accès.
+{% endblock %}

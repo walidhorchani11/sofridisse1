@@ -1,0 +1,67 @@
+{# Le bloc unifié contenant les boutons "+" et "-" et le champ de saisie de la quantité des produits #}
+{# Utilisé dans le catalogue et la fiche produit, dans le dernier cas class_left est défini #}
+
+{% if class_left is defined %}
+    {% set minus = "minus" %}    
+    {% set plus = "plus" %}    
+    {% set quantity = "quantity" %}
+    {% set left = "left" %}
+    {% set prix_ht = "prix_ht" %}
+    {% set prix_ht_sub = "product-quantity" %}
+{% else %}
+    {% set minus = "minus-table" %}
+    {% set plus = "plus-table" %}
+    {% set quantity = "quantity-table" %}
+    {% set left = "" %}
+    {% set prix_ht = "prix_ht-size" %}
+    {% set prix_ht_sub = "prix_ht-center" %}
+{% endif %}
+
+<div class="{{ prix_ht }} {{ left }}">
+    <div class="{{ prix_ht_sub}} {{ left }}">
+    <div>
+        {% if (preCommandeMode is defined and preCommandeMode == true) or (MasterEnterprise == 'Sofrigu' or MasterEnterprise == 'sofrigu') %}
+            <span class="select-minus {{ minus }}">-</span>
+            <input type="text" class="select-quantity {{ quantity }}" value="{{ product.quantite }}"/>
+            <span class="select-plus {{ plus }}">+</span>
+        {% else %}
+            <span class="select-minus {{ minus }}
+                {% if currentPage == "panier" and preCommandeMode == false and (product.stock == 0 and product.etatProduit == 0) or (product.stock > 0 and product.etatProduit == 0) or (product.stock == 0 and product.etatProduit == 1) %}
+                    disabled
+                {% endif %}">-
+            </span>
+            {% if (currentPage == "panier" and product.stock == 0 and product.etatProduit == 0 and preCommandeMode == false ) or (product.stock > 0 and product.etatProduit == 0 and preCommandeMode == false) or (product.stock == 0 and product.etatProduit == 1 and preCommandeMode == false) %}
+                <input type="text" class="select-quantity {{ quantity }} disabled" value="0"/>
+            {% else %}
+                <input type="text" class="select-quantity {{ quantity }}" value="{{ product.quantite }}"/>
+            {% endif %}
+            <span class="select-plus {{ plus }}
+                {% if currentPage == "panier" and (product.quantite == product.stock and preCommandeMode == false)  or (product.stock == 0 and product.etatProduit == 0 and preCommandeMode == false) or (product.stock > 0 and product.etatProduit == 0 and preCommandeMode == false) or (product.stock == 0 and product.etatProduit == 1 and preCommandeMode == false) %}
+                    disabled
+                {% endif %}">+
+            </span>
+        {% endif %}
+
+    </div>
+    {% if (preCommandeMode is defined and preCommandeMode == true) and moq_client is defined and moq_client != null %}
+        {% include "SogedialIntegrationBundle:Catalogue:product-qmin.html.twig" with { "qMin" : moq_client} %}
+    {% endif %}
+    {% if ((MasterEnterprise == 'Sofridis' or MasterEnterprise == 'sofridis' ) and (product['EF'] is defined)) %}
+        {% if product.quantite >= product.stock %}
+            <div class="more_stock center">
+        {% else %}
+            <div class="more_stock" style="display:none">
+        {% endif %}
+                <a class="demande_engagement button no-margin blue" href="#">+ de stock</a>
+            </div>
+    {% elseif (MasterEnterprise == 'Sofrigu' or MasterEnterprise == 'sofrigu' ) %}
+        {% if ((product.quantite > 0) and ( product.quantite >= product.stock )) %}
+            <div class="more_stock">
+        {% else %}
+            <div class="more_stock" style="display:none">
+        {% endif %}
+                <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true" title="Stock insuffisant"></i>
+            </div>
+    {% endif %}
+    </div>
+</div>

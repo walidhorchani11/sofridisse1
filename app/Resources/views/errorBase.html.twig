@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Une erreur est survenue</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{{ asset('bundles/sogedialintegration/css/error-page.css') }}" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="container">
+            <img src="{{ image('bundles/sogedialintegration/img/logo-' ~ MasterEnterprise ~ '.svg') }}" />
+            <p class="error">Erreur (<span class="error-code">{{ errorCode }}</span>)</p>
+            <p>Un problème technique est survenu. Vous pouvez rafraîchir la page ou revenir à la page précédente.</p>
+            <p>Si le problème persiste, contactez le <a href="mailto:1919@groupesafo.com" title="1919@groupesafo.com">support</a>.</p>
+            <div>
+                <a href="javascript:history.go(-1)" class="button border-blue">Retour</a>
+            </div>
+        </div>
+    </body>
+</html>

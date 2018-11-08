@@ -1,0 +1,63 @@
+.history-container {
+  position: relative;
+  display: inline-block;
+  table{
+    &.history{
+      thead{
+        tr{
+          th{
+            padding:5px 10px;
+            &:first-child{
+              padding:5px 10px;
+            }
+          }
+        }
+      }
+      tbody{
+        tr{
+          td{
+            padding:5px 10px;
+            &:first-child{
+              padding:5px 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.history {
+  $width: 200px;
+  position: absolute;
+  z-index: 1;
+  display: none;
+  overflow: hidden;
+  margin: 0 calc(-#{$width} / 2) 0;
+  min-width: $width;
+  border: 1px solid safo-color('text-neutral');
+  border-radius: 4px;
+  box-shadow: 0 0 8px 0 safo-color('dark', 0, 0.1), 0 6px 20px 0 safo-color('dark', 0, 0.1);
+
+  th,
+  td {
+    font-size: 10px;
+  }
+
+  th {
+    padding: 10px 3px;
+    border-bottom: 1px solid safo-color('text-neutral', 4);
+  }
+
+  td {
+    background-color: safo-color('text-neutral-light', 4);
+    padding:7px 10px;
+  }
+
+
+}
+
+
+#show_history:hover + .history {
+  display: block;
+}

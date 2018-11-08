@@ -1,0 +1,10 @@
+<p>Le client {{client.code}}/{{client.nom}} vient de faire une demande de stock engagement supplémentaire sur les produits suivants:</p>
+<ul>
+    {% for moreStockRequest in moreStockRequests %}
+    <li>
+        <p>{{ moreStockRequest.produit.denominationProduitBase }} ({{ moreStockRequest.produit.code }}).</p>
+        <p>Quantité supplémentaire demandée : {{ moreStockRequest.stockEngagementDemande}} (colis).</p>
+        <br/>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,69 @@
+.infobar-header-dropdown {
+  position: absolute;
+  top: $header-height;
+  right: 0;
+  z-index: 1;
+  width: calc(4 * #{$header-sale-category-width});
+  border: 1px solid safo-color('text-neutral-light');
+  border-width: 1px 0 1px 1px;
+  background-color: safo-color('light');
+  color: safo-color('primary-dark');
+  white-space: nowrap;
+  font-family: safo-font('sans-serif', 'light');
+  .grid-row{
+    color: safo-color('primary-dark');
+    &:visited,&:active{
+      color: safo-color('primary-dark');
+    }
+    &:hover{
+      background-color: safo-color('gallery-grey');
+      cursor: pointer;
+    }
+  }
+}
+
+#infobar-commercial-info {
+  padding: 10px 7px;
+}
+
+#infobar-table-avatar {
+  float: left;
+  margin-right: 7px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  background: safo-color('avatar-header-background');
+  color: safo-color('light');
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-family: safo-font('sans-serif', 'light');
+  line-height: 50px;
+}
+
+#infobar-table-account {
+  overflow: hidden;
+}
+
+#account-info {
+  float: left;
+  width: 100%;
+  color: safo-color('primary-dark');
+  white-space: nowrap;
+  font-size: 12px;
+  font-family: safo-font('sans-serif', 'light');
+  line-height: 4px;
+
+  .name {
+    font-size: 14px;
+  }
+
+  .company {
+    font-family: safo-font('sans-serif', 'semi-bold');
+  }
+
+  .commercial-name {
+    color: safo-color('text-neutral');
+    font-family: safo-font('sans-serif');
+  }
+}

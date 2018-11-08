@@ -1,0 +1,68 @@
+<section>
+    <div class="content">
+        <div class="breadcrumb-trail-container">
+            {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+        </div>
+        <div class="block" >
+            <div class="space-between-container">
+                <div class="page-title">Mes clients</div>
+                <div class="grid-s-12 grid-m-10">
+                    <div class="customer-filter">
+                        <h3>Afficher</h3>
+                        <a href="{{ path('sogedial_integration_admin_mesclients_actif') }}">
+                            <p class="customer-status active">
+                                Activés
+                                ({{ numberOfClientsWithAccess.nbrClientsWithAccess }})
+                            </p>
+                        </a>
+                        <a href="{{ path('sogedial_integration_admin_mesclients_bloque') }}">
+                            <p class="customer-status blocked">Bloqués
+                                ({{ numberOfClientsLocked.nbrClientsLocked|number_format(0, '.', ' ') }})</p>
+                        </a>
+                        <a href="{{ path('sogedial_integration_admin_mesclients_inactif') }}">
+                            <p class="customer-status inactive">Inactifs
+                                ({{ numberOfClientsWithoutAccess.nbrClientsWithoutAccess }})</p>
+                        </a>
+                        <a href="{{ path('sogedial_integration_admin_mesclients') }}">
+                            <p class="customer-status inactive" style="background-color: turquoise">
+                                ALL 
+                                ({{ numberOfClientsWithoutAccess.nbrClientsWithoutAccess + numberOfClientsLocked.nbrClientsLocked +  numberOfClientsWithAccess.nbrClientsWithAccess }})
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="scrollable-content scrollable-content-user-list grid-s-12" id="product-list">
+                <table class="table-without-images table-with-headers sticky-header-table">
+                    <thead>
+                        <tr>
+                            <th>Ref.</th>
+                            <th>Nom</th>
+                            <th>Status</th>
+                            <th>Email</th>
+                            <th>Enseigne</th>
+                            <th>Code tarification</th>
+                            {# <th>Produits dans l'assortiment</th> #}
+                            <th>Nombre de connexions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="spacer"></tr>
+                        {% if mesClients is defined and mesClients is not empty %}
+                            {% include "SogedialIntegrationBundle:Admin:mesclients.list.html.twig"  with { "mesClients": mesClients, "_societe_cc" : _societe_cc } %}
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div id="loadingDiv" style="display: none">
+                    <div class="loader-commande-point-com">
+                        {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig"  with {'svg_id':1} %}
+                    </div>
+                </div>
+                <div id="endLoadingDiv" style="display: none">
+                    <p> Fin de la liste </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

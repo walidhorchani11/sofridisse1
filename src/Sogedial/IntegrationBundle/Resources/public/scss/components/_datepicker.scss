@@ -1,0 +1,76 @@
+.ui-datepicker{
+	padding:0;
+	.ui-widget-header{
+		background-color:safo-color('primary-dark');
+		color:safo-color('text-neutral-light');
+		font-family: safo-font('sans-serif');
+		border:none;
+		border-bottom-left-radius:0;
+		border-bottom-right-radius:0;
+		padding:0;
+
+		.ui-datepicker-title{
+			text-transform: capitalize;
+		}
+		.ui-datepicker-prev{
+			border:none;
+			background: none;
+			position: relative;
+			float: left;
+			top:0;
+			right:0;
+			left:0;
+			>span{
+				display: none;
+			}
+			&:before{
+				font-family: safo-font('picto');
+				color:safo-color('text-neutral-light');
+				content:'\f0d9';
+				margin-left: 14px;
+				font-size:18px;
+			}
+			&.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+				box-sizing:border-box;
+				background: safo-color('primary');
+				border:none;
+			}
+			.ui-state-disabled:hover{
+				cursor: normal;
+			}
+			&:hover{
+				cursor: pointer;
+			}
+		}
+		.ui-datepicker-next{
+			border:none;
+			background: none;
+			position: relative;
+			float: right;
+			top:0;
+			right:0;
+			left:0;
+			>span{
+				display: none;
+			}
+			&:before{
+				font-family: safo-font('picto');
+				color:safo-color('text-neutral-light');
+				content:'\f0da';
+				margin-left: 14px;
+				font-size:18px;
+			}
+			&.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+				box-sizing:border-box;
+				background: safo-color('primary');
+				border:none;
+			}
+			.ui-state-disabled:hover{
+				cursor: normal;
+			}
+			&:hover{
+				cursor: pointer;
+			}
+		}
+	}
+}

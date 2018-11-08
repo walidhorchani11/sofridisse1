@@ -1,0 +1,50 @@
+.order-pages {
+  h1 {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-left: 0;
+    font-family: safo-font('sans-serif');
+    font-size: 26px;
+    color: safo-color('primary-dark');
+  }
+
+  h2 {
+    margin-top: 0;
+    font-family: safo-font('sans-serif');
+    font-size: 16px;
+    color: safo-color('primary-dark');
+  }
+
+  .comment {
+    &:before {
+      left: 15px;
+    }
+  }
+
+  textarea {
+    left: 0;
+    width: 100%;
+    color: safo-color('text-neutral');
+  }
+}
+
+#my-orders {
+  section .content {
+    margin-left: 0;
+    height: calc(100vh - #{$header-height} - #{$footer-height});
+    box-sizing: border-box;
+    padding-left: $content-padding;
+    padding-top:5px;
+    margin-top: 77px;
+    background-color: whitesmoke;
+    overflow: hidden;
+    &.orders-history{
+      height: calc(100vh - #{$header-height});
+    }
+  }
+
+  .main-menu .mCSB_inside > .mCSB_container {
+    margin-right: 0;
+  }
+}

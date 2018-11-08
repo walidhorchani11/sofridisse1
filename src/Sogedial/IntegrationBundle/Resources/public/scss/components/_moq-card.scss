@@ -1,0 +1,219 @@
+// .rule_command-line,
+// .unique-rule-container {
+//   display: inline-block;
+// }
+
+.unique-rule-container{
+  display: inline-block;
+}
+
+.moq-card-container {
+  // display: inline-block;
+  // overflow: hidden;
+  box-sizing: border-box;
+  margin: 5px;
+  // width: 250px;
+  border: 1px solid safo-color('separator');
+  border-radius: 2px;
+  background-color: safo-color('light');
+  box-shadow: 0 0 8px 0 safo-color('dark', 0, 0.1), 0 6px 20px 0 safo-color('dark', 0, 0.1);
+  vertical-align: top;
+  font-size: 12px;
+  font-family: safo-font('sans-serif', 'regular');
+
+  &.moq-card-mix-container {
+    width: initial;
+    background-color: safo-color('light', -0.02);
+  }
+
+  &[data-validated="0"] {
+    border: 1px solid safo-color('error');
+
+    .moq-card-validation-status {
+      background-color: safo-color('error');
+    }
+  }
+
+  &[data-validated="1"] {
+    border: 1px solid safo-color('order-status-ok');
+
+    .moq-card-validation-status {
+      background-color: safo-color('order-status-ok');
+    }
+  }
+
+  .moq-card-subcontainer {
+    padding: 7px;
+    overflow: auto;
+  }
+}
+
+.moq-card-header {
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.moq-card-general-info-container {
+  margin-bottom: 10px;
+}
+
+.moq-card-status-image-container {
+  // float: left;
+  // overflow: hidden;
+  box-sizing: border-box;
+  // margin-right: 3%;
+  // width: 100%;
+  border: 1px solid safo-color('separator');
+  border-radius: 2px;
+}
+
+.moq-card-validation-status {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  background-color: safo-color('separator');
+  color: safo-color('light');
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.moq-card-product-image-container {
+  position: relative;
+  width: 100%;
+
+  &:after {
+    display: block;
+    padding-top: 100%;
+    content: '';
+  }
+
+  .moq-card-product-image-subcontainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 2px;
+  }
+}
+
+.moq-card-product-image {
+  width: 100%;
+  // height: 100%;
+  cursor: default;
+}
+
+// .moq-card-product-info-container {
+//   float: left;
+//   width: 66%;
+
+//   .moq-card-product-info-subcontainer {
+//     height: 14px;
+//     font-size: 11px;
+//   }
+// }
+
+.moq-card-general-info {
+  color: safo-color('primary-dark');
+  font-family: safo-font('sans-serif', 'semi-bold');
+}
+
+.moq-card-product-info {
+  color: safo-color('text-neutral');
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.moq-card-general-info,
+.moq-card-product-name {
+  padding: 0 0 3px;
+}
+
+.moq-card-table {
+  width:100%;
+  .moq-card-table-header {
+    padding: 5px;
+  }
+
+  .moq-card-table-with-separator {
+    border-bottom: 1px solid safo-color('separator');
+  }
+
+  tr {
+    td:last-of-type {
+      white-space: nowrap;
+    }
+  }
+
+  td {
+    padding: 4px 0;
+    padding-left:2px;
+    background-color: safo-color('light');
+  }
+
+  .moq-card-table-cell-with-side-spacing {
+    padding: 4px;
+  }
+}
+
+.moq-card-select-quantity {
+  width: 30px;
+}
+
+.moq-card-rule-ratio-container {
+  transition: color 200ms ease-in-out;
+
+  &[data-ratiostatus="insufficient"] {
+    color: safo-color('error');
+  }
+
+  &[data-ratiostatus="needs-validation"] {
+    color: safo-color('order-status-awaiting');
+  }
+
+  &[data-ratiostatus="valid"] {
+    color: safo-color('order-status-ok');
+  }
+}
+
+.moq-card-validation-button {
+  &.red {
+    background-color: safo-color('error');
+  }
+}
+
+.societe-list-table{
+  &-header{
+    border: 1px safo-color("text-neutral-light") solid;
+  }
+  &-body{
+    border: 1px safo-color("text-neutral-light") solid;
+  }
+  &-row{
+    display: none;
+    &-showed{
+      display: table-row;
+      &:last-child{
+        td{
+          padding-bottom:20px;
+        }
+      }
+    }  
+  }
+}
+.societe-list-table-showed{
+  &.societe-list-table{
+    &-header{
+      display: table-header-group;
+    }
+    &-body{
+      display: table-row-group;
+    }
+  } 
+}
+
+.button-toggle-societe-content.is-hidden{
+  display: none;
+}

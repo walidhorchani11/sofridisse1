@@ -1,0 +1,227 @@
+{% extends "SogedialIntegrationBundle:Commande:elements/layout/layout-pdf.html.twig" %}
+{% if clientInfos.telephone == 0 %}
+    {% set telephone = '00-00-00-00-00' %}
+{% elseif clientInfos.telephone|length < 10 %}
+    {% set telephone = '0' ~ clientInfos.telephone %}
+{% else %}
+    {% set telephone = clientInfos.telephone %}
+{% endif %}
+
+{% if volumeTotal is defined and volumeTotal is not null %}
+    {% set volume = volumeTotal %}
+{% else %}
+    {% set volume = 0 %}
+{% endif %}
+
+
+{% if poidsTotal is defined and poidsTotal is not null %}
+    {% set poids = poidsTotal %}
+{% else %}
+    {% set poids = 0 %}
+{% endif %}
+
+{% block body %}
+    <div class="container">
+        {% include "SogedialIntegrationBundle:Commande:elements/layout/pdf-header.html.twig"  with {'orderNumber': orderNumber, 'logoPath': logoPath } %}
+        {% include "SogedialIntegrationBundle:Commande:elements/layout/pdf-intermediate-header.html.twig"  with {'clientInfos': clientInfos, 'telephone': telephone, 'entrepriseInfos': entrepriseInfos, 'commercialInfo': commercialInfo, 'dateDeLivraison': dateDeLivraison, 'orderNumber': orderNumber } %}
+        {% include "SogedialIntegrationBundle:Commande:elements/layout/footer.html.twig" with { 'entrepriseInfos.nomEnvironnement': entrepriseInfos.nomEnvironnement } %}
+        <table>
+            <thead>
+                <tr class="lgo">
+                    <th colspan="2" style="border: none; text-align: left; font-size: 9px;">Fournisseur : {{ entrepriseInfos.nomEnvironnement | upper }}</th>
+                    <th colspan="1" style="border: none; text-align: center; font-size: 9px;">Date de livraison indicative : <strong>{{ dateDeLivraison | date('d/m/Y')}}</strong></th>
+                    <th {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %} colspan="5" {% else %}colspan="4" {% endif %}style="border: none; text-align: right; font-size: 9px;"><strong>Bon de commande N° {{ orderNumber }}</strong></th>
+                </tr>
+                <tr class="lgo">
+                    <th {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %} colspan="8" {% else %}colspan="7" {% endif %}style="border: none; text-align: right; font-size: 7px;"><i>(Sous réserve de disponibilité)</i></th>
+                </tr>
+                <tr class="lgo">
+                    <th {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}colspan="8" {% else %} colspan="7" {% endif %}style="border: none; line-height: 8px">&nbsp;</th>
+                </tr>
+                <tr class="borderStyle" style="background-color: #dddddd">
+                    <th style="text-align: center">EAN</th>
+                    <th style="text-align: center">Réf.</th>
+                    <th style= "text-align: center">Libellé</th>
+                    <th style="text-align: center">PCB</th>
+
+                    {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}
+                        <th style="text-align: center">Qte</th>
+                        <th style="text-align: center">Colisage</th>
+                    {% else %}
+                        <th style="text-align: center">Nb colis</th>
+                    {% endif %}
+
+                    {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}
+                        <th style="text-align: center">P.U TTC €</th>
+                        <th style="text-align: center">Total TTC €</th>
+                    {% else %}
+                        <th style="text-align: center">P.U HT €</th>
+                        <th style="text-align: center">Total HT €</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            {% if listFamille is defined and listFamille is not empty %}
+                {% for famille in listFamille %}
+                    <tr style="border: solid 1px; background-color: darkgrey">
+                        {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}
+                            <td colspan="8" style="text-align: center">{{ famille }}</td>
+                        {% else %}
+                            <td colspan="7" style="text-align: center">{{ famille }}</td>
+                        {% endif %}
+                    </tr>
+                    <tbody class="borderStyle">
+                        {% for key, product in listProductsByFamille %}
+                            {% set codeProduitSplit = product.code |split('-') %}
+                            {% if product.ry_fr~' / '~product.sf_fr == famille %}
+                                <tr class="borderStyle">
+                                    <td style="width: 15Opx; text-align: center">
+                                        <img src="{{ barecodePath ~ product.ean13 ~ '.png'}}" width="130px" height="30px">
+                                    </td>
+                                    <td style="text-align: center; width: 45px">{{ codeProduitSplit[1] }}</td>
+                                    <td style="width: 300px">{{ product.denominationProduitBase }}</td>
+                                    {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}
+                                        {% if product.poid_variable is defined and product.poid_variable and product.sale_unity is defined and product.sale_unity == 'KILOGRAMME'  %}
+                                            <td style="text-align: center">{{ product.pcb }} kg/colis</td>
+                                        {% else %}
+                                            <td style="text-align: center">{{ product.pcb }} u/colis</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td style="text-align: center">{{ product.pcb }}</td>
+                                    {% endif %}
+                                    <td style="text-align: center">{{ product.quantite }}</td>
+                                    {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}
+                                        {% if product.poid_variable is defined and product.poid_variable and product.sale_unity is defined and product.sale_unity == 'KILOGRAMME'  %}
+                                            <td style="text-align: center">Kg</td>
+                                        {% else %}
+                                            <td style="text-align: center">Unité</td>
+                                        {% endif %}
+                                    {% endif %}
+                                    <td style="text-align: center">{{ product.unitPriceFrom }} &euro;</td>
+                                    <td style="text-align: center">{{ product.totalPrice|number_format(2, ".", " ") }} &euro;</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                {% endfor %}
+            {% endif %}
+        </table>
+
+        <br/>
+
+        <table>
+            <tfoot>
+            <tr>
+                <td colspan="3">Nb colis : <strong>{% if orderProducts.sumColis is defined and orderProducts.sumColis is not empty %} {{ orderProducts.sumColis|number_format(0, "", " ") }} {% endif %}</strong></td>
+                {% if entrepriseInfos.nomEnvironnement == 'sogedial' %}
+                    <td colspan="3">Volume : <strong> {{ volume }}&nbsp;m<sup>3</sup></strong></td>
+                    <td colspan="2">Poids brut : <strong>{{ poids }}&nbsp;kg</strong></td>
+                {% else %}
+                    <td colspan="3">Volume : </td>
+                    <td colspan="2">Poids brut : </td>
+                {% endif %}
+            </tr>
+            </tfoot>
+        </table>
+        <br/>
+        <table class="lgo" style="margin: 0px;">
+            <tfoot>
+                <tr>
+                    <td width="25%">
+                        <table style="border: 1px solid darkgrey;">
+                            {% if entrepriseInfos.nomEnvironnement == 'sofrigu' %}
+                                <tr>
+                                    <td class="tdAlignmentLeft" style="border-bottom: 1px solid darkgrey;">Total TTC </td>
+                                    <td class="tdAlignmentLeft" style="border-bottom: 1px solid darkgrey;">: <strong>{{ montantCommande|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+                            {% elseif entrepriseInfos.nomEnvironnement == 'sogedial' %}
+                                <tr>
+                                    <td class="tdAlignmentLeft" style="border-bottom: 1px solid darkgrey;">Total HT </td>
+                                    <td class="tdAlignmentLeft" style="border-bottom: 1px solid darkgrey;">: <strong>{{ montantCommande|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="tdAlignmentLeft" style="border-bottom: 1px solid darkgrey;">Total HT </td>
+                                    <td class="tdAlignmentLeft" style="border-bottom: 1px solid darkgrey;">: <strong>{{ montantCommande|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdAlignmentLeft">TVA 2,10 % </td>
+                                    <td class="tdAlignmentLeft">: <strong>{{ tvaCalculation.totalTva_21|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="tdAlignmentLeft">TVA 8,50 % </td>
+                                    <td class="tdAlignmentLeft">: <strong>{{ tvaCalculation.totalTva_85|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="tdAlignmentLeft">Total TVA </td>
+                                    <td class="tdAlignmentLeft">: <strong>{{ tvaCalculation.totalTva|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="tdAlignmentLeft" style="border-top: 1px solid darkgrey;">Total TTC </td>
+                                    <td class="tdAlignmentLeft" style="border-top: 1px solid darkgrey;">: <strong>{{ (montantCommande + tvaCalculation.totalTva)|number_format(2, ".", " ") }} EUR</strong></td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </td>
+                    <td width="75%" style="border: none;">&nbsp;</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% include "SogedialIntegrationBundle:Commande:elements/layout/footer.html.twig" with { 'entrepriseInfos.nomEnvironnement': entrepriseInfos.nomEnvironnement } %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @media print {
+            thead { display: table-header-group; }
+            tfoot { display: table-row-group; }
+            /*tr { page-break-inside: avoid; }*/
+        }
+
+        @page {
+            /*margin: 10px 10px 20px 10px !important;*/
+            page-break-after: avoid;
+            page-break-before: avoid;
+        }
+        .container {
+            margin: 1px 1px 3px 1px !important;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 8px;
+            page-break-after: avoid;
+            page-break-before: avoid;
+        }
+
+        td, th {
+            text-align: left;
+            padding: 1px;
+        }
+        .borderStyle, tr, td, th {
+            border: 1px solid darkgrey;
+        }
+
+        .lgo td {
+            border:none;
+        }
+        .tdAlignmentRight {
+         text-align: right;
+        }
+
+        .tdAlignmentLeft {
+            text-align: left;
+        }
+
+        #footer { position: fixed; left: 0px; bottom: -180px; right: 42px; height: 155px; font-size: 6px; color: darkslategrey; text-align: center;}
+        #footer .page:after { content: counter(page, upper-roman); }
+
+    </style>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% if temperature == 'ambient' %}
+    <p class="small-picto yellow left"><img
+                src="{{ image('images/corn.svg') }}"
+                alt="Sec">
+    </p>
+    {% if societe == 'Sogedial' %}
+        <span class="temp">Sec</span>
+    {% endif %}
+{% elseif temperature == 'positiveCold' %}
+    <p class="small-picto green left"><img
+                src="{{ image('images/apple.svg') }}"
+                alt="Frais">
+    </p>
+    {% if societe == 'Sogedial' %}
+        <span class="temp">Frais</span>
+    {% endif %}
+{% elseif temperature == 'negativeCold' %}
+    <p class="small-picto blue left"><img
+                src="{{ image('images/snow.svg') }}"
+                alt="Surgelé">
+    </p>
+    {% if societe == 'Sogedial' %}
+        <span class="temp">Surgelé</span>
+    {% endif %}
+{% endif %}
+

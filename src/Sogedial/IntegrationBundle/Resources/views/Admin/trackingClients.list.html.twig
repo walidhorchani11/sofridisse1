@@ -1,0 +1,26 @@
+{% for client in trackedUsers %}
+    <tr class="spacer"></tr>
+    <tr>
+        <td>
+            <span>{{ client.login }}</span>
+        </td>
+        <td>
+            <span>{{ client.nomClient }}</span>
+        </td>
+        <td>
+            <span>{{ client.age }} jours</span>
+        </td>
+        <td>
+            {{ client.derniereConnexion }}
+        </td>
+        <td>
+            <span>{{ client.updated.date | date('d/m/Y', timezone="Europe/Paris") }}</span>
+        </td>
+        <td>
+            <span>{{ client.temps }}</span>
+        </td>
+        <td>
+            <span>{{ client.connexion }} connexion</span>
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,58 @@
+@charset 'UTF-8';
+
+// 1. Configuration and helpers
+@import 'abstracts/helpers',
+        'abstracts/mixins',
+        'abstracts/lightgrid',
+        'abstracts/variables';
+
+// 2. Base stuff
+@import 'base/base',
+        'base/fonts';
+
+// 4. Layout-related sections
+@import 'layout/footer',
+        'layout/header',
+        'layout/sidebar';
+
+// 5. Components
+@import 'components/barcode',
+        'components/breadcrumbs',
+        'components/button',
+        'components/comment-area',
+        'components/customer',
+        'components/dialog',
+        'components/disclaimer',
+        'components/dropdown',
+        'components/geocoding',
+        'components/header-logout-dropdown',
+        'components/loader',
+        'components/minus-plus-input',
+        'components/moq-card',
+        'components/notification-badge',
+        'components/pagination',
+        'components/picto',
+        'components/precommande',
+        'components/product-qmin',
+        'components/prospect-navigation',
+        'components/searchbar',
+        'components/table',
+        'components/toast',
+        'components/history',
+        'components/warning-header',
+        'components/datepicker',
+        'components/material',
+        'components/loading-fullscreen';
+
+// 6. Page-specific styles
+@import 'pages/ajouter-client',
+        'pages/catalogue',
+        'pages/change-company',
+        'pages/dashboard',
+        'pages/demande-stock-engagement',
+        'pages/login',
+        'pages/moq-validation',
+        'pages/order-pages';
+
+// Should be completely torn apart and distributed in multiple stylesheets
+@import 'global';

@@ -1,0 +1,65 @@
+<div id="commercial" class="responsive-catalogue-hidden-on-desktop-and-mobile">
+    <div class="group-clear">
+        <p class="avatar">{{ commercialInfo.prenom | first }}</p>
+        <span>Votre commercial</span>
+        <div class="name">{{ commercialInfo.nom | upper }} {{ commercialInfo.prenom | capitalize }}&nbsp;</div>
+    </div>
+</div>
+<div class="sidebar-entreprise-container">
+    <div class="sidebar-entreprise-name">{{ entreprise | upper }}</div>
+    <a class="change-company" href="{{ path('sogedial_integration_societe_landing') }}" alt="Changer société" title="Changer société"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+</div>
+<div class="menu-scroll">
+    <ul class="menu-catalogue">
+        {% if preCommandeMode is defined and preCommandeMode == true %}
+            <li><a class="sidebar-element-with-icon sidebar-element-commandes" href="{{ path('SogedialSite_integration_pending_orders', { 'societe': societe }) }}">Mes commandes</a></li>
+        {% endif %}
+        <li><a class="catalogue-link" href="{{ path('sogedial_integration_catalogue', { 'societe':societe }) }}">{% if currentAssortiment[0] is defined %}{{currentAssortiment[0].nom}}{% else %}Catalogue{% endif %}<span class="material-badge">{{families["catalogue"]["counter"]|default(0)|number_format(0, '.', ' ')}}</span></a></li>
+    </ul>
+    <ul class="menu-catalogue" id="parent-list">
+        {% for level1 in families %}
+            {% if level1.fr is defined and level1.fr is not empty and level1.fr != 'TRANSPORT' %}
+                <li id="{{ level1.id }}" title="{{ level1.fr }}">
+                    <a class="foldable {% if codeSecteur is defined and codeSecteur == level1.id %} sub-open {% endif %}">
+                        <i class="{{ level1.class }}"></i> <span class="level1">{{ level1.fr }}<div class="material-badge">{{level1.counter|number_format(0, '.', ' ')}}</div></span>
+                    </a>
+
+                    <ul class="submenu">
+                        {% for level2 in level1.children %}
+                            {% if level2.fr is defined and level2.fr is not empty %}
+                                <li id="{{ level2.id }}" title="{{ level2.fr | title }}">
+                                    <a {% if codeRayon is defined and codeRayon == level2.id %}class="subsub-open foldable"{% endif %}>
+                                        <div class="limited-menu-length">{{ level2.fr | title }}</div> <div class="material-badge">{{level2.counter|number_format(0, '.', ' ')}}</div>
+                                    </a>
+                                    <ul class="subsubmenu {% if codeRayon is defined and codeRayon == level2.id %}submenuMaj{% endif %}">
+                                        <li>
+                                            <a href="{{ path('sogedial_integration_catalogue', { 'societe':societe, 'codeSecteur': level1.id, 'codeRayon': level2.id }) }}">
+                                                Tous les produits <div class="material-badge">{{level2.counter|number_format(0, '.', ' ')}}</div>
+                                            </a>
+                                        </li>
+                                        {% for level3 in level2.children %}
+                                            {% if level3.fr is defined and level3.fr is not empty %}
+                                                <li id="{{ level3.id }}" title="{{ level3.fr | title }}">
+                                                    <a {% if codeFamille is defined and codeFamille == level3.id %}class="subsub-open-active"{% endif %} href="{{ path('sogedial_integration_catalogue', { 'societe':societe, 'codeSecteur': level1.id, 'codeRayon': level2.id, 'codeFamille': level3.id }) }}">
+                                                        <div class="limited-menu-length">{{ level3.fr | title }}</div><div class="material-badge">{{level3.counter|number_format(0, '.', ' ')}}</div>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {# Empty level1 element to clearly show that there is no other category beneath... #}
+        <li>
+            <a class="disabled">
+            </a>
+        </li>
+    </ul>
+
+</div>
+<div id="close-menu"><img src="{{ image('images/close.svg') }}"/></div>

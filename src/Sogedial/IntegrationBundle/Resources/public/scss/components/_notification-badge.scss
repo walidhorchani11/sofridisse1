@@ -1,0 +1,21 @@
+.notif-badge-container {
+  display: block;
+  width: 25px;
+  height: 25px;
+
+  .notif-badge-sub-container {
+    display: table;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-color: safo-color('error', 1);
+
+    .notif-badge {
+      display: table-cell;
+      color: safo-color('light');
+      vertical-align: middle;
+      text-align: center;
+      font-size: 10px;
+    }
+  }
+}

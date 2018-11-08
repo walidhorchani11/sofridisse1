@@ -1,0 +1,37 @@
+.toast {
+  font-size: 14px;
+  font-family: safo-font('sans-serif', 'regular');
+}
+
+.toast-top-center {
+  top: $header-height + 12px;
+}
+
+#toast-container {
+  .toast-info {
+    border: 1px solid safo-color('error', 7);
+    background-color: safo-color('error', 8.5);
+    background-image: none !important;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    color: safo-color('error') !important;
+
+    &:hover {
+      background-image: none;
+      -webkit-box-shadow: none;
+    }
+
+    &:before {
+      position: absolute;
+      top: 20px;
+      left: 15px;
+      content: '\f017';
+      font-size: 25px;
+      font-family: safo-font('picto');
+    }
+
+    .toast-close-button {
+      color: safo-color('error');
+    }
+  }
+}

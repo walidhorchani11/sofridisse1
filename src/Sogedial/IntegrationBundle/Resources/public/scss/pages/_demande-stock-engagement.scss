@@ -1,0 +1,30 @@
+.demande-stock-engagement {
+  h1 {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-left: 0;
+    font-family: safo-font('sans-serif');
+    font-size: 26px;
+    color: safo-color('primary-dark');
+  }
+  
+  .container {
+    padding: 10px 20px;
+    font-family: safo-font('sans-serif');
+    font-size: 11px;
+    line-height: 16px;
+    color: safo-color('text-neutral-dark');
+    background: safo-color('light');
+  }
+
+  .blue-action {
+    padding: 0;
+    cursor: pointer;
+    border: 0;
+  }
+
+  #menuCatalogue {
+    height: calc(100vh - #{$header-height});
+  }
+}

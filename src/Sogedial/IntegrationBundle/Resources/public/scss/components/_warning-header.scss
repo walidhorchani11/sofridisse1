@@ -1,0 +1,64 @@
+.warning-header-container {
+  margin-top: $content-padding;
+  margin-right: $content-padding;
+  margin-bottom: 10px;
+}
+
+#warning-header {
+  position: relative;
+  padding: 20px 20px 20px 60px;
+  font-family: safo-font('sans-serif', 'regular');
+  font-size: 14px;
+  color: safo-color('error');
+  background-color: safo-color('error', 8.5);
+  border: 1px solid safo-color('error', 7);
+  border-radius: 5px;
+
+  &:before {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-family: safo-font('picto');
+    font-size: 25px;
+    content: '\f017';
+  }
+
+  #warning-header-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+  }
+}
+
+.success-header-container {
+  margin-right: $content-padding;
+  margin-bottom: 10px;
+}
+
+#success-header {
+  position: relative;
+  padding: 1px 1px 1px 60px;
+  font-family: safo-font('sans-serif', 'regular');
+  font-size: 14px;
+  color: #000;
+  background-color: #eaf7a3;
+  border: 1px solid #a2d246;
+  border-radius: 5px;
+
+  &:before {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-family: safo-font('picto');
+    font-size: 25px;
+    //content: '\f017';
+  }
+
+  #success-header-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+  }
+}

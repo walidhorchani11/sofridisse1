@@ -1,0 +1,57 @@
+<div class="background-picture">
+    <div id="login-form">
+        <div class="grid-s-12">
+            <div class="grid-row grid-center">
+            {# <img id="login-logo" src="{{ image('images/logo-commande.com.svg') }}" /> #}
+                <form action="{{ path("fos_user_security_check") }}" method="post" class="grid-s-11 grid-m-8 grid-l-3 grid-xxl-2 login-form-well material-form">
+                    <div class="grid-s-12">
+                        <div class="grid-row grid-center">
+                            <div class="logo_commande_com"></div>
+                            <div class="naming_commande_com">Commande.com</div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                    <div class="material-form-container grid-s-12 grid-padded">
+                        <div class="form-input">
+                            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label for="_username"><i class="custom-icon custom-icon-user"></i><span class="label-with-custom-icon">Login</span></label>
+                        </div>
+                    </div>
+
+                    <div class="material-form-container grid-s-12 grid-padded">
+                        <div class="form-input login-input">
+                            <input type="password" id="password" name="_password" autocomplete="off"/>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label for="_password"><i class="custom-icon custom-icon-password"></i><span class="label-with-custom-icon">Mot de passe</span></label>
+                        </div>
+                    </div>
+
+        {#             <div class="grid-s-12">
+                        <input type="text" placeholder="Login" id="username" name="_username" value="{{ last_username }}" />
+                    </div>
+                    <div class="grid-s-12">
+                        <input type="password" placeholder="Mot de passe" id="password" name="_password" />
+                    </div> #}
+                    {# TODO : version correcte = avoir un href envoyé par le controlleur + if sur href non vide ici #}
+                    {% if MasterEnterprise == "sofridis" %}
+                    <a class="ask-access" href="http://sofridis.com/contact.php" target="_blank">Demander un accès</a>
+                    {% endif %}
+                    <div class="grid-s-12">
+                        <div class="grid-row grid-center">
+                            {% if error %}
+                                <div class="grid-s-12 marg-v-20 error-message">
+                                    <div id="login-error">Mauvais login ou mot de passe!</div>
+                                </div>
+                            {% endif %}
+                            <button type="submit" class="button blue login-button" id="_submit" name="_submit">Se connecter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

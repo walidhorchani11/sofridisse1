@@ -1,0 +1,38 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block meta %}
+    <meta http-equiv="refresh" content="10"/>
+{% endblock %}
+{% block body %}
+    <h1 class="jumbo" id="myTargetElement">0</h1>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(document).ready(function ($) {
+            var easingFn = function (t, b, c, d) {
+                var ts = (t /= d) * t;
+                var tc = ts * t;
+                return b + c * (tc + -3 * ts + 3 * t);
+            }
+            var options = {
+              useEasing : true,
+              easingFn: easingFn,
+              useGrouping : true,
+              separator : ',',
+              decimal : '.',
+              prefix : '',
+              suffix : ' €'
+        };
+        var demo = new CountUp("myTargetElement", 0, {{ caValue }}, 2, 2.5, options);
+
+        setTimeout(function () {
+            setInterval(function () {
+                demo.start();
+            }, 0);
+        });
+
+        })
+        ;
+    </script>
+{% endblock %}

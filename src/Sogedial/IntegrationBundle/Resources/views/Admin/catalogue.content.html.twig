@@ -1,0 +1,105 @@
+{# This view needs to be erased because there is no such thing as salesman's catalog any more (or is there? how to create selections? how to view complete list of products ? )
+  Anyway, it is completely obsolete and we are probably better off by using the standard (client) catalog view #}
+<section>
+    <div class="content">
+        {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+
+        <div class="pagination">
+            <ul>
+                <li><a class="active" href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+            </ul>
+        </div>
+
+        <div class="filter dropdown right">
+        </div>
+
+        <span class="right"><a href="{{ path('sogedial_integration_produit_without_source_excel') }}">Exporter les
+                produits sans photos</a></span>
+
+        <div id="product-list">
+
+            <table class="table-with-images table-with-headers">
+                <tr>
+                    <th>Image</th>
+                    <th>Libellé pdt</th>
+                    <th>Marque</th>
+                    <th>PCB</th>
+                    <th>Action</th>
+                </tr>
+                <tr class="spacer"></tr>
+                {% if products is defined and products is not empty %}
+                    {% for product in products | slice(0,10) %}
+                        <tr class="item">
+                            <td class="img link">
+                                {% set imagePath = baseUrl ~ product.ean13 %}
+                                <img src="{{ imagePath }}" />
+                                {% if(product.natureCode == 'NOUVEAUTE') %}
+                                    <p class="new"></p>
+                                {% endif %}
+                                {% if(product.isPromo == 1) %}
+                                    <p class="sale"></p>
+                                {% endif %}
+                            </td>
+                            <td class="link">
+                                <ul class="item">
+                                    <li>{{ product.denominationProduitBase }}</li>
+                                    <li>
+                                        <p class="small-picto yellow left"><img
+                                                    src="{{ image('images/corn.svg') }}" alt="Sec"></p>
+                                        {% if multisiteService.hasFeature("livraison") %}
+                                            <p class="small-picto">
+                                                <img class="truck" src="{{ image('images/truck.png') }}"
+                                                    alt="Livraison par camion">
+                                            </p>
+                                        {% endif %}
+                                    </li>
+                                    <li class="reference">
+                                        Réf: <a class="link" data-reference="{{ product.code }}"
+                                                href="{{ path('sogedial_integration_admin_catalogue_photo', {'id': product.code}) }}">
+                                            {{ product.code[4:] }} </a> - EAN : {{ product.ean13 }}
+                                    </li>
+
+                                </ul>
+                            </td>
+                            <td class="link">{{ product.libelle }}</td>
+                            <td class="link">
+                                <ul>
+                                    <li><span class="item-weight"
+                                              data-pricepcb="{{ product.pcb }}">{{ product.pcb }}</span></li>
+                                    <li><span class="second-line">par colis</span></li>
+                                </ul>
+                            </td>
+                            <td class="center">
+                                <p class="small-picto"><a
+                                            href="{{ path('sogedial_integration_admin_catalogue_photo', {'id': product.code}) }}"
+                                            title="Association photo"><img
+                                                src="{{ image('images/pen.png') }}"
+                                                alt="Modifier ce produit"></a></p>
+
+                                <p class="small-picto"></p>
+
+                                <p class="small-picto"><a href="#" title="Afficher la fiche produit"><img
+                                                src="{{ image('images/arrow-right-grey.png') }}"
+                                                alt="Fiche produit"></a></p>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+        <div class="informations-right">
+            <span>Photos non contractuelles</span> 
+            {% if societe is defined and societe == 'sofrigu' %}
+             , <span>* Prix TTC (Hors frais de livraison)</span>
+            {% else %}
+             , <span>* Prix HT (Dont Taxe sécurité sociale sur les alcools)</span>
+            {% endif %}
+            {% if MasterEnterprise != "sofridis" %}
+                , <span>** Poids et prix peuvent varier selon arrivage et découpe</span>
+            {% endif %}
+        </div>
+    </div>
+</section>

@@ -1,0 +1,192 @@
+parameters:
+  sogedial_site.container_service.class: Sogedial\SiteBundle\Service\Container
+  sogedial_site.container_type_service.class: Sogedial\SiteBundle\Service\ContainerType
+  sogedial_site.order_container_service.class: Sogedial\SiteBundle\Service\OrderContainer
+  sogedial_site.order_service.class: Sogedial\SiteBundle\Service\Order
+  sogedial_site.container_repartition_service.class: Sogedial\SiteBundle\Service\Container\Repartition
+  sogedial_site.container_product_service.class: Sogedial\SiteBundle\Service\ContainerProduct
+  sogedial_site.container_runner_service.class: Sogedial\SiteBundle\Service\Container\Runner
+  sogedial_site.container_excel_export_service.class: Sogedial\SiteBundle\Service\Container\ExcelExport
+
+  sogedial_site.useraccess.class: Sogedial\SiteBundle\Service\UserManagerService
+  sogedial_site.userlistener.class: Sogedial\SiteBundle\Service\RequestListener
+
+  sogedial_import.csvtoarray.class: Sogedial\SiteBundle\Service\ConvertCsvToArray
+  sogedial_as400.commande.file.class: Sogedial\SiteBundle\Service\As400CommandeFile
+
+  sogedial.authentication.success.handler.class: Sogedial\SiteBundle\Security\Authentication\AuthenticationSuccessHandler
+
+  sogedial.order.mailer.class: Sogedial\SiteBundle\Service\MailerService
+  sogedial.time.converter.class: Sogedial\SiteBundle\Service\TimeConverter
+
+  sogedial.export.class: Sogedial\SiteBundle\Service\ExportService
+
+services:
+  sogedial_site.log_service_abstract:
+      abstract:  true
+      calls:
+          - [setLogger, [@logger]]
+  sogedial_site.service_abstract:
+      abstract:  true
+      parent: sogedial_site.log_service_abstract
+      calls:
+          - [setEntityManager, [@doctrine.orm.entity_manager]]
+  sogedial_site.order_service:
+    class: %sogedial_site.order_service.class%
+    parent: sogedial_site.service_abstract
+
+  sogedial_site.container_service:
+    class: %sogedial_site.container_service.class%
+    parent: sogedial_site.service_abstract
+
+
+  sogedial_site.container_excel_export_service:
+    class: %sogedial_site.container_excel_export_service.class%
+    parent: sogedial_site.log_service_abstract
+    calls:
+        - [setSvcExcel, [@phpexcel]]
+        - [setSavePath, [%export_excel_dir%]]
+
+  sogedial_site.container_repartition_service:
+    class: %sogedial_site.container_repartition_service.class%
+    parent: sogedial_site.log_service_abstract
+    calls:
+        - [setSvcContainerProduct, [@sogedial_site.container_product_service]]
+
+  sogedial_site.container_runner_service:
+    class: %sogedial_site.container_runner_service.class%
+    parent: sogedial_site.log_service_abstract
+    calls:
+        - [setSvcRepartition, [@sogedial_site.container_repartition_service]]
+
+  sogedial_site.container_product_service:
+    class: %sogedial_site.container_product_service.class%
+    parent: sogedial_site.service_abstract
+    calls:
+        - [setSvcOrderContainer, [@sogedial_site.order_container_service]]
+
+  sogedial_site.container_type_service:
+    class: %sogedial_site.container_type_service.class%
+    parent: sogedial_site.service_abstract
+
+  sogedial_site.order_container_service:
+    class: %sogedial_site.order_container_service.class%
+    parent: sogedial_site.service_abstract
+    calls:
+        - [setSvcContainer, [@sogedial_site.container_service]]
+
+  sogedial_site.useraccess:
+    class: %sogedial_site.useraccess.class%
+    arguments: ["@service_container"]
+
+  sogedial_site.userlistener:
+    class: %sogedial_site.userlistener.class%
+    arguments: [@security.token_storage, @doctrine.orm.entity_manager]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  swiftmailer.command.spool_send:
+          class: Symfony\Bundle\SwiftmailerBundle\Command\SendEmailCommand
+          calls:
+              - [ setContainer, ["@service_container"] ]
+
+  sogedial_site.datatables.ssp:
+    class: Sogedial\SiteBundle\Service\DataTablesSpp
+    arguments: ["@doctrine.orm.entity_manager"]
+
+  sogedial_import.csvtoarray:
+    class: %sogedial_import.csvtoarray.class%
+
+  sogedial_as400.commande.file:
+    class: %sogedial_as400.commande.file.class%
+    arguments: ['%kernel.root_dir%', "@doctrine.orm.entity_manager", "@sogedial.multisite"]
+
+  sogedial.authentication.success.handler:
+    class: %sogedial.authentication.success.handler.class%
+    arguments: [@router, @session, "@sogedial.mysql", "@security.token_storage"]
+
+  sogedial.order.mailer:
+    class: %sogedial.order.mailer.class%
+    arguments: [@mailer, @templating]
+
+  sogedial.time.converter:
+    class: %sogedial.time.converter.class%
+
+  sogedial.userinfo:
+    class: Sogedial\SiteBundle\Service\UserInfo
+    arguments: [@security.token_storage, @session]
+
+  sogedial.recherche_clients:
+    class: Sogedial\SiteBundle\Service\RechercheClients
+    arguments: ["@sogedial.mysql", "@sogedial.client", "@sogedial.userinfo"]
+
+  sogedial.recherche:
+    class: Sogedial\SiteBundle\Service\Recherche
+    arguments: ["@sogedial.mysql", "@sogedial.product", "@sogedial.userinfo"]
+
+  sogedial.client_produit_moq:
+    class: Sogedial\SiteBundle\Service\ClientProduitMOQService
+    arguments: ["@doctrine.orm.entity_manager"]
+
+  sogedial.historique_ligne_commande:
+    class: Sogedial\SiteBundle\Service\HistoriqueLigneCommandeService
+    arguments: ["@doctrine.orm.entity_manager"]
+
+  sogedial.promotion_factory:
+    class: "Sogedial\SiteBundle\Factory\\PromotionStaticFactory"
+    arguments: ["@doctrine.orm.entity_manager", "@sogedial.mysql", "@sogedial.product"]
+
+  sogedial.promotion:
+    class: Sogedial\SiteBundle\Service\PromotionService
+    factory: 'sogedial.promotion_factory:createPromotionService'
+
+  sogedial.panier:
+    class: Sogedial\SiteBundle\Service\PanierService
+    arguments: ["@doctrine.orm.entity_manager", "@sogedial.multisite", "@sogedial.product", "@sogedial.promotion"]
+
+  sogedial.mysql:
+    class: Sogedial\SiteBundle\Service\SimpleMySQLService
+    arguments: ["%database_host%", "%database_port%", "%database_name%", "%database_user%", "%database_password%"]
+    lazy:  true
+
+  sogedial_site.validationday:
+    class: Sogedial\SiteBundle\Service\ValidationDayService
+    arguments: ["@doctrine.orm.entity_manager"]
+
+  sogedial_site.assortiment:
+    class: Sogedial\SiteBundle\Service\AssortimentService
+    arguments: ["@doctrine.orm.entity_manager", "@sogedial.multisite"]
+
+#  sogedial.nanoprofiler:
+#    class: Sogedial\SiteBundle\Service\NanoProfilerService
+#    arguments: []
+
+  sogedial.multisite:
+    class: Sogedial\SiteBundle\Service\MultiSiteService
+    arguments: [@session, @doctrine.orm.entity_manager]
+
+  sogedial.product:
+    class: Sogedial\SiteBundle\Service\ProductService
+    arguments: [@sogedial.multisite, @doctrine.orm.entity_manager, @sogedial.mysql, @sogedial.userinfo, @sogedial.export]
+
+  sogedial.colis:
+    class: Sogedial\SiteBundle\Service\ColisService
+    arguments: [@sogedial.multisite, @doctrine.orm.entity_manager, @sogedial.mysql]
+
+  sogedial.client:
+    class: Sogedial\SiteBundle\Service\ClientService
+    arguments: [@sogedial.multisite, @doctrine.orm.entity_manager, @sogedial.mysql, @sogedial.userinfo]
+
+  sogedial.assortimentclient:
+    class: Sogedial\SiteBundle\Service\AssortimentClientService
+    arguments: [@doctrine.orm.entity_manager]
+
+  sogedial.export:
+      class: %sogedial.export.class%
+      arguments: [@doctrine.orm.entity_manager, @request_stack, @knp_snappy.pdf, @templating, @mailer, @kernel, %kernel.root_dir%, @sogedial.multisite, @phpexcel]
+
+  twig.extension.masterEnterprise:
+    class: Sogedial\SiteBundle\Twig\MasterEnterpriseExtension
+    arguments: [@sogedial.multisite]
+    tags:
+        - { name: twig.extension }

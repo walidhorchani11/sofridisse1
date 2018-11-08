@@ -1,0 +1,72 @@
+{% extends "SogedialIntegrationBundle:Admin:moq-card-frame.html.twig" %}
+{% set card_type = 'card-mix' %}
+
+{% if ruleunit == 'c' %}
+    {% set rule_unit = '' %}
+    {% set rule_class = 'global_total_package' %}
+    {% set rule_calc = productRule.totalGlobal  %}
+{% elseif ruleunit == 'u' %}
+    {% set rule_unit = '' %}
+    {% set rule_class = 'global_total_uc' %}
+    {% set rule_calc = productRule.totalGlobalUC %}
+{% elseif ruleunit == 'e' %}
+    {% set rule_unit = '€' %}
+    {% set rule_class = 'global_total_price' %}
+    {% set rule_calc = productRule.totalGlobalPrice %}
+{% elseif ruleunit == 'k' %}
+    {% set rule_unit = 'kg' %}
+    {% set rule_class = 'global_total_weight' %}
+    {% set rule_calc = productRule.totalGlobalWeight %}
+{% elseif ruleunit == 'p' %}
+    {% set rule_unit = '' %}
+    {% set rule_class = 'global_total_pallet' %}
+    {% set rule_calc = productRule.totalGlobalPallet %}
+{% endif %}
+
+{% block header %}
+    <div class="moq-card-general-info-container">
+        <div class="moq-card-general-info">
+            Fournisseur : {{ supplier }}
+        </div>
+        <div class="moq-card-general-info">
+            MOQ : {{ rule }}
+        </div>
+        <div class="moq-card-general-info">
+            Total global :
+            <span class="{{ rule_class }}">{{ rule_calc }}</span> {{ rule_unit }}
+        </div>
+        <div class="moq-card-general-info">
+            Ratio :
+            {% if (ruleAmount is defined) and (ruleAmount != 0) %}
+                {% set flooredRuleAmount = (rule_calc / ruleAmount * 100) | round(0, 'floor') %}
+                <span
+                    class="moq-card-general-info moq-card-rule-ratio-container"
+                    data-ratiostatus=
+                        {% if flooredRuleAmount < 80 %}
+                            "insufficient"
+                        {% elseif (flooredRuleAmount >= 80) and (flooredRuleAmount < 100) %}
+                            "needs-validation"
+                        {% else %}
+                            "valid"
+                        {% endif %}
+                >
+                    <span class="moq-card-rule-ratio">
+                        {{ flooredRuleAmount }}
+                    </span>&nbsp;%
+                </span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% for labelproduct, product in productRule["products"] %}
+        {% include "SogedialIntegrationBundle:Admin:moq-card.html.twig" with {
+            "labelproduct": labelproduct,
+            "product": product,
+            "trId": loop.index0,
+            "hasParent": 1
+        } %}
+        {% set productId = productId + 1 %}
+    {% endfor %}
+{% endblock %}

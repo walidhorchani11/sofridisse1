@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Demande de Stock Engagement</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/sogedialintegration/css/style.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/sogedialsite/css/jquery-confirm.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/sogedialsite/css/font-awesome.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/sogedialintegration/css/responsive/style.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/sogedialintegration/css/jquery.mCustomScrollbar.min.css') }}"/>
+    {% endblock %}
+</head>
+<body id="dashboard" class="demande-stock-engagement secondary-header">
+
+<aside id="menuCatalogue">
+    {% block sidebar %}
+        {{ render(controller('SogedialIntegrationBundle:Catalogue:sidebar', {'standalone': true})) }}
+    {% endblock %}
+</aside>
+
+{% block body %}{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/sogedialsite/js/jquery-confirm.js') }}"></script>
+    <script src="{{ asset('bundles/sogedialintegration/js/dialog.js') }}"></script>
+    <script src="{{ asset('bundles/sogedialintegration/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script src="{{ asset('bundles/sogedialintegration/js/script.js') }}"></script>
+{% endblock %}
+
+</body>
+</html>

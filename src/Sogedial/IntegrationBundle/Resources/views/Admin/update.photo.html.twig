@@ -1,0 +1,38 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block body %}
+    <section>
+        <div class="content">
+            <div id="breadcrumb">
+                <a href="{{ path('sogedial_integration_admin_dashbord') }}">Accueil</a>
+                > <a href="{{ path('sogedial_integration_admin_catalogue') }}">Catalogue </a>
+                > <a href="">Produit : {{ product.denominationProduitBase }}- EAN13: {{ product.ean13 }} </a>
+                > Association Photo
+            </div>
+
+            <div>
+                <h2 class="title">Association photo pour le produit : {{ product.denominationProduitBase }}- EAN13
+                    : {{ product.ean13 }}</h2>
+            </div>
+            <tr class="spacer"></tr>
+            <tr class="spacer"></tr>
+            <tr class="spacer"></tr>
+            <div>
+                <form role="form" method="post" {{ form_enctype(formImage) }}>
+                    <div>   {{ form_label(formImage.attachment) }}</div>
+                    <div>   {{ form_widget(formImage.attachment) }}</div>
+                    <tr class="spacer"></tr>
+                    <div>  {{ form_rest(formImage) }}</div>
+
+                    <div>
+                        <button type="submit" class="button border-blue" id="_submit">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
+
+            <div><br><br><br><br><br><br><br><br><br><br><br><br></div>
+
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,640 @@
+aside {
+  .avatar {
+    float: left;
+    width: 55px;
+    height: 55px;
+    margin-right: 12px;
+    margin-bottom: 0;
+    margin-top: 0;
+    background: 0 -1px no-repeat safo-color('primary');
+    border-radius: 100%;
+    font-family: safo-font('sans-serif', 'light');
+    font-size: 35px;
+    line-height: 55px;
+    color: safo-color('light');
+    text-align: center;
+  }
+
+  &.main-menu {
+    margin-left:0px;
+    @media screen and (max-width:991px){
+      margin-left:-274px;
+    }
+    float: left;
+    width: $sidebar-width;
+    height: calc(100vh - #{$header-height});
+    overflow-y: hidden;
+    background-color: safo-color('primary');
+
+    #commercial {
+      padding: 10px;
+      background-color: safo-color('primary-dark');
+      border-top: 1px solid safo-color('separator');
+
+      span {
+        display: inline-block;
+        margin-top: 12px;
+        font-family: safo-font('sans-serif', 'light');
+        font-size: 12px;
+        color: safo-color('light');
+      }
+
+      .name {
+        font-family: safo-font('sans-serif', 'semi-bold');
+        font-size: 14px;
+        color: safo-color('light');
+      }
+
+      .line {
+        width: 100%;
+        height: 1px;
+        margin: 7px 0;
+        background-color: safo-color('separator');
+      }
+
+      .contact {
+        display: block;
+        font-family: safo-font('sans-serif', 'light');
+        font-size: 12px;
+        color: safo-color('primary-light');
+        text-decoration: none;
+
+        &.mail {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        img {
+          position: relative;
+          top: 5px;
+          margin-right: 14px;
+          margin-left: 8px;
+        }
+      }
+
+      a {
+        height: 25px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .phone img {
+        margin-right: 14px;
+        margin-left: 8px;
+      }
+    }
+
+    ul {
+      padding-left: 0;
+      margin: 0;
+      list-style-type: none;
+
+      li {
+        a {
+          $horizontal-padding: 13px;
+          position: relative;
+          display: inline-block;
+          width: calc(#{$sidebar-width} - 2 * #{$horizontal-padding});
+          padding: $sidebar-cell-vertical-padding $horizontal-padding;
+          font-family: safo-font('sans-serif', 'light');
+          font-size: 14px;
+          color: safo-color('light');
+          text-decoration: none;
+          cursor: pointer;
+          border-top: 1px solid safo-color('separator');
+
+          &:hover {
+            background-color: safo-color('primary', 1);
+          }
+
+          &.inactive-company {
+            color: #bfcdd8;
+            cursor: initial;
+          }
+
+
+          &.sidebar-element-with-icon {
+            $padding-right: 13px;
+            $padding-left: 55px;
+            position: relative;
+            width: calc(#{$sidebar-width} - #{$padding-right} - #{$padding-left});
+            padding: $sidebar-cell-vertical-padding $padding-right $sidebar-cell-vertical-padding $padding-left;
+          }
+        }
+
+        .last {
+          border-bottom: 1px solid safo-color('separator');
+        }
+      }
+    }
+  }
+
+  &#menuCatalogue #commercial {
+    padding: 0 12px 10px;
+    background-color: safo-color('primary-dark');
+
+    span {
+      display: inline-block;
+      margin-top: 28px;
+      font-family: safo-font('sans-serif', 'light');
+      font-size: 12px;
+      color: safo-color('light');
+    }
+
+    .name {
+      font-family: safo-font('sans-serif', 'semi-bold');
+      font-size: 14px;
+      color: safo-color('light');
+    }
+  }
+}
+
+#menuCatalogue {
+  float: left;
+  width: $sidebar-width;
+  height: calc(100vh - #{$header-height} - #{$footer-height});
+  overflow: hidden;
+  background-color: safo-color('primary');
+
+  &.sidebar-no-footer {
+      height: calc(100vh - #{$header-height});
+  }
+  .limited-menu-length{
+    max-width: 170px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+  }
+
+  .menu-scroll {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: safo-color('primary');
+  }
+
+  .menu-links {
+    padding: 0 0 0 18px;
+    margin-top: 15px;
+    margin-bottom: 57.5px;
+
+    li {
+      display: block;
+      float: left;
+      margin-right: 26px;
+
+      a {
+        padding-bottom: 10px;
+        font-family: safo-font('sans-serif');
+        font-size: 12px;
+        color: safo-color('separator');
+        text-decoration: none;
+        text-transform: uppercase;
+
+        &.active {
+          color: safo-color('light');
+          cursor: default;
+          border-bottom: 4px solid safo-color('light');
+        }
+      }
+    }
+  }
+
+  .menu-catalogue {
+    padding-left: 0;
+    margin: 0;
+    list-style-type: none;
+
+    .submenu {
+      > li {
+        > a {
+          position: relative;
+          display: inline-block;
+          font-family: safo-font('sans-serif', 'light');
+          font-size: 14px;
+          color: safo-color('light');
+          text-decoration: none;
+          cursor: pointer;
+          border-top: 1px solid safo-color('separator');
+        }
+
+        &:first-of-type > a {
+          border-top: none;
+        }
+      }
+
+      li a {
+        $horizontal-padding: 16px;
+        width: calc(#{$sidebar-width} - 2 * #{$horizontal-padding});
+        padding: $sidebar-cell-vertical-padding $horizontal-padding;
+
+        &.inactive-company {
+          color: safo-color('text-neutral-light');
+          cursor: initial;
+        }
+      }
+    }
+
+    .promo {
+      font-weight: bold;
+      color: safo-color('primary');
+      background-color: safo-color('promotion');
+
+      &:hover {
+        background-color: safo-color('promotion', 1) !important;
+      }
+    }
+
+    .nouveaute {
+      font-weight: bold;
+      color: safo-color('light');
+      background-color: safo-color('nouveaute');
+
+      &:hover {
+        background-color: safo-color('nouveaute', 1) !important;
+      }
+    }
+
+    li a {
+      $padding-right: 16px;
+      $padding-left: 55px;
+      position: relative;
+      display: inline-block;
+      width: calc(#{$sidebar-width} - #{$padding-right} - #{$padding-left});
+      padding: $sidebar-cell-vertical-padding $padding-right $sidebar-cell-vertical-padding $padding-left;
+      font-family: safo-font('sans-serif', 'light');
+      font-size: 14px;
+      color: safo-color('light');
+      text-decoration: none;
+      cursor: pointer;
+      border-top: 1px solid safo-color('separator');
+
+      &:hover {
+        background-color: safo-color('primary', 1);
+      }
+    }
+
+    > li:last-of-type a.disabled {
+      &:hover {
+        background-color: safo-color('primary');
+      }
+    }
+
+    .subsubmenu li {
+      a {
+        $horizontal-padding: 16px;
+        width: calc(#{$sidebar-width} - 2 * #{$horizontal-padding});
+        padding: 5px $horizontal-padding;
+      }
+
+      &:first-of-type a {
+        padding-top: 20px;
+      }
+
+      &:last-of-type a {
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+  .menu-title {
+    padding-left: 0;
+    margin: 0;
+    border-top: 1px solid safo-color('separator');
+    border-bottom: 1px solid safo-color('separator');
+
+    li {
+      padding: 12px 18px;
+      font-family: safo-font('sans-serif');
+      font-size: 14px;
+      color: safo-color('light');
+      text-transform: uppercase;
+    }
+
+    + .menu-catalogue > li:first-child > a {
+      border: none;
+    }
+  }
+
+  .mCSB_inside > .mCSB_container {
+    margin-right: 0;
+  }
+}
+
+.sidebar-entreprise-container {
+  padding: 6px 0;
+  text-align: center;
+  border-top: 1px solid safo-color('separator');
+}
+
+.sidebar-entreprise-name {
+  display: inline-block;
+  font-family: safo-font('sans-serif');
+  font-size: 20px;
+  color: safo-color('light');
+}
+
+.subsub-open::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 2;
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: -.8em;
+  content: " ";
+  border-top: .7em solid safo-color('primary-light');
+  border-right: .7em solid transparent;
+  border-left: .7em solid rgba(255,255,0,0);
+}
+
+.arrow-menu {
+  position: absolute;
+  top: 25px;
+  left: 14px;
+  width: 20px;
+  height: 27px;
+
+  img {
+    width: 17px;
+    height: 27px;
+  }
+}
+
+.submenu {
+  display: none;
+  overflow: hidden;
+
+  > li > a {
+    background-color: safo-color('primary-light');
+
+    &:hover {
+      background-color: safo-color('primary-light', 1) !important;
+    }
+
+    &.inactive-company:hover {
+      background-color: safo-color('primary-light') !important;
+    }
+  }
+}
+
+.subsubmenu {
+  display: none;
+  overflow: hidden;
+
+  a {
+    background: safo-color('sidebar-subsubmenu');
+    border-top: none !important;
+
+    &:hover {
+      text-decoration: underline !important;
+      background-color: safo-color('sidebar-subsubmenu') !important;
+    }
+  }
+}
+
+.subsub-open-active {
+  text-decoration: underline !important;
+}
+
+#close-menu {
+  position: absolute;
+  top: 0;
+  right: -39px;
+  z-index: 1;
+  display: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-color: safo-color('primary');
+
+  img {
+    width: 20px;
+    margin-top: 9px;
+    margin-left: 9px;
+  }
+}
+
+.commercial {
+  .subsub-open {
+    background-color: safo-color('separator') !important;
+  }
+}
+
+#menuCatalogueChild {
+  overflow: hidden;
+}
+
+.catalogue-entreprise-name {
+  display: inline-block;
+  margin-top: 2px;
+  margin-left: 10px;
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  color: safo-color('text-neutral');
+}
+
+.change-company {
+  color: safo-color('light');
+  padding: 5px 0 0 15px;
+  font-size: 20px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: safo-color('light', -1);
+  }
+}
+
+.sub-open.foldable:after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 2;
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: -.8em;
+  content: " ";
+  border-top: .7em solid safo-color('primary');
+  border-right: .7em solid transparent;
+  border-left: .7em solid rgba(255,255,0,0);
+}
+
+.sidebar-picto-generic-before {
+  position: absolute;
+  top: calc((#{sidebar-cell-height} / 2) - (#{sidebar-cell-picto-size} / 2));
+  left: 15px;
+  display: block;
+  width: $sidebar-cell-picto-size;
+  height: $sidebar-cell-picto-size;
+  font-family: safo-font('picto');
+  font-size: $sidebar-cell-picto-size;
+  content: "";
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.sidebar-element-commandes:before {
+  @extend .sidebar-picto-generic-before;
+  content: "\f1da";
+  text-align: center;
+}
+
+.sidebar-element-catalogue:before {
+  @extend .sidebar-picto-generic-before;
+  content: "\f00b";
+  text-align: center;
+}
+
+.sidebar-element-assortiments:before {
+  @extend .sidebar-picto-generic-before;
+  content: "\f00a";
+  text-align: center;
+}
+
+.sidebar-element-panier:before {
+  @extend .sidebar-picto-generic-before;
+  content: "\f07a";
+  text-align: center;
+}
+
+.sidebar-element-didacticiel:before {
+  @extend .sidebar-picto-generic-before;
+  content: "\f128";
+  text-align: center;
+}
+
+.promo:before {
+  @extend .sidebar-picto-generic-before;
+  top: 9px;
+  width: 24px;
+  height: 24px;
+  background-image: $url_53;
+}
+
+.nouveaute:before {
+  @extend .sidebar-picto-generic-before;
+  top: 9px;
+  width: 23px;
+  height: 23px;
+  background-image: $url_54;
+}
+
+.catalogue-link:before {
+  @extend .sidebar-picto-generic-before;
+  content: "\f00b";
+}
+
+.assortiment:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_55;
+}
+
+.fruit:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_56;
+}
+
+.charcuterie:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_57;
+}
+
+.poisson:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_58;
+}
+
+.oeuf:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_59;
+}
+
+.menage:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_60;
+}
+
+.maison:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_61;
+}
+
+.jardin:before {
+  position: absolute;
+  top: calc((#{sidebar-cell-height} / 2) - (#{sidebar-cell-picto-size} / 2));
+  left: 19px;
+  display: block;
+  width: $sidebar-cell-picto-size;
+  height: $sidebar-cell-picto-size;
+  content: "";
+  background-image: $url_62;
+}
+
+.bricolage:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_63;
+}
+
+.frigo:before,
+.surgels:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_64;
+}
+
+.sec:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_67;
+}
+
+.bazar:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_65;
+}
+
+.bazar-lourd:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_66;
+}
+
+.p-g-c:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_67;
+}
+
+.produits-frais:before,
+.frais-ultra-frais:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_68;
+}
+
+.textile:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_69;
+}
+
+.transport:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_70;
+}
+
+.tabac:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_71;
+}
+
+.zone-marche:before {
+  @extend .sidebar-picto-generic-before;
+  background-image: $url_72;
+}
+
+.sidebar-menu-notif-container {
+  position: absolute;
+  top: 0;
+  right: 13px;
+  bottom: 0;
+  margin: auto;
+}

@@ -1,0 +1,43 @@
+{% block body %}
+    <section>
+        <div class="content">
+            <div class="breadcrumb-trail-container">
+                {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+            </div>
+            <div class="block">
+                <div class="space-between-container space-between-container-very-small">
+                    <div class="page-title">Tous les clients</div>
+                </div>
+                <div class="scrollable-content scrollable-content-tracking-clients" id="product-list">
+                    <table class="table-without-images table-with-headers sticky-header-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Nom</th>
+                                <th>Age (jours)</th>
+                                <th>Dernière connexion</th>
+                                <th>Date de modification</th>
+                                <th>Temps passé</th>
+                                <th>Connexion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="spacer"></tr>
+                            {% if trackedUsers is defined and trackedUsers is not empty %}
+                                {% include "SogedialIntegrationBundle:Admin:trackingClients.list.html.twig"  with { "trackedUsers": trackedUsers } %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <div id="loadingDiv" style="display: none">
+                        <div class="loader-commande-point-com">
+                            {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig"  with {'svg_id':1} %}
+                        </div>
+                    </div>
+                    <div id="endLoadingDiv" style="display: none">
+                        <p> Fin de la liste </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,419 @@
+.table {
+  display: table;
+  width: calc(100% - 10px);
+
+  form {
+    min-width: 110px;
+    margin-left: -20px;
+  }
+
+  .price {
+    float: none;
+    margin-right: 0;
+  }
+
+  .customer-status {
+    margin-right: 0;
+    cursor: default;
+  }
+}
+
+table {
+  width: calc(100% - 10px);
+  border-spacing: 0;
+  border-collapse: collapse;
+
+  &.table-without-images {
+    tr td:first-of-type {
+      padding-left: 20px;
+    }
+
+    &.table-without-headers tr:not(.spacer) {
+      height: 80px;
+    }
+
+    &.table-with-headers tr:not(:first-of-type):not(.spacer) {
+      height: 80px;
+    }
+  }
+
+  form {
+    min-width: 110px;
+  }
+
+  .price {
+    float: none;
+    margin-right: 0;
+    line-height: 18px;
+  }
+
+  .customer-status {
+    margin-right: 0;
+    cursor: default;
+  }
+
+  &.table-with-images td {
+    padding: 3px;
+  }
+
+  &.table-with-headers tr th {
+    &:first-of-type {
+      padding-left: 20px;
+    }
+
+    &:last-of-type {
+      padding-right: 20px;
+    }
+  }
+}
+
+tr {
+  &.spacer {
+    height: 5px;
+  }
+
+  &.item td.img p {
+    top: 3px;
+  }
+
+  &.highlighted-warning {
+    border: 1px solid safo-color('error', 7);
+    box-shadow: 0 0 10px safo-color('error', 0, 0.1);
+
+    &:hover {
+      & > td {
+        background-color: safo-color('error', 8.25);
+      }
+    }
+
+    & > td {
+      background-color: safo-color('error', 8.5);
+
+      &:last-of-type {
+        border-right: 1px solid safo-color('error', 7);
+      }
+    }
+  }
+
+  &.highlighted-ok {
+    border: 1px solid safo-color('ok', 7);
+    box-shadow: 0 0 10px safo-color('ok', 0, 0.1);
+
+    &:hover {
+      & > td {
+        background-color: safo-color('ok', 8.25);
+      }
+    }
+
+    & > td {
+      background-color: safo-color('ok', 8.5);
+
+      &:last-of-type {
+        border-right: 1px solid safo-color('ok', 7);
+      }
+    }
+  }
+
+}
+
+td {
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  color: safo-color('text-neutral-dark');
+  background-color: safo-color('light');
+
+  &.link {
+    cursor: pointer;
+  }
+
+  ul {
+    line-height: 18px;
+
+    &.delivery {
+      line-height: 25px;
+
+      li span.temp {
+        float: left;
+        width: 60px;
+      }
+    }
+  }
+
+  .reference {
+    clear: left;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('text-neutral');
+
+    a {
+      color: safo-color('text-neutral');
+      text-decoration: none;
+    }
+  }
+
+  .ean {
+    clear: left;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('text-neutral');
+  }
+
+  &.img {
+    position: relative;
+    font-size: 0;
+    vertical-align: middle;
+    white-space:nowrap;
+    img {
+      width: 75px;
+      height: 75px;
+      padding: 0 15px;
+    }
+  }
+
+  &.delete {
+    position: relative;
+    padding-right: 15px;
+  }
+}
+
+th {
+  padding: 10px 0;
+  font-family: safo-font('sans-serif', 'light');
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 12px;
+  color: safo-color('text-neutral');
+  text-align: left;
+  background-color: safo-color('text-neutral-light');
+}
+
+.table-infos {
+  margin: 0 10px;
+  font-family: safo-font('sans-serif');
+  font-size: 12px;
+  color: safo-color('text-neutral');
+
+  .nb-product {
+    position: absolute;
+    position: static;
+    margin-left: 20%;
+    font-family: safo-font('sans-serif', 'semi-bold');
+    font-size: 12px;
+    color: safo-color('primary-dark');
+  }
+
+  span {
+    margin-right: 10px;
+  }
+
+  a {
+    position: relative;
+    margin-left: 10px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('primary-dark');
+    text-decoration: none;
+
+    &.export-basket {
+      top: -3px;
+      margin-right: 20px;
+    }
+
+    img {
+      position: relative;
+      top: 2px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.product {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 10px;
+  overflow: auto;
+  background-color: safo-color('light');
+
+  .product-form {
+    position: relative;
+    padding: 20px 0;
+
+    form {
+      width: 193px;
+
+      span {
+        width: 34px;
+        height: 34px;
+        line-height: 32px;
+      }
+
+      input {
+        width: 60px;
+        height: 30px;
+      }
+    }
+
+    div {
+      span {
+        width: 34px;
+        height: 34px;
+        line-height: 32px;
+      }
+
+      input {
+        width: 60px;
+        height: 30px;
+      }
+    }
+  }
+
+  .single-product-form{
+    padding:0;
+    position:unset;
+  }
+
+  .product-total {
+    margin: 0;
+    font-family: safo-font('sans-serif', 'semi-bold');
+    font-size: 26px;
+    color: safo-color('primary-dark');
+  }
+
+  .product-alert {
+    margin-top: 20px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('text-neutral');
+  }
+}
+
+.product-img {
+  position: relative;
+  width: 35%;
+  max-width: 320px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .sale {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .new {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .new-large {
+    float:left;
+    width: $header-height;
+    height: 76px;
+    background: $url_73 0 0 no-repeat;
+    background-size:100%;
+  }
+
+  .sale-fiche-produit {
+    float:left;
+    width: $header-height;
+    height: 76px;
+    background: $url_74 0 0 no-repeat;
+    background-size:100%;
+  }
+}
+
+.product-information {
+  width: 65%;
+  box-sizing: border-box;
+  padding-left: 10px;
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-family: safo-font('sans-serif', 'semi-bold');
+    font-size: 24px;
+    color: safo-color('text-neutral-dark');
+  }
+
+  .details {
+    margin-right: 25%;
+  }
+
+  .brand {
+    margin-bottom: 20px;
+    clear: left;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('text-neutral-dark');
+  }
+
+  .entreprise {
+    display: inline-block;
+    max-width: 190px;
+    margin-bottom: 20px;
+    margin-bottom: 0;
+    overflow: hidden;
+    clear: left;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('text-neutral-dark');
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .icons {
+    margin-bottom: 10px;
+  }
+
+  .reference {
+    margin-bottom: 10px;
+    font-family: safo-font('sans-serif');
+    font-size: 12px;
+    color: safo-color('text-neutral');
+
+    .ref a {
+      color: safo-color('text-neutral');
+      text-decoration: none;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  .product-price li {
+    font-family: safo-font('sans-serif');
+    font-size: 16px;
+    line-height: 24px;
+    color: safo-color('text-neutral');
+
+    .price_value {
+      font-family: safo-font('sans-serif', 'semi-bold');
+      font-size: 26px;
+      color: safo-color('primary-dark');
+
+      span {
+        font-family: safo-font('sans-serif');
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.product-item {
+  border-bottom: 1px solid safo-color('text-neutral-light');
+}
+
+.product-information-display {
+  padding-bottom: 20px;
+  border-bottom: 1px solid safo-color('text-neutral-light');
+}
+

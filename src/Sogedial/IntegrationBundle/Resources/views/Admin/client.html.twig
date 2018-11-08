@@ -1,0 +1,10 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block bodyId %}
+<body id="my-orders" class="secondary-header order-pages simple-version customer commercial"> {% endblock %}
+
+{% block body %}
+{% include "SogedialIntegrationBundle:Admin:client.content.html.twig"
+with {'societe': societe, 'clientInfo': clientInfo, 'commercialInfo': commercialInfo,  'commandeEncours': commandeEncours,
+'order': result.order, 'totalAmount': result.totalAmount, 'hasLogin' : hasLogin } only %}
+{% endblock %}

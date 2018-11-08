@@ -1,0 +1,226 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+
+framework:
+    #esi:             ~
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            true
+    strict_variables: "%kernel.debug%"
+    cache : false
+    globals:
+          multisiteService: "@sogedial.multisite"
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ SogedialSiteBundle, SogedialUserBundle, FOSUserBundle, SogedialIntegrationBundle ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
+        jsqueeze: ~
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        mapping_types:
+             enum: string
+        logging: true
+        profiling: false
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        default_entity_manager: default
+        entity_managers:
+            default:
+                #metadata_cache_driver: apc
+                #query_cache_driver: apc
+                #result_cache_driver: apc
+                mappings:
+                    JMSJobQueueBundle:
+                        is_bundle: true
+                        type: annotation
+                    SogedialSiteBundle: ~
+                    SogedialUserBundle: ~
+                    FOSUserBundle: ~
+                dql:
+                    numeric_functions:
+                        round:       Mapado\MysqlDoctrineFunctions\DQL\MysqlRound
+
+#doctrine_migrations:
+#    dir_name: %kernel.root_dir%/DoctrineMigrations
+#    namespace: Application\Migrations
+#    table_name: migration_versions
+#    name: Application Migrations
+
+services:
+    cacheApc:
+        class: Doctrine\Common\Cache\ApcCache
+    cacheFile:
+        class: Doctrine\Common\Cache\FilesystemCache
+        arguments: ["%kernel.root_dir%/cache"]
+
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    encryption: "%mailer_encryption%"
+    auth_mode:  "%mailer_auth_mode%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    port:  "%mailer_port%"
+    spool:     { type: memory }
+
+
+gregwar_image:
+    cache_dir:  "%cache_img_dir%"
+
+fos_user:
+    db_driver:     orm
+    firewall_name: main
+    user_class:    Sogedial\UserBundle\Entity\User
+    profile:
+        form:
+            type: sogedial_user_profile
+            
+stof_doctrine_extensions:
+    default_locale: fr_FR
+    translation_fallback: true
+    orm:
+        default:
+            translatable: true
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     '%kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64'
+        options:
+            - { name: 'viewport-size', value: '1024x768' }
+            - { name: 'page-size', value: 'A4' }
+#            - { name: 'encoding', value: 'UTF-8' }
+    image:
+        enabled:    false
+        binary:     '%kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltoimage'
+        options:    []
+
+#    process_timeout: 20 # In seconds
+
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json
+
+nelmio_api_doc: ~
+
+fos_js_routing:
+    routes_to_expose: [ SogedialSite_list_users_json, SogedialSite_validate_cmd ]
+
+monolog:
+    handlers:
+        main:
+            type:           rotating_file
+            max_files:      3
+            path:           %kernel.logs_dir%/%kernel.environment%.all.log
+            level:          info
+
+        login:
+            type:           rotating_file
+            max_files:      15
+            path:           %kernel.logs_dir%/%kernel.environment%.auth.log
+            level:          info
+            channels:       security
+
+        main_error:
+            type:           fingers_crossed
+            action_level:   error
+            handler:        streamed_error
+        streamed_error:
+            type:           rotating_file
+            max_files:      15
+            path:           %kernel.logs_dir%/%kernel.environment%.error.log
+            level:          info
+
+        main_critical:
+            type:           fingers_crossed
+            action_level:   critical
+            handler:        grouped_critical
+        grouped_critical:
+            type:           group
+            members:        [streamed_critical, buffered_critical]
+        streamed_critical:
+            type:           rotating_file
+            max_files:      15
+            path:           %kernel.logs_dir%/%kernel.environment%.critical.log
+            level:          info
+        buffered_critical:
+            type:           buffer
+            handler:        swift_critical
+        swift_critical:
+            type:           swift_mailer
+            from_email:     contact@groupesafo.com
+            to_email:       ['sekou.koita@groupesafo.com', 'ridha.bensaber@groupesafo.com']
+            subject:        Une erreur critique est survenue !
+            level:          info
+
+white_october_breadcrumbs:
+    separator:          '>'
+    separatorClass:     'breadcrumb-separator'
+    listId:             'wo-breadcrumbs'
+    listClass:          'breadcrumb-list'
+    itemClass:          'breadcrumb-item'
+    linkRel:            ''
+    locale:             ~ # defaults to null, so the default locale is used
+    translation_domain: ~ # defaults to null, so the default domain is used
+    viewTemplate:       'WhiteOctoberBreadcrumbsBundle::breadcrumbs.html.twig'

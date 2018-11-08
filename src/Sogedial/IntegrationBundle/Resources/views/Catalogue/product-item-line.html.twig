@@ -1,0 +1,189 @@
+<tr class="item"
+    data-init="{{ (product.stockInit is defined) ? product.stockInit : "" }}"
+    data-efcommandeencours="{{ (product.promotionCommandeEnCours is defined) ? product.promotionCommandeEnCours : "" }}"
+    data-efcommandefacture="{{ (product.promotionCommandeFacture is defined) ? product.promotionCommandeFacture : "" }}"
+    data-code="{{ (product.EF is defined) ? product.EF : "" }}"
+    data-stock="{{ product.stock }}"
+    data-reference="{{ product.code }}"
+    data-pricepcb="{{ product.pcb }}"
+    data-priceunit='{{ product.prixHt|json_encode(constant("JSON_NUMERIC_CHECK"))|raw }}'
+    data-label="{{ product.denominationProduitBase }}"
+    data-shortref="{{ product.code[4:] }}"
+    data-temperature="{{ product.temperature }}"
+    {% if product.moq is defined %}
+    data-moq="{{product.moq}}"
+    {% else %}
+    data-moq="0"
+    {% endif %}
+    {% if product.moq_client is defined %}
+    data-moqnew="{{product.moq_client}}"
+    {% else %}
+    data-moqnew=""
+    {% endif %}
+    data-saleunity="{{product.sale_unity}}"
+
+>
+    
+    <td class="img link">
+        {% if (societe != "sogedial" or currentPage != "panier" or nbrProduct < 200) %}
+            {% set imagePath = baseUrl ~ product.ean13 %}
+            <img src="{{ imagePath }}">
+        {% endif %}
+        {% if (product.natureCode == 'NOUVEAUTE' or product.isPromo == 1) %}
+            <div class="product-badge-container">
+                {% if (product.natureCode == 'NOUVEAUTE') %}
+                    <div class="new"></div>
+                {% endif %}
+                {% if (product.isPromo == 1) %}
+                    <div class="sale"></div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </td>
+    <td class="link responsive-catalogue-description">
+        <ul>
+            <li>{{ product.denominationProduitBase }}</li>
+            <li class="reference {% if not multisiteService.hasFeature('poidsVolume') %} responsive-catalogue-hidden-on-desktop {% endif %}">{{ product.marque }}</li>
+            <li>
+                {% if preCommandeMode is defined and preCommandeMode == true %}
+                    {% set marketingCodeSplit = product.marketingCode|split(' ')[0]  %}
+                    {% if marketingCodeSplit == 'AVION' %}
+                        {% set livraison = "plane" %}
+                    {% else %}
+                        {% set livraison = "boat" %}
+                    {% endif %}
+                {% else %}
+                    {% set livraison = "truck" %}
+                {% endif %}
+                {% include "SogedialIntegrationBundle:Common:pictograme.html.twig"  with { "temperature": product.temperature, "livraison" : livraison } %}
+                <span class="catalogue-entreprise-name">{{ product.entreprise | upper }}</span>
+                {% if preCommandeMode == true %}
+                    <span class="precommande-catalog-label">En précommande</span>
+                {% elseif (currentPage == "panier" and preCommandeMode == false and product.stock > 0 and product.etatProduit == 1) and not multisiteService.hasFeature('notPrintEnStock')
+                    or ((currentPage != "panier" and preCommandeMode == false and product.stock > 0 and product.etatProduit == 1) and not multisiteService.hasFeature('notPrintEnStock') )
+                %}
+                    <span class="commande-catalog-label">En stock</span>
+                {% elseif (currentPage == "panier" and product.stock == 0) or (currentPage == "panier" and product.etatProduit == 0) and preCommandeMode == false %}
+                    <span class="panier-catalog-label">Indisponible</span>
+                {% endif %}
+            </li>
+            <li class="reference">
+                Réf: <a class="link" href="{{ path('sogedial_integration_fiche_produit', { 'societe': societe, 'code': product.code}) }}">{{ product.code[4:] }}</a>
+                {% if multisiteService.hasFeature('poidsVolume') %}
+                    {% if product.dureeDeVie %}
+                        - DLV indicative : {{ product.dureeDeVie }} {% if product.dureeDeVie > 1 %} jours {% else %} jour {% endif %}
+                    {% elseif product.dlcProduit %}
+                        - DLV indicative : {{ product.dlcProduit }}
+                    {% endif %}
+                {% else %}
+                    - EAN : {{ product.ean13 }}
+                {% endif %}
+            </li>
+            <li class="reference">
+                {% if preCommandeMode == true and product.produitMeti is defined and product.produitMeti|length == 0 and clientInfo.isClientMeti == true %}
+                    Attention : produit non encore référencé dans METI
+                {% endif %}
+                {% if preCommandeMode == true and  product.produitMeti is defined and product.produitMeti|length > 0 %}
+                    Réf meti: {{product.produitMeti}}
+                {% endif %}
+            </li>
+        </ul>
+    </td>
+
+    {% if multisiteService.hasFeature('poidsVolume') %}
+        <td>
+            <div>{{ product.poidsColis is defined ? product.poidsColis : 0 }}&nbsp;kg</div>
+            <div>{{ product.volumeColis is defined ? product.volumeColis : 0 }}&nbsp;m<sup>3</sup></div>
+        </td>
+    {% else %}
+        <td class="link responsive-catalogue-hidden-on-mobile">{{ product.marque }}</td>
+    {% endif %}
+
+    <td class="link responsive-catalogue-hidden-on-mobile">
+        <ul>
+            <li>
+                <span class="item-pcb">
+                    {% if product.poid_variable is defined and product.poid_variable and product.sale_unity is defined and product.sale_unity == 'KILOGRAMME'  %}
+                        <div class="price_from">Environ</div>
+                        {{ product.pcb }} kilo{% if product.pcb > 1 %}s{% endif %}
+                    {% else %}
+                        {{ product.pcb }} unité{% if product.pcb > 1 %}s{% endif %}
+                    {% endif %}
+                </span>
+            </li>
+            <li><span class="second-line">par colis</span></li>
+        </ul>
+    </td>
+    {% if currentPage == "panier" %}
+    <td>
+        {% include "SogedialIntegrationBundle:Catalogue:product-form.html.twig"  with { "product": product, 'preCommandeMode' : preCommandeMode, 'currentPage': currentPage  } %}
+        {% if (preCommandeMode is defined and preCommandeMode == true) and product.moq is defined %}
+            {% include "SogedialIntegrationBundle:Catalogue:product-qmin.html.twig" with { "qMin" : product.moq} %}
+        {% endif %}
+    </td>
+    {% endif %}
+    <td class="link">
+        <ul class="price">
+            {#{% if societe == "sofrigu" and product.prixHt|length > 1 %}#}
+                {#<li><span class="price_from">à partir de</span></li>#}
+            {#{% endif %}#}
+            {% if societe == "sofrigu" %}
+                <li class="price_ttc">
+                {% if product.prixHt|length > 1 %}
+                    {% include "SogedialIntegrationBundle:Common:pricing.html.twig"  with
+                        { "product": product.prixHt|first, "poid_variable" : product.poid_variable, "sale_unity": product.sale_unity, "currentPage": currentPage, 'societe': societe }
+                    %}
+                {% else %}
+                    {% include "SogedialIntegrationBundle:Common:pricing.html.twig"  with
+                        { "product": product, "poid_variable" : product.poid_variable, "sale_unity": product.sale_unity, "currentPage": currentPage, 'societe': societe }
+                    %}
+                {% endif %}
+                </li>
+                <li><span class="second-line">
+                    {{ product.packagePriceFrom|number_format(2, ".", " ") }}&#8239;&euro; par colis</span>
+                </li>
+                <li class="link responsive-catalogue-hidden-on-desktop">
+                    <span class="second-line">({{ product.pcb }} unité{% if product.pcb > 1 %}s{% endif %})</span>
+                </li>
+
+                {% include "SogedialIntegrationBundle:Common:pricing.degressive.html.twig"  with {"products": product.prixHt, "societe": societe} %}
+            {% else %}
+                <li class="price_ttc">
+                    {% include "SogedialIntegrationBundle:Common:pricing.html.twig"  with { "product": product, "currentPage": currentPage, "poid_variable" : product.poid_variable, "sale_unity": product.sale_unity, 'societe': societe } %}
+                </li>
+                <li><span class="second-line">
+                    {{ product.packagePriceFrom|number_format(2, ".", " ") }}&#8239;&euro; par colis</span>
+                </li>
+                <li class="link responsive-catalogue-hidden-on-desktop">
+                    {% if product.sale_unity is defined and product.sale_unity == 'KILOGRAMME'  %}
+                        <span class="second-line">({{ product.pcb }} kilo{% if product.pcb > 1 %}s{% endif %})</span>
+                    {% else %}
+                        <span class="second-line">({{ product.pcb }} unité{% if product.pcb > 1 %}s{% endif %})</span>
+                    {% endif %}
+                </li>
+
+            {% endif %}
+        </ul>
+    </td>
+    {% if currentPage != "panier" %}
+    <td>
+        {% include "SogedialIntegrationBundle:Catalogue:product-form.html.twig"  with { "product": product, 'preCommandeMode' : preCommandeMode } %}
+        {% if (preCommandeMode is defined and preCommandeMode == true) and product.moq is defined %}
+            {% include "SogedialIntegrationBundle:Catalogue:product-qmin.html.twig" with { "qMin" : product.moq} %}
+        {% endif %}
+    </td>
+    {% endif %}
+    <td class="link total_price_container">
+        <span class="catalogue-panier total_price">
+            {{ product.totalPrice|number_format(2, ".", " ") }}
+            &#8239;&euro;
+        </span>
+    </td>
+    {% if currentPage == 'panier' %}
+        <td class="delete">
+            <a href="#" id="{{ product.code }}">
+                <img class="delete-current-product" src="{{ image('images/delete.png') }}"/>
+            </a>
+        </td>
+    {% endif %}
+</tr>

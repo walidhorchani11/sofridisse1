@@ -1,0 +1,605 @@
+{% extends "SogedialIntegrationBundle:Layout:layout-infinite.html.twig" %}
+{% block title %}Panier{% endblock %}
+
+{# si l'utiliateur connecté est le commercial, alors on ne prend pas en compte le franco #}
+{% set isCommercial = (is_granted('ROLE_PREVIOUS_ADMIN')) ? 1 : 0 %}
+
+{% if clientInfos.flagFranco is null %}
+    {% set flagFranco = 0 %}
+{% else %}
+    {% set flagFranco = (clientInfos.flagFranco ? 1 : 0) %}
+{% endif %}
+
+{% block body %}
+    <section>
+        <div class="content">
+            {% if (preCommandeMode is defined and preCommandeMode == true) %}
+                {% include "SogedialIntegrationBundle:Toasts:remaining-time-before-validation.html.twig" with {
+                    'shippingMode': shippingMode,
+                    'formattedNextValidationDate': formattedNextValidationDate,
+                    'formattedNextDeliveryDate' : formattedNextDeliveryDate,
+                    'remDays': remainingValidationTime.days,
+                    'remHours': remainingValidationTime.hours,
+                    'remMins': remainingValidationTime.mins
+                } %}
+            {% endif %}
+            {% if (is_prospect is defined and is_prospect == true) and (formattedExpirationDate is defined and formattedExpirationDate != null) %}
+                {% include "SogedialIntegrationBundle:Toasts:remaining-time-before-prospect-end.html.twig" with {
+                    'formattedExpirationDate': formattedExpirationDate,
+                    'remYears': remainingProspectTime.years,
+                    'remMonths': remainingProspectTime.months,
+                    'remDays': remainingProspectTime.days,
+                    'remHours' : remainingProspectTime.hours,
+                    'remMins' : remainingProspectTime.mins,
+                } %}
+            {% endif %}
+            <div class="container">
+                <div class="page-title"><span class="fa fa-shopping-cart"></span> Panier en cours : {{ nbrProduct }}{% if nbrProduct > 1 %} produits {% else %} produit {% endif %}</div>
+                <div class="space-between-container space-between-container-small">
+                    <div class="basket-subheader-element grid-s-6">
+                        <div class="comment">
+                            <textarea class="commentaire" id="commentaire" rows="1" cols="40" maxlength="40"
+                                        placeholder="Saisissez votre commentaire ( 40 caractères maximum )"></textarea>
+                        </div>
+                    </div>
+                    <div class="basket-subheader-element grid-s-6">
+                        <div class="grid-pull-right content-padded-right">
+                            <div class="button border-blue basket-subheader-button no-margin left" id="init-qte">Réinitialiser le panier</div>
+                            <div class="button border-blue basket-subheader-button no-margin left" id="delete-order">Supprimer le panier</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="table-basket">
+                    <div class="scrollable-content scrollable-content-basket{% if preCommandeMode == true %}-with-toast{% endif %}">
+                        <table id="current-tbl" class="table-with-images table-with-headers sticky-header-table">
+                            <thead>
+                                <tr>
+                                    <th class="catalogue-table-image">Image</th>
+                                    <th>Libellé produit</th>
+                                    {% if multisiteService.hasFeature('poidsVolume') %}
+                                        <th>kg - m<sup>3</sup></th>
+                                    {% else %}
+                                        <th class="responsive-catalogue-hidden-on-mobile">Marque</th>
+                                    {% endif %}
+                                    <th class="responsive-catalogue-hidden-on-mobile">PCB</th>
+                                    <th>Quantités ({% if MasterEnterprise == "sofrigu" %}unités{% else %}colis{% endif %})</th>
+                                    <th>Prix unitaire {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}<sup>*</sup></th>
+                                    <th>Total {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}<sup>*</sup></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="spacer"></tr>
+                                {% include 'SogedialIntegrationBundle:Common:table-universal.html.twig' with { 'currentPage': 'panier', 'preCommandeMode' : preCommandeMode, 'nbrProduct': nbrProduct, 'clientInfo': clientInfo } %}
+                            </tbody>
+                        </table>
+                        <table class="table-without-images product-type panier-barre">
+                            {% for key in orderProducts|keys %}
+                                {% set nbProduct = orderProducts[key]["products"] | length %}
+                                {% include "SogedialIntegrationBundle:Commande:panier-temperature-bloc.html.twig"  with {'nbrProduct': nbProduct, 'temperature': key, 'subTotal': orderProducts[key]["sumPrice"], 'preCommandeMode' : preCommandeMode, 'dateLivraisonEstimee' : dateLivraisonEstimee, "features": features} %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="informations-right">
+                        <span>Photos non contractuelles</span>
+                        {% if societe is defined and societe == 'sofrigu' %}
+                            , <span>* Prix TTC (Hors frais de livraison)</span>
+                        {% else %}
+                            , <span>* Prix HT (Dont Taxe sécurité sociale sur les alcools)</span>
+                        {% endif %}
+                        {% if MasterEnterprise != "sofridis" %}
+                            , <span>** Poids et prix peuvent varier selon arrivage et découpe</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            $(".sticky-header-table").stickyTableHeaders();
+        });
+    </script>
+
+    <script>
+        jQuery(document).ready(function ($) {
+
+            $('#order').click(function(){
+                $('#loading-fullscreen').show();
+            })
+
+            var href = $(this).attr('href');
+
+            var myComment = "{{ commentaireCommandePending }}";
+            var area = $('#commentaire');
+
+            if(myComment !== null && myComment !==""){
+                area.val(myComment);
+            }
+            area.on('change',function(){
+
+                var commentsPart = area.val().trim().split(' ');
+                var stringComment = commentsPart.join('-');
+
+                var url = Routing.generate("SogedialSite_comment_cmd", {
+                    'comment': stringComment,
+                    '_locale': locale
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: url,     // l'URL
+                    dataType: 'html',
+                    success: function(data){
+                    }
+                });
+            });
+
+           function getConditions() {
+                var condSignedAt = '{{ conditionsSignedAt }}';
+                var condUpdatedAt = '{{ conditionsUpdatedAt }}';
+
+                if (condUpdatedAt != null) {
+                    var dateUpdated = condUpdatedAt;
+                }
+                if (condSignedAt != null) {
+                    var dateSigned = condSignedAt;
+                }
+
+                //cas N°1 : si le client a déjà signé les conditions (dateUpdated < dateSigned)
+                if (dateUpdated < dateSigned) {
+                    var urlToTrue = '{{ path('SogedialSite_update_to_true_conditions') }}';
+                    $.getJSON(urlToTrue, function (data) {
+                        if (data == true) {
+                            window.location.href = urlToTrue;
+                        }
+                    });
+
+                    $('#agree').iCheck('check');
+
+                    return false;
+                }
+
+                //cas N°2 : si les conditions sont mises à jour dans le BO et que le client les a déjà signé (dateUpdated > dateSigned)
+                if (dateUpdated > dateSigned) {
+                    var urlToFalse = '{{ path('SogedialSite_update_to_false_conditions') }}';
+                    $.getJSON(urlToFalse, function (data) {
+                        if (data == false) {
+                            window.location.href = urlToFalse;
+                        }
+                    });
+
+                    $('#agree').iCheck('uncheck');
+
+                    return false;
+                }
+
+            }
+
+            getConditions();
+
+            var dateMin = new Date();
+            var weekDays = AddWeekDays(1);
+            dateMin.setDate(dateMin.getDate() + weekDays);
+            var natDays = {{ arrayHoliday }};
+
+            {% if zoneDays is defined %}
+            {{ zoneDays }};
+            {% else %}
+            var zoneDays = []
+            {% endif %}
+
+            function noWeekendsOrHolidays(date, temperature) {
+                if (zoneDays[temperature].indexOf(date.getDay()) === -1){
+                    return [false, ""];
+                }
+                return nationalDays(date);
+            }
+
+            function nationalDays(date) {
+                for (i = 0; i < natDays.length; i++) {
+                    if (date.getMonth() == natDays[i][0] - 1 && date.getDate() == natDays[i][1]) {
+                        return [false, natDays[i][2] + '_day'];
+                    }
+                }
+                return [true, ''];
+            }
+
+            function AddWeekDays(weekDaysToAdd) {
+                var mydate = new Date();
+                if (mydate.getHours() >= 10) var daysToAdd = 1;
+                else var daysToAdd = 0;
+                var day = mydate.getDay()
+                weekDaysToAdd = weekDaysToAdd - (5 - day)
+                if ((5 - day) < weekDaysToAdd || weekDaysToAdd == 1) {
+                    daysToAdd = (5 - day) + 2 + daysToAdd
+                } else {
+                    daysToAdd = (5 - day) + daysToAdd
+                }
+                while (weekDaysToAdd != 0) {
+                    var week = weekDaysToAdd - 5
+                    if (week > 0) {
+                        daysToAdd = 7 + daysToAdd
+                        weekDaysToAdd = weekDaysToAdd - 5
+                    } else {
+                        daysToAdd = (5 + week) + daysToAdd
+                        weekDaysToAdd = weekDaysToAdd - (5 + week)
+                    }
+                }
+                return daysToAdd;
+            }
+
+            $.datepicker.setDefaults($.datepicker.regional["fr"]);
+
+            function noWeekendsOrHolidaysSec(date){
+                return noWeekendsOrHolidays(date, 'SEC');
+            }
+
+            function noWeekendsOrHolidaysFrais(date){
+                return noWeekendsOrHolidays(date, 'FRAIS');
+            }
+
+            function noWeekendsOrHolidaysSurgele(date){
+                return noWeekendsOrHolidays(date, 'SURGELE');
+            }
+
+            var datepickerConfigSec = {
+                minDate: 1,
+                dateFormat: 'dd/mm/yy',
+                beforeShowDay: noWeekendsOrHolidaysSec
+            };
+
+            var datepickerConfigFrais = {
+                minDate: 1,
+                dateFormat: 'dd/mm/yy',
+                beforeShowDay: noWeekendsOrHolidaysFrais
+            };
+
+            var datepickerConfigSurgele = {
+                minDate: 1,
+                dateFormat: 'dd/mm/yy',
+                beforeShowDay: noWeekendsOrHolidaysSurgele
+            };
+
+            $('#ambient input').datepicker(datepickerConfigSec, 'SEC');
+            $('#positiveCold input').datepicker(datepickerConfigFrais, 'FRAIS');
+            $('#negativeCold input').datepicker(datepickerConfigSurgele, 'SURGELE');
+
+            $(window).resize(function () {
+                var input = $(".dry-date")[0];
+                var inst = $.datepicker._getInst(input);
+                var pos = $.datepicker._findPos(input);
+                pos[1] += input.offsetHeight;
+                var offset = offset = {left: pos[0], top: pos[1]};
+                offset = $.datepicker._checkOffset(inst, offset, false);
+                inst.dpDiv.css({left: offset.left + "px", top: offset.top + "px"});
+            });
+
+
+            /**
+             * Stringify date (format: dd/mm/yyyy)
+             */
+            function stringifyDate(date) {
+                if(date !== '' && typeof(date) !== 'undefined') {
+                    return date.replace(/\//g,'');
+                }
+                return '';
+            }
+
+            /**
+             * Handle validate button
+             */
+            window.validationAlreadyTriggered = false;
+            $('#validate-btn').on('click', function (e) {
+                if($('#ambient') != undefined && $('#ambient').data("count") === 0 &&
+                $('#positiveCold') != undefined && $('#positiveCold').data("count") === 0 &&
+                $('#negativeCold') != undefined && $('#negativeCold').data("count") === 0){
+                    return false;
+                }
+
+                if (!window.validationAlreadyTriggered) {
+                    var ambientDateString  = stringifyDate($('#ambient input').val());
+                    var positiveColdDateString = stringifyDate($('#positiveCold input').val());
+                    var negativeColdDateString = stringifyDate($('#negativeCold input').val());
+                    //precommand have no date
+                    if(ambientDateString.length === 0 && positiveColdDateString.length === 0 && negativeColdDateString.length === 0){
+                        ambientDateString  = stringifyDate($('#ambient .dry-date').html());
+                        positiveColdDateString = stringifyDate($('#positiveCold .dry-date').html());
+                        negativeColdDateString = stringifyDate($('#negativeCold .dry-date').html());
+                    }
+
+                    var globalDeliveryDate = ambientDateString + "," + positiveColdDateString + "," + negativeColdDateString;
+                    var comment         = $('.commentaire').val();
+                    var stringComment   = '';
+                    var commentSplit    = comment.split(' ');
+
+                    var cgvInput    = $('#agree');
+                    var franco      = '{{ clientInfos.montantFranco }}';
+                    var isCommercial = {{ isCommercial }};
+                    var flagFranco  = '{{ flagFranco }}';
+                    var orderTotalAmountHtml = $('#totalHT').html().replace(/ /g,'');
+                    var orderTotalAmountVal = orderTotalAmountHtml.split('€');
+                    var orderTotalAmount = orderTotalAmountVal[0];
+
+                    var isEActif = '{{ isEactif }}';
+
+                    if ( isEActif === '0' ) {
+                        var urlPutToAs400 = '{{ path('sogedial_integration_societe_landing') }}';
+                    } else {
+                        var urlPutToAs400 = '{{ path('SogedialSite_validate_cmd', {'id': orderId, 'dateLivraison': 'DELIVERYDATE', 'comment': 'COMMENTAIRE'}) }}';
+                    }
+
+                    var urlDashboard = '{{ path('sogedial_integration_dashbord', {'societe': societe, 'page': 1 })}}';
+                    var ClientName = '{{ clientNameUrl }}';
+                    var href = $(this).attr('href');
+
+                    if (commentSplit.length > 1) {
+                        for (a = 0; a < commentSplit.length; a++) {
+                            stringComment += ( a == 0 ) ? (commentSplit[a]) : ('-' + commentSplit[a]);
+                        }
+                    } else {
+                        stringComment = commentSplit[0];
+                    }
+
+                    urlPutToAs400 = urlPutToAs400.replace("DELIVERYDATE", globalDeliveryDate);
+                    urlPutToAs400 = urlPutToAs400.replace("COMMENTAIRE", stringComment);
+
+                    // enlever les bords rouges
+                    $('#ambient input').attr('style', '');
+                    $('#positiveCold input').attr('style', '');
+                    $('#negativeCold input').attr('style', '');
+
+                    if (cgvInput.length && !cgvInput.is(':checked')) {
+                        $('#loading-fullscreen').hide();
+                        $.dialog({
+                            showTitle: false,
+                            buttonText: {
+                                ok: 'Retour',
+                            },
+                            overlayClose:true,
+                            contentHtml: 'Veuillez accepter les conditions générales de vente.',
+                            onClickOk: function () {
+                                return false;
+                            }
+                        });
+                        $('#agree').addClass('alert-cgv');
+                        $('html, body').animate({
+                                scrollTop: $('#current-tbl').offset().bottom
+                            }, 800
+                        );
+                    } else if(
+                        (preCommandeMode === false) &&
+                        (features.hasOwnProperty("date-panier")) &&
+                        (($('#ambient') != undefined && $('#ambient').data("count") !== 0 && ambientDateString.length === 0) ||
+                        ($('#positiveCold') != undefined && $('#positiveCold').data("count") !== 0 && positiveColdDateString.length === 0) ||
+                        ($('#negativeCold') != undefined && $('#negativeCold').data("count") !== 0 && negativeColdDateString.length === 0))
+                    ){
+                        $('#loading-fullscreen').hide();
+                        $.dialog({
+                            showTitle: false,
+                            buttonText: {
+                                ok: 'Retour',
+                            },
+                            overlayClose:true,
+                            contentHtml: 'Veuillez sélectionner la date de livraison en bas de la page.',
+                            onClickOk: function () {
+                                return false;
+                            }
+                        });
+                        if($('#ambient').data("count") !== 0 && ambientDateString === ''){
+                            $('#ambient input').css({border: '2px solid red'});
+                        } else if($('#positiveCold').data("count") !== 0 && positiveColdDateString === ''){
+                            $('#positiveCold input').css({border: '2px solid red'});
+                        } else if($('#negativeCold').data("count") !== 0 && negativeColdDateString === ''){
+                            $('#negativeCold input').css({border: '2px solid red'});
+                        }
+                        $('html, body').animate({
+                            scrollTop: $('.dry-date').offset().top
+                        }, 800);
+                    }
+                    else if ((isCommercial === 0) && (parseFloat(orderTotalAmount) < parseFloat(franco)) && ( flagFranco == 0 )) {
+                        $('#loading-fullscreen').hide();
+                        $.dialog({
+                            type: 'confirm',
+                            buttonText: {
+                                ok: 'Valider',
+                                cancel: 'Annuler'
+                            },
+                            overlayClose:true,
+                            showTitle:false,
+                            contentHtml: 'Vous n\'avez pas atteint le franco de commande de ' + parseFloat(franco) + '&nbsp;€. <br />Souhaitez-vous quand même valider votre commande ?',
+                            onClickCancel: function () {
+                                //$.getJSON(emailUrl);
+                                //localStorage.removeItem("commentaire");
+                                return false;
+                            },
+                            onClickOk: function () {
+                                //validateCommande(urlPutToAs400); TODO : By @sictoz to stop calling validateCommande on panier validation by the EventSubscriber
+                                window.location.href = urlPutToAs400;
+                            }
+                        });
+                    }
+                    else if ((isCommercial === 0) && (parseFloat(orderTotalAmount) < parseFloat(franco)) && ( flagFranco == 1 )) {
+                        $('#loading-fullscreen').hide();
+                        $.dialog({
+                            showTitle: false,
+                            buttonText: {
+                                ok: 'Retour',
+                            },
+                            overlayClose:true,
+                            contentHtml: 'Vous n\'avez pas atteint le franco de commande de ' + parseFloat(franco) + '&nbsp;€. <br />',
+                            onClickOk: function () {
+                                return false;
+                            }
+                        });
+                    }
+                    else{
+                        window.location.href = urlPutToAs400;
+                        //validateCommande(urlPutToAs400); TODO : By @sictoz to stop calling validateCommande on panier validation by the EventSubscriber
+                    }
+                }
+                return false;
+            });
+
+            function validateCommande(urlPutToAs400){
+                var urlDashboard = '{{ path('sogedial_integration_dashbord', {'societe': societe, 'page': 1 })}}';
+                var jqxhr = $.get(
+                Routing.generate('sogedial_integration_panier_valide', {'_locale': locale}),
+                function(e) {
+                    if(e["panier_is_validate"]){
+                    $.dialog({
+                            showTitle: false,
+                            buttonText: {
+                                ok: 'Retour',
+                            },
+                            overlayClose:true,
+                            contentHtml: 'Le panier a déjà été validé<br />',
+                            onClickOk: function () {
+                                //Story 13.12 en stand by attente complement
+                                //localStorage.removeItem("commentaire");
+                                window.location.href = urlDashboard;
+                            }
+                        });
+                    } else {
+                        //Story 13.12 en stand by attente complement
+                        //localStorage.removeItem("commentaire");
+                        window.location.href = urlPutToAs400;
+                    }
+                }
+            )
+            .fail(function() {
+                $.dialog({
+                    showTitle: false,
+                    buttonText: {
+                        ok: 'Retour',
+                    },
+                    contentHtml: 'Erreur: impossible de valider le panier<br />',
+                    onClickOk: function () {
+                        return false;
+                    }
+                });
+            })
+            // Prevent any further click on the validate button, and add visual hints for the client that the page is loading.
+            window.validationAlreadyTriggered = true;
+            $("#basket #order").addClass("disabled");
+            $("#import-basket").addClass("fullscreen-loader");
+            $("#import-basket").prepend('<div class="loader-container"><div class="loader"></div></div>');
+            }
+
+            /**
+             * Remove product to current order
+             */
+            $('tr').on('click', 'a', function (e) {
+                    var target = e.target.nodeName;
+                    if (target == "IMG") {
+                        var classes = e.target.className.split(" ");
+                        if (classes) {
+                            for (var x = 0; x < classes.length; x++) {
+                                if (classes[x] == "delete-current-product") {
+                                    var codeProduct = this.id;
+                                    var urlRecap = '{{ path('SogedialSite_integration_order_recap', { 'societe': societe, 'id': orderId }) }}';
+                                    var urlToDelete = '{{ path('SogedialSite_removeProductToCurrentOrder', {'id': 'CODEPRODUCT' }) }}';
+                                    urlToDelete = urlToDelete.replace("CODEPRODUCT", codeProduct);
+
+                                    $.getJSON(urlToDelete, function (data) {
+                                        window.location.href = urlRecap;
+                                    });
+
+                                }
+                            }
+                        }
+                    }
+                }
+            )
+            ;
+
+            $('#agree').click(function () {
+                if ($(this).hasClass('alert-cgv')) {
+                    $(this).removeClass('alert-cgv');
+                }
+            });
+
+            $('#agree').prop('ifChecked', function () {
+                var urlSigned = '{{ path('SogedialSite_signed_conditions') }}';
+                $.getJSON(urlSigned, function (data) {
+                    if (data == true) {
+                        window.location.href = urlSigned;
+                    }
+                });
+                $('#agree').removeClass('alert-cgv');
+            });
+
+            // selecteurs de date
+            // enlever les bords rouges
+            $('#ambient input').change(function (e) {
+                $(this).attr('style', '');
+            });
+
+            $('#positiveCold input').change(function (e) {
+                $(this).attr('style', '');
+            });
+            $('#negativeCold input').change(function (e) {
+                $(this).attr('style', '');
+            });
+
+            $('#cgv-link-new').on('click', function (e) {
+                var typeCondition = '{{ clientInfos.typeCondition }}';
+                var urlPdf = '{{ path('SogedialSite_order_read_pdf') }}';
+
+                if (typeCondition == 1) {
+                    window.open(urlPdf, '_blank');
+                } else {
+                    $.dialog({
+                        type: 'confirm',
+                        buttonText: {
+                            ok: 'OK',
+                            cancel: 'ANNULER'
+                        },
+                        showTitle:false,
+                        contentHtml: '<i><strong>LES CPV ONT ETE SIGNEES HORS CATALOGUE!</strong></i>',
+                        onClickOk: function () {
+                            return false;
+                        }
+                    });
+                }
+            });
+
+            /* Handle init quantity */
+            $('#init-qte').on('click', function (e) {
+                var initQuantityUrl = '{{ path('SogedialSite_clearCurrentOrder') }}';
+                var urlRecap = '{{ path('SogedialSite_integration_order_recap', {'societe': societe,'id': orderId }) }}';
+
+                $.getJSON(initQuantityUrl, function (data) {
+                    window.location.href = urlRecap;
+                });
+            });
+
+            /* Handle delete order */
+            $('#delete-order').on('click', function (e) {
+                var deleteOrderUrl = '{{ path('SogedialSite_deleteCurrentOrder') }}';
+                $.dialog({
+                    type: 'confirm',
+                    buttonText: {
+                        ok: ' Oui',
+                        cancel: ' Annuler'
+                    },
+                    showTitle:false,
+                    contentHtml: 'Etes-vous sûr de vouloir supprimer la commande ?',
+                    onClickOk: function () {
+                        window.location.href = deleteOrderUrl;
+                    }
+                });
+            });
+
+
+        });
+    </script>
+{% endblock %}

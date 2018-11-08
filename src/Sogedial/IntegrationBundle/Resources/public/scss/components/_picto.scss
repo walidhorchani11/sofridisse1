@@ -1,0 +1,243 @@
+.product-badge-container{
+  position:absolute;
+  right:0;
+  top:3px;
+  &.product-badge-container-centered{
+    right: 30%;
+    top: 30%;
+  }
+}
+
+.picto {
+  position: relative;
+  float: left;
+  width: 47px;
+  height: 47px;
+  margin-left: 20px;
+  border-radius: 50px;
+
+  img {
+    position: absolute;
+  }
+
+  &.green {
+    background-color: safo-color('picto-frais');
+
+    img {
+      top: 11px;
+      left: 14px;
+      width: 19px;
+      height: 22px;
+    }
+  }
+
+  &.blue {
+    background-color: safo-color('picto-surgele');
+
+    img {
+      top: 10px;
+      left: 12px;
+      width: 24px;
+      height: 29px;
+    }
+  }
+
+  &.yellow {
+    background-color: safo-color('picto-sec');
+
+    img {
+      top: 11px;
+      left: 11px;
+      width: 25px;
+      height: 24px;
+    }
+  }
+}
+
+.small-picto {
+  position: relative;
+  float: left;
+  width: 22px;
+  height: 22px;
+  margin: 0 10px 0 0;
+  border-radius: 50px;
+
+  img {
+    position: absolute;
+
+    &.truck {
+      top: 2px;
+    }
+  }
+
+  &.green {
+    background-color: safo-color('picto-frais');
+
+    img {
+      top: 6px;
+      left: 7px;
+      width: 9px;
+      height: 10px;
+    }
+  }
+
+  &.blue {
+    background-color: safo-color('picto-surgele');
+
+    img {
+      top: 4px;
+      left: 5.5px;
+      width: 11px;
+      height: 14px;
+    }
+  }
+
+  &.yellow {
+    background-color: safo-color('picto-sec');
+
+    img {
+      top: 5px;
+      left: 5px;
+      width: 12px;
+      height: 11px;
+    }
+  }
+}
+
+.medium-picto {
+  position: relative;
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin: 8px;
+  border-radius: 50px;
+
+  img {
+    position: absolute;
+  }
+
+  &.green {
+    background-color: safo-color('picto-frais');
+
+    img {
+      top: 6px;
+      left: 6px;
+      width: 18px;
+      height: 16px;
+    }
+  }
+
+  &.blue {
+    background-color: safo-color('picto-surgele');
+
+    img {
+      top: 6px;
+      left: 5px;
+      width: 20px;
+      height: 18px;
+    }
+  }
+
+  &.yellow {
+    background-color: safo-color('picto-sec');
+
+    img {
+      top: 7px;
+      left: 5px;
+      width: 19px;
+      height: 15px;
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+}
+
+.sale {
+  position: relative;
+  float: left;
+  width: 29px;
+  height: 29px;
+  background: $url_1 0 0 no-repeat;
+  background-size:100%;
+}
+
+.new {
+  position: relative;
+  float: left;
+  width: 29px;
+  height: 29px;
+  background: $url_2 0 0 no-repeat;
+  background-size:100%;
+}
+
+.edit-picto-generic-before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 23px;
+  height: 23px;
+  font-family: safo-font('picto');
+  font-size: 23px;
+  color: safo-color('text-neutral-dark');
+  content: "";
+}
+ 
+.edit-pen:before {
+  @extend .edit-picto-generic-before;
+  content: "\f040";
+}
+
+.assortiment-not-chosen:before {
+  @extend .edit-picto-generic-before;
+  content: "\f096";
+}
+
+.assortiment-not-chosen:hover:before {
+  @extend .edit-picto-generic-before;
+  content: "\f046";
+}
+
+.assortiment-chosen:before {
+  @extend .edit-picto-generic-before;
+  content: "\f14a";
+}
+
+.edit-trash:before {
+  @extend .edit-picto-generic-before;
+  content: "\f014";
+}
+
+.edit-assortiment:before {
+  @extend .edit-picto-generic-before;
+  content: "\f0c9";
+}
+
+
+.edit-assortiment-inactive:before {
+  @extend .edit-picto-generic-before;
+  color: safo-color('text-neutral-light');
+  content: "\f0c9";
+}
+
+.edit-lock-open:before {
+  @extend .edit-picto-generic-before;
+  content: "\f09c";
+}
+
+.edit-lock-closed:before {
+  @extend .edit-picto-generic-before;
+  content: "\f023";
+}
+
+.edit-lock-inactive:before {
+  @extend .edit-picto-generic-before;
+  color: safo-color('text-neutral-light');
+  content: "\f023";
+}

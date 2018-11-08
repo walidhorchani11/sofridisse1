@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Changer de société</title>
+        {% stylesheets '@SogedialIntegrationBundle/Resources/public/css/style.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+        {% endstylesheets %}
+    </head>
+
+    <body id="change-company-page">
+        <section id="change-company-section">
+            <div>
+                <ul>
+                    {% for key, societe in listSociete %}
+                        {% if societe[2] == 1 %}
+                            <a href="{{ path('sogedial_integration_societe', {'societe': societe[3] }) }}">
+                                <li class="company-card">
+                                    <div class="company-card-centering-container">
+                                        <div class="company-card-centering-subcontainer">
+                                            <p class="change-company-company-name">{{ societe[0] }}</p>
+                                            <p>
+                                                {% for temperatureName, hasTemperature in societe['temperatures'] if hasTemperature %}
+                                                    {% if temperatureName == 'ambient' %}
+                                                        {% set altTemperatureName = 'Sec' %}
+                                                        {% set pictoColor = 'yellow' %}
+                                                        {% set pictoShape = 'corn' %}
+                                                    {% elseif temperatureName == 'positiveCold' %}
+                                                        {% set altTemperatureName = 'Frais' %}
+                                                        {% set pictoColor = 'green' %}
+                                                        {% set pictoShape = 'apple' %}
+                                                    {% elseif temperatureName == 'negativeCold' %}
+                                                        {% set altTemperatureName = 'Surgelé' %}
+                                                        {% set pictoColor = 'blue' %}
+                                                        {% set pictoShape = 'snow' %}
+                                                    {% endif %}
+                                                    <span class="change-company-temperature">
+                                                        <span class="small-picto {{ pictoColor }}">
+                                                            <img src="{{ image('images/' ~ pictoShape ~ '.svg') }}" alt="{{ altTemperatureName }}"/>
+                                                        </span>
+                                                        <span>{{ altTemperatureName }}</span>
+                                                    </span>
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </body>
+</html>

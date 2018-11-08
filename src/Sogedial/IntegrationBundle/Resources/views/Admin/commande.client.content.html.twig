@@ -1,0 +1,170 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block body %}
+
+    {% if orderStatut is defined and orderStatut == 'STATUS_CURRENT' %}
+        {% set breadcrumbOrderStatut = "Panier Client" %}
+        {% set breadcrumbOrderNumber = "Panier n°#{orderNumber} du #{orderUpdate|date('d.m.Y', timezone='Europe/Paris')}" %}
+        {% set titleOrder = "Panier n° #{ orderNumber } - Client : #{ clientInfo.nom }" %}
+    {% else %}
+        {% set breadcrumbOrderStatut = "Commandes Client" %}
+        {% set breadcrumbOrderNumber = "Commande n°#{orderNumber} du #{orderUpdate|date('d.m.Y', timezone='Europe/Paris')}" %}
+        {% set titleOrder = "Commande n° #{ orderNumber } - Client : #{ clientInfo.nom }" %}
+    {% endif %}
+
+    <section>
+        <div class="content basket-bar">
+            <div class="breadcrumb-trail-container">
+                <div id="breadcrumb">
+                    <a href="{{ path('sogedial_integration_admin_dashbord') }}">
+                        Dashboard
+                    </a>
+                    &gt;
+                    <a href="{{ path('sogedial_integration_admin_commandes_clients') }}">
+                        {{ breadcrumbOrderStatut }}
+                    </a>
+                    &gt;
+                    {{ breadcrumbOrderNumber }}
+                </div>
+            </div>
+            <div class="container">
+                <h1>{{ titleOrder }}</h1>
+                <div class="comment">
+                    <textarea readonly="" rows="2" cols="40" maxlength="40">{{ commentaire | replace({'-': ' '}) }}</textarea>
+                </div>
+                <div class="table-infos">
+                    <span class="nb-product"></span>
+                </div>
+                <div class="table-basket scrollable-content">
+                    <table class="table-with-images table-with-headers sticky-header-table">
+                        <thead>
+                            <tr>
+                                <th class="catalogue-table-image">Image</th>
+                                <th>Libellé pdt</th>
+                                <th class="responsive-catalogue-hidden-on-mobile">Marque</th>
+                                <th class="responsive-catalogue-hidden-on-mobile">PCB</th>
+                                <th>
+                                {% if societe is defined and societe == 'sofrigu' %}
+                                    Prix unitaire TTC<sup>*</sup>
+                                {% else %}
+                                    Prix unitaire HT<sup>*</sup>
+                                {% endif %}
+                                </th>
+                                <th>Colisage</th>
+                                <th>Quantités</th>
+                                <th class="total_price_container">Total {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="spacer"></tr>
+
+                            {% if listRayons is defined and listRayons is not empty %}
+                                {% for listRayon in listRayons %}
+                                    <tr>
+                                        <th colspan="8" class="responsive-catalogue-hidden-on-mobile">{{ listRayon }}</th>
+                                        <th colspan="6" class="responsive-catalogue-hidden-on-desktop">{{ listRayon }}</th>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                    {% for key, product in listProductsByRayon %}
+                                        {% if product.sf_fr == listRayon %}
+                                            <tr class="item">
+                                                <td class="img">
+                                                    {% set imagePath = baseUrl ~ product.ean13 %}
+                                                    <img src="{{ imagePath }}"
+                                                            alt="{{ product.denominationProduitBase }}">
+                                                    {% if(product.natureCode == 'NOUVEAUTE') %}
+                                                        <p class="new"></p>
+                                                    {% endif %}
+                                                    {% if(product.isPromo == 1) %}
+                                                        <p class="sale"></p>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <ul class="item">
+                                                        <li>{{ product.denominationProduitBase }}</li>
+                                                        <li class="reference responsive-catalogue-hidden-on-desktop">{{ product.marque }}</li>
+                                                        <li><p class="small-picto yellow left"><img
+                                                                        src="{{ image('images/corn.svg') }}"
+                                                                        alt="Sec"></p>
+
+                                                        {% if multisiteService.hasFeature("livraison") %}
+                                                            <p class="small-picto">
+                                                                <img class="truck"
+                                                                        src="{{ image('images/truck.png') }}"
+                                                                        alt="Livraison par camion">
+                                                            </p>
+                                                        {% endif %}
+                                                        </li>
+                                                        <li class="reference">Réf: {{ product.code[4:] }} - EAN
+                                                            : {{ product.ean13 }}</li>
+
+                                                    </ul>
+                                                </td>
+                                                <td class="responsive-catalogue-hidden-on-mobile">{{ product.marque }}</td>
+                                                <td class="responsive-catalogue-hidden-on-mobile">
+                                                    <ul>
+                                                        <li><span class="item-weight">{{ product.pcb }}</span></li>
+                                                        <li><span class="second-line">par colis</span></li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul class="price">
+                                                        <li><span data-priceunit="{{ product.prixHt }}"
+                                                                    class="price_ttc">{{ product.prixHt }}&#8239;&euro; l'unité</span></li>
+                                                        </li>
+                                                        <li><span class="second-line">{{ product.colisPrice }}&nbsp;&euro; par colis</span></li>
+                                                        <li class="responsive-catalogue-hidden-on-desktop"><span class="second-line">({{ product.pcb }} par colis)</span></li>
+                                                    </ul>
+                                                </td>
+                                                <td>Colis</td>
+                                                <td>{{ product.quantite }}
+                                                </td>
+                                                <td>
+                                                    <span data-totalpriceitem="{{ product.totalPrice }}"
+                                                            class="catalogue-panier total_price">{{ product.totalPrice }}&#8239;&euro;</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="spacer"></tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <div class="informations-left">Photos non contractuelles</div>
+                    <div class="informations-right">
+                        {% if societe is defined and societe == 'sofrigu' %}
+                            / <span>* Prix TTC (Hors frais de livraisons)</span>
+                        {% else %}
+                            / <span>* Prix HT (Dont Taxe sécurité sociale sur les alcools)</span>
+                        {% endif %}
+                        / <span><sup>**</sup> Poids et prix peuvent varier selon arrivage et découpe</span>
+                    </div>
+
+                    <table class="table-without-images table-without-headers">
+                        <tr>
+                            <td>
+                                <span class="delivery_date">Livraison : {{ orderDeliveryDate|date('d.m.Y', timezone="Europe/Paris") }}</span>
+                            </td>
+                            <td>
+                                <span class="price_cat">
+                                    {% if orderProducts.ambient.sumPrice is defined and orderProducts.ambient.sumPrice is not empty %}
+                                        {{ orderProducts.ambient.sumPrice|number_format(2, ".", " ") }}
+                                    {% endif %}
+                                    &nbsp;€ {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block javascript %}
+        <script type="text/javascript">
+            $(function () {
+                $(".sticky-header-table").stickyTableHeaders();
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

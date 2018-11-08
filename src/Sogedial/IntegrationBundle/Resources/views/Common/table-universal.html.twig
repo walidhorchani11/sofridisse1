@@ -1,0 +1,40 @@
+{% if currentPage is not defined %}
+    {% set currentPage = null %}
+{% endif %}
+
+{% if listRayons is defined and listRayons is not empty %}
+    {% for listRayon in listRayons %}
+
+        {% if currentPage == 'catalogue' %}
+            {# For infinite scroll: avoid re-drawing a header row if the current rayon still has other products in the newly lazy-loaded items #}
+            {% if lastTitle is not defined or listRayon != lastTitle  %}
+                <tr>
+                    <th colspan="7">{{ listRayon }}</th>
+                </tr>
+            {% endif %}
+        {% elseif currentPage == 'panier' %}
+            <tr>
+                <th colspan="8">{{ listRayon }}</th>
+            </tr>
+        {% endif %}
+
+        <tr class="spacer"></tr>
+
+        {% for key, product  in listProductsByRayon %}
+            {# two for loops is useless and too slow, products are ALREADY sorted by "Rayon" (sous-famille, in reality), one for loop should be enough #}
+            {% if product.sf_fr == listRayon %}
+                {% include "SogedialIntegrationBundle:Catalogue:product-item-line.html.twig"  with { 'societe': societe, "product": product, 'preCommandeMode' : preCommandeMode, "currentPage": currentPage, 'clientInfo': clientInfo } %}
+                <tr class="spacer">
+                </tr>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% if currentPage == 'catalogue' %}
+        {% block javascripts %}
+            <script>
+                var titles = {{ listRayons|json_encode|raw }};
+                window.lastTitle = titles[titles.length -1];
+            </script>
+        {% endblock %}
+    {% endif %}
+{% endif %}

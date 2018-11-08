@@ -1,0 +1,339 @@
+.container-edit-client {
+  &.material{
+    background-color: transparent;
+    form.material-form, .material-form {
+        box-sizing:border-box;
+        width:100%;
+        .material-well{
+          float: left;
+          margin: 10px;
+          padding: 20px 0px;
+          width: calc(100% - 20px);
+          background-color: safo-color('light');
+          moz-box-shadow: 0px 5px 10px 0px #ccc;
+          -webkit-box-shadow: 0px 5px 10px 0px #ccc;
+          -o-box-shadow: 0px 5px 10px 0px #ccc;
+          box-shadow: 0px 5px 10px 0px #ccc;
+        }
+        .form-block-title{
+          font-size:18px;
+          font-family: safo-font('sans-serif','semi-bold');
+          margin-bottom:40px;
+          color: safo-color('primary-dark');
+          min-height: 35px;
+          &.no-margin-bottom{
+            margin-bottom:0;
+          }
+        }
+    }
+  }
+}
+.material-form-container {
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #efefef inset;
+  }
+  .form-input,.form-textarea{
+    position: relative;
+    margin-bottom: 45px;
+    &.no-margin-bottom{
+      margin-bottom:0;
+    }
+    input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="search"] {
+      font-family: safo-font('sans-serif','light');
+      font-size: 18px;
+      display: block;
+      width: 100%;
+      border: none;
+      padding: 10px 10px 10px 5px;
+      border-bottom: 2px solid #ccc;
+      background-color:transparent;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      font-family: safo-font('sans-serif','light');
+      font-size: 18px;
+      border:none;
+      resize:none;
+      border-bottom:2px solid #ccc;
+      background-color:transparent;
+      padding: 0 10px;
+      height: 40px;
+      width: 100%;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      box-sizing: border-box;
+    }
+
+    &.form-input-checkbox{
+      margin:8px 0;
+    }
+    input[type="radio"], input[type="checkbox"]{
+      opacity: 0;
+      position:absolute;
+      top:-9999px;
+      left: -9999px;
+    }
+
+    input[type="radio"] ~ label:before{
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 1em; height: 1em;
+      border: 2px solid safo-color("primary-dark");
+      border-radius: 50px;
+    }
+
+    input[type="radio"]:not(:checked) + label:after,
+    input[type="radio"]:checked + label:after {
+      content: '';
+      position: absolute;
+      opacity: 1;
+      left: 0.2em;
+      top: 0.2em;
+      width: 0.9em;
+      height: 0.9em;
+      background-color: #01366b;
+      border-radius: 50px;
+
+      transition: all .2s;
+    }
+    input[type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      left: 0.45em;
+      top: 0.45em;
+      width: 0em;
+      height: 0em;
+      transition: all .2s;
+    }
+
+    input[type="radio"] + label{
+      position: relative;
+      padding-left: 1.95em;
+      font-size:14px;
+      cursor: pointer;
+      margin-top:1em;
+      margin-bottom:1em;
+      margin-right:1em;
+    }
+
+    &.custom-radio{
+      > div{
+        margin-top:7px;
+      }
+      > label:after{
+        font-family: safo-font('picto');
+        color:safo-color('nouveaute');
+        content:'*';
+        margin-left: 5px;
+        font-size:14px;
+      }
+    }
+
+    /* active state */
+    input[type="text"],input[type="email"],input[type="password"],input[type="number"],input[type="search"],textarea{
+      &:focus ~ label,
+      &:not(.input-empty) ~ label{
+        top: -20px;
+        font-size: 14px;
+        color: safo-color('primary-dark')
+      }
+    }
+
+    /* LABEL ======================================= */
+    input[type="text"] ~ label, input[type="email"] ~ label, input[type="password"] ~ label, input[type="number"] ~ label, input[type="search"] ~ label, textarea ~ label {
+      color: #999;
+      font-size: 18px;
+      font-family: safo-font('sans-serif','light');
+      position: absolute;
+      pointer-events: none;
+      left: 5px;
+      top: 10px;
+      transition: 0.2s ease all;
+      -moz-transition: 0.2s ease all;
+      -webkit-transition: 0.2s ease all;
+      white-space: nowrap;
+    }
+    &.form-date{
+      >input:hover{
+        cursor:pointer;
+      }
+    }
+  } // Finish form-input and form-textarea
+  .form-select{
+    position: relative;
+    margin-bottom: 45px;
+    label{
+        top: -20px;
+        font-size: 14px;
+        color: safo-color('primary-dark');
+        left: 5px;
+        position: absolute;
+        font-family: safo-font('sans-serif','light');
+    }
+    select:required ~ label:after{
+      font-family: safo-font('picto');
+      color:red;
+      content:'*';
+      margin-right: 14px;
+      font-size:14px;
+    }
+    .select-container{
+      select{
+          font-family: safo-font('sans-serif','light');
+          width: calc(100% - 30px);
+          font-size: 18px;
+          padding:10px 10px 10px 5px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          -ms-appearance: none;
+          appearance: none;
+          border: none;
+          background-color: transparent;
+          border-bottom: 2px solid #ccc;
+          cursor: pointer;
+          outline: none;
+          box-sizing:border-box;
+          &:active,&:focus{
+            outline:none;
+          }
+          option{
+            webkit-appearance: none;
+          -moz-appearance: none;
+          -ms-appearance: none;
+          appearance: none;
+          }
+      }
+      // CARRET Down icon
+      &:after{
+        font-family: safo-font('picto');
+        color:black;
+        content:'\f0d7';
+        margin-right: 14px;
+        font-size:18px;
+      }
+      &:focus:after{
+        font-family: safo-font('picto');
+        color:black;
+        content:'\f00c';
+        margin-right: 14px;
+        font-size:18px;
+      }
+    }
+  }
+
+  // Required symbol
+  input[type="text"]:required ~ label:after,
+  input[type="password"]:required ~ label:after,
+  input[type="number"]:required ~ label:after,
+  input[type="email"]:required ~ label:after,
+  input[type="search"]:required ~ label:after,
+  textarea:required ~ label:after,
+  select:required ~ label:after{
+    font-family: safo-font('picto');
+    color:safo-color('nouveaute');
+    content:'*';
+    margin-left: 5px;
+    font-size:14px;
+  }
+
+  // active state
+    input:focus ~ .bar:before,
+    input:focus ~ .bar:after,
+    textarea:focus ~ .bar:before,
+    textarea:focus ~ .bar:after,
+    select:focus ~ .bar:before,
+    select:focus ~ .bar:after,
+    {
+      width: 50%;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus{
+        outline: none;
+    }
+
+    //BARS 
+    .bar {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+    .bar:before,
+    .bar:after {
+      content: "";
+      height: 2px;
+      width: 0;
+      bottom: 1px;
+      position: absolute;
+      background: safo-color('primary-dark');
+      transition: 0.2s ease all;
+      -moz-transition: 0.2s ease all;
+      -webkit-transition: 0.2s ease all;
+    }
+    .bar:before {
+      left: 50%;
+    }
+    .bar:after {
+      right: 50%;
+    }
+
+    /* HIGHLIGHTER ================================== */
+    .highlight {
+      position: absolute;
+      height: 60%;
+      width: 100%;
+      top: 25%;
+      left: 0;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+  /* active state */
+    input:focus ~ .highlight, textarea:focus ~ .highlight, select:focus ~ .highlight {
+      -webkit-animation: inputHighlighter 0.3s ease;
+      -moz-animation: inputHighlighter 0.3s ease;
+      animation: inputHighlighter 0.3s ease;
+    }
+
+    /* ANIMATIONS ================ */
+    @-webkit-keyframes inputHighlighter {
+      from {
+        background: safo-color('primary-dark');
+      }
+      to {
+        width: 0;
+        background: transparent;
+      }
+    }
+    @-moz-keyframes inputHighlighter {
+      from {
+        background: safo-color('primary-dark');
+      }
+      to {
+        width: 0;
+        background: transparent;
+      }
+    }
+    @keyframes inputHighlighter {
+      from {
+        background: safo-color('primary-dark');
+      }
+      to {
+        width: 0;
+        background: transparent;
+      }
+    }
+}
+
+.material-badge{
+  padding:1px 7px;
+  background-color:white;
+  color:safo-color('primary-dark');
+  font-family: safo-font('sans-serif','semi-bold');
+  font-size:12px;
+  border-radius:50px;
+  float: right;
+}

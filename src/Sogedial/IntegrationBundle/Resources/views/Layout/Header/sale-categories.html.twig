@@ -1,0 +1,27 @@
+{% if multisiteService.hasFeature("promotion") %}
+    {% include "SogedialIntegrationBundle:Layout:Header/sale-category.html.twig" with {
+        'counter': categories.promotions.counter,
+        'link': categories.promotions.link,
+        'pictoPath': categories.promotions.pictoPath,
+        'title': categories.promotions.title,
+    'classDisabled': false
+    } only %}
+{% endif %}
+{% include "SogedialIntegrationBundle:Layout:Header/sale-category.html.twig" with {
+    'counter': categories.nouveautes.counter,
+    'link': categories.nouveautes.link,
+    'pictoPath': categories.nouveautes.pictoPath,
+    'title': categories.nouveautes.title,
+    'classDisabled': false
+} only %}
+{% include "SogedialIntegrationBundle:Layout:Header/sale-category.html.twig" with {
+    'counter': listAssortiments.counter,
+    'link': categories.selections.link,
+    'pictoPath': categories.selections.pictoPath,
+    'title': categories.selections.title,
+    'selectionDropdown' : true, 
+    'classDisabled': true,
+} only %}
+{% include "SogedialIntegrationBundle:Layout:Header/assortiments-dropdown.html.twig" with {
+    'listAssortiments':listAssortiments.list
+} only %}

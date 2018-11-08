@@ -1,0 +1,155 @@
+<header>
+    {# Partie de gauche du header, qui contient le logo (cliquable, renvoie vers le dashboard) et parfois une flèche de retour à la page précédente #}
+    <div id="logo">
+        {% if displayPreviousArrow == 'true' %}
+            <a href="javascript:history.go(-1)" class="arrow-menu">
+                <img src="{{ image('images/arrow-menu.png') }}">
+            </a>
+        {% endif %}
+        {% if ((isAdmin is defined) and (isAdmin == 'true')) %}
+            <a href="{{ path('sogedial_integration_admin_dashbord') }}" class="logo-link">
+        {% elseif preCommande == true %}
+            <a href="{{ path('sogedial_integration_catalogue', { 'societe': societe }) }}" class="logo-link">
+        {% else %}
+            <a href="{{ path('sogedial_integration_dashbord', { 'societe': societe }) }}" class="logo-link">
+        {% endif %}
+            <img class="logo" src="{{ image('images/logo-commande.com.svg') }}"/>
+        </a>
+    </div>
+
+    {# Partie de droite du header, qui peut contenir une barre de recherche, la date d'aujourd'hui, le nom du client/du commercial, un bouton de déconnexion... #}
+    {% if leftSide == 'search-product' %} {# TODO: ajouter le cas 'search-client', qui pour le moment n'est pas implémenté dans le contrôleur #}
+      {# Pour la méthode GET, tous les champs d'entrée sont envoyés en querystring : catalogue?produits=vin #}
+      <form id="infobar" action=" {{ path('sogedial_integration_catalogue', { 'societe': societe}) }}" method="GET" {{ form_enctype(form) }} autocomplete="off">
+    {% else %}
+      <form id="infobar" action=" {{ path('sogedial_integration_admin_mesclients_search') }}"  method="GET" autocomplete="off">
+    {% endif %}
+        <table id="infobar-table">
+            <tr class="header-bar-tr">
+                {# Icône du menu, cliquable pour afficher/masquer la sidebar. Cette icône n'est visible qu'en mode tablette #}
+                <td id="infobar-table-menu-icon">
+                    <a href="#" id="menu" class="box-shadow-menu">
+                        <img src="{{ image('images/menu.svg') }}"/>
+                    </a>
+                </td>
+
+                {# Définit ce qui est affiché sur la gauche #}
+                {% if leftSide == 'search-product' %}
+                    {# <td id="infobar-table-search-icon">
+                        
+                    </td> #}
+                    <td class="search-bar-selector">
+
+                        {% if search is defined %}
+                            <div class="sbs_outer_wrapper">
+                                
+                                <div>
+                                    <img class="search-icon" src="{{ image('images/search.svg') }}" alt="Recherche" style="float:left;"/>
+                                    <input id="search" name="produits" type="text" placeholder="Rechercher un produit" value="{{ search }}" />
+                                </div>
+                                <div id="search-suggestions" class="sbs_wrapper sbs_hidden search-products-zone">
+                                    <div id="searchLoadingDiv" style="display: none">
+                                        <div class="loader-commande-point-com loader-commande-point-com-small">
+                                            {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig" with {'svg_id':2} %}
+                                        </div>
+                                    </div>
+
+                                    <table id="trademark-suggestions"></table>
+                                    <table id="products-suggestions"></table>
+
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="sbs_outer_wrapper">
+                                <img class="search-icon" src="{{ image('images/search.svg') }}" alt="Recherche" style="float:left;"/>
+                                <div><input id="search" name="produits" type="text" placeholder="Rechercher un produit" /></div>
+                                <div id="search-suggestions" class="sbs_wrapper sbs_hidden">
+                                    <div id="searchLoadingDiv" style="display: none">
+                                        <div class="loader-commande-point-com loader-commande-point-com-small">
+                                            {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig" with {'svg_id':2} %}
+                                        </div>
+                                    </div>
+                                    <table></table>        
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                {% elseif leftSide == 'search-client' %}
+                    {# <td id="infobar-table-search-icon">
+                        <img class="search-icon" src="{{ image('images/search.svg') }}" alt="Recherche"/>
+                    </td> #}
+                    <td>
+                        <div class="sbs_outer_wrapper">
+                            <div>
+                                <img class="search-icon" src="{{ image('images/search.svg') }}" alt="Recherche" style="float:left;"/>
+                                <input id="search" name="clients" type="text" placeholder="Rechercher un client"/>
+                            </div>
+                            <div id="search-suggestions" class="sbs_wrapper sbs_hidden search-clients-zone">
+                                <div id="searchloadingDiv" style="display: none">
+                                    <div class="loader-commande-point-com loader-commande-point-com-small">
+                                        {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig" with {'svg_id':2} %}
+                                    </div>
+                                </div>
+                                <table id="products-suggestions"></table>  
+                            </div>
+                        </div>
+                    </td>
+                {% elseif leftSide == 'date' %}
+                    <td>
+                        <div id="date">{{ "now"| date('d.m.Y', timezone="Atlantic/Bermuda")| localizeddate('full','none','fr') | title }}</div>
+                    </td>
+                {% endif %}
+
+                {# Définit ce qui est affiché sur la droite #}
+                {% if rightSide starts with 'client-commercial' %}
+                    {% if (preCommandeMode is not defined) or (preCommandeMode is defined and preCommandeMode == false) %}
+                        {{ render(controller('SogedialIntegrationBundle:Header/SaleCategories:index', { 'entrepriseName': societe })) }}
+                    {% endif %}
+                {% elseif rightSide == 'admin-commercial' %}
+                    {# this case does not seem to exist any more, check if it is not needed any more #}
+                    <td id="infobar-table-avatar">
+                        {{ commercialInfo.prenom | first }}
+                    </td>
+                    <td id="infobar-table-account">
+                        <div id="account-info">
+                            <p class="name">{{ commercialInfo.prenom }} {{ commercialInfo.nom | upper }} </p>
+                            <p class="company">Sofridis</p>
+                        </div>
+                    </td>
+                {% elseif rightSide == 'date' %}
+                    <td>
+                        <div id="date">{{ "now"| date('d.m.Y', timezone="Atlantic/Bermuda")| localizeddate('full','none','fr') | title }}</div>
+                    </td>
+                {% endif %}
+
+                {# Icône de déconnexion #}
+                <td id="infobar-table-logout" class="infobar-table-sale-category">
+                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a class="deconnexion-icon infobar-table-sale-category-link" href="#">
+                            <img class="infobar-table-category-picto" src="{{ image('images/exit_personification.svg') }}" alt="Retour à mes clients"/>
+                        </a>
+                     {% else %}
+                        <a class="deconnexion-icon infobar-table-sale-category-link"
+                            href="
+                                {% if ((isAdmin is defined) and (isAdmin == 'true')) %}
+                                    {{ path('fos_user_security_logout') }}
+                                {% else %}
+                                    #
+                                {% endif %}
+                        ">
+                            <div class="infobar-table-category-picto-container">
+                                <img class="infobar-table-category-picto" src="{{ image('images/deconnexion.svg') }}" alt="Déconnexion"/></div>
+                        </a>
+                    {% endif %}
+                </td>
+                {% if rightSide starts with 'client-commercial' %}
+                    {% include "SogedialIntegrationBundle:Layout:Header/logout-dropdown.html.twig" with {
+                        'rightSide': rightSide,
+                        'clientInfo': clientInfo,
+                        'commercialInfo': commercialInfo,
+                    } only %}
+                {% endif %}
+            </tr>
+        </table>
+        </form>
+</header>

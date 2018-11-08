@@ -1,0 +1,41 @@
+#
+form:
+  label:
+    username: "Login *"
+    email: "Email *"
+    enabled: "Enabled"
+    locked: "Locked"
+    firstname: "First name *"
+    lastname: "Last name *"
+    country: "Country of sale *"
+    sales: "Turnover *"
+    salesfrance : "Import from France *"
+    number1 : "Phone 1 *"
+    number2 : "Phone 2"
+    nature: "Activity *"
+    job : "Position *"
+    state: "State"
+    roles: "Roles"
+    status: "Status"
+    enterprise: "Company name"
+    group: "Group"
+    password: "Password *"
+    confirm: "Confirm password *"
+    locale: "Language 1 *"
+    locale2: "Language 2 *"
+    comment: "Comments..."
+    gamme: "Range level *"
+    pp: "Discount"
+    md: "Private Label"
+    mn: "National Brand"
+
+profile:
+  edit:
+    pagetitle: "My profile"
+    submit: "Update"
+  show:
+    pagetitle: "My profile"
+    username: "Username"
+    email: "Email"
+    firstname: "First name"
+    lastname: "Last name"

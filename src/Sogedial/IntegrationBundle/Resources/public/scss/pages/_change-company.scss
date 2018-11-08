@@ -1,0 +1,74 @@
+#change-company-page {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-right: 10%;
+  padding-left: 10%;
+  background: linear-gradient(to bottom, safo-color('primary-dark', 0, 0.9) 0, safo-color('primary-dark', 0, 0.9) 100%), url("/images/bg-home.jpg");
+  background-size: cover;
+}
+
+#change-company-section {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  a {
+    text-decoration: none;
+
+    &.inactive-company {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+
+    &:not(.inactive-company) {
+      .company-card:hover {
+        background-color: safo-color('primary', 1);
+      }
+    }
+  }
+
+  .company-card {
+    display: inline-block;
+    width: 31%;
+    height: 200px;
+    box-sizing: border-box;
+    padding: 5px;
+    // Mandatory since padding-left is already changed for the ul element
+    padding-left: 5px;
+    margin: 10px 1%;
+    margin-right: 0;
+    overflow: hidden;
+    font-family: safo-font('sans-serif', 'regular');
+    color: safo-color('light');
+    text-align: center;
+    background-color: safo-color('primary');
+    border: 1px solid safo-color('light', 0, .25);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 safo-color('dark', 0, .2), 0 6px 20px 0 safo-color('dark', 0, .2);
+    transition: background-color .2s;
+
+    // Center vertically AND horizontally the content of each card
+    // Source: https://stackoverflow.com/questions/14123999/center-a-div-horizontally-and-vertically#answer-14124125
+    .company-card-centering-container {
+      display: table;
+      width: 100%;
+      height: 100%;
+
+      .company-card-centering-subcontainer {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+    }
+
+    .change-company-company-name {
+      font-size: 25px;
+    }
+  }
+
+  .change-company-temperature {
+    display: inline-block;
+    padding: 10px;
+  }
+}

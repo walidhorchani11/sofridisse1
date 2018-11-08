@@ -1,0 +1,181 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+// Define all breakpoints in one variable
+$breakpoints: ();
+
+// Colors
+// Do NOT use directly the safo-colors map.
+// Instead, use the safo-color function and feed it the color's name and shade/tint level.
+$safo-colors: (
+  'avatar-header-background': #ff9963,
+  'background-content': #f5f5f5,
+  'gallery-grey':#efefef,
+  'dark': #000,
+  'dark-transparent': rgba(0, 0, 0, .8),
+  'dialog-link': #0bb20c,
+  'error': #d0021b,
+  'light': #fff,
+  'nouveaute': #fb3640,
+  'order-status-awaiting': #f5a623,
+  'order-status-ok': #29d24e,
+  'ok': #29d24e,
+  'picto-sec': #eddd0c,
+  'picto-frais': #35e687,
+  'picto-surgele': #63c8ff,
+  'primary': #0264a2,
+  'primary-light': #00a6ff,
+  'primary-dark': #01366b,
+  'promotion': #ffed0c,
+  'separator': #79a1c0,
+  'shadow-discrete': rgba(0,0,0,.2),
+  'sidebar-subsubmenu': #54bafc,
+  'text-neutral': #787878,
+  'text-neutral-light': #e2e2e2,
+  'text-neutral-dark': #4a4a4a,
+);
+
+// Sets the amount of darkening/lightening yielded by a single shade/tint level.
+$color-interval: 10%;
+
+// Returns a color shade according to its name, desired shade/tint level and opacity (between 0 and 1).
+// A level of 0 (default value, can be omitted) will provide the color corresponding to the given color name, defined in the safo-colors map.
+// A negative (resp. positive) level will provide a darker (resp. lighter) color.
+// The amount of darkening/lightening yielded by a single level is set by the color-interval variable.
+@function safo-color($color-name: 'primary', $level: 0, $opacity: 1) {
+  $color: map-get($safo-colors, $color-name);
+  $color-base: if($level < 0, black, white);
+  $color-leveled: mix($color-base, $color, abs($level) * $color-interval);
+
+  @return if($opacity < 1, rgba($color-leveled, $opacity), $color-leveled);
+}
+
+// Fonts
+
+// Do NOT use directly the safo-fonts map.
+// Instead, use the safo-font function and feed it the font's type and weight.
+$safo-fonts: (
+  'sans-serif': (
+    'ultra-light': 'Montserrat UltraLight',
+    'extra-light': 'Montserrat Hairline',
+    'light': 'Montserrat Light',
+    'regular': 'Montserrat Regular',
+    'semi-bold': 'Montserrat SemiBold',
+    'bold': 'Montserrat Bold',
+    'extra-bold': 'Montserrat ExtraBold',
+    'black': 'Montserrat Black'
+  ),
+  'picto': (
+    'regular': 'FontAwesome'
+  )
+);
+
+// Returns a font according to its type and desired weight.
+@function safo-font($font-type: 'sans-serif', $weight: 'regular') {
+  $font-type-map: map-get($safo-fonts, $font-type);
+  $font: map-get($font-type-map, $weight);
+
+  @return $font;
+}
+
+//data-uris
+$data_uri_0: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjE4MS4yIDI3MyAxNyAxNiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAxODEuMiAyNzMgMTcgMTYiPjxwYXRoIGQ9Ik0tMzA2LjMgNTEuMmwtMTEzLTExM2MtOC42LTguNi0yNC04LjYtMzQuMyAwbC01MDYuOSA1MDYuOS0yMTIuNC0yMTIuNGMtOC42LTguNi0yNC04LjYtMzQuMyAwbC0xMTMgMTEzYy04LjYgOC42LTguNiAyNCAwIDM0LjNsMjMxLjIgMjMxLjIgMTEzIDExM2M4LjYgOC42IDI0IDguNiAzNC4zIDBsMTEzLTExMyA1MjQtNTI0YzctMTAuMyA3LTI1LjctMS42LTM2eiIvPjxwYXRoIGZpbGw9IiMzNzM3MzciIGQ9Ik0xOTcuNiAyNzcuMmwtMS42LTEuNmMtLjEtLjEtLjMtLjEtLjUgMGwtNy40IDcuNC0zLjEtMy4xYy0uMS0uMS0uMy0uMS0uNSAwbC0xLjYgMS42Yy0uMS4xLS4xLjMgMCAuNWwzLjMgMy4zIDEuNiAxLjZjLjEuMS4zLjEuNSAwbDEuNi0xLjYgNy42LTcuNmMuMy0uMS4zLS4zLjEtLjV6Ii8+PHBhdGggZD0iTTExODcuMSAxNDMuN2wtNTYuNS01Ni41Yy01LjEtNS4xLTEyLTUuMS0xNy4xIDBsLTI1My41IDI1My41LTEwNi4yLTEwNi4yYy01LjEtNS4xLTEyLTUuMS0xNy4xIDBsLTU2LjUgNTYuNWMtNS4xIDUuMS01LjEgMTIgMCAxNy4xbDExNC43IDExNC43IDU2LjUgNTYuNWM1LjEgNS4xIDEyIDUuMSAxNy4xIDBsNTYuNS01Ni41IDI2Mi0yNjJjNS4yLTMuNCA1LjItMTIgLjEtMTcuMXpNMTYzNC4xIDE2OS40bC0zNy43LTM3LjdjLTMuNC0zLjQtOC42LTMuNC0xMiAwbC0xNjkuNSAxNjkuNS03MC4yLTcxLjljLTMuNC0zLjQtOC42LTMuNC0xMiAwbC0zNy43IDM3LjdjLTMuNCAzLjQtMy40IDguNiAwIDEybDc3LjEgNzcuMSAzNy43IDM3LjdjMy40IDMuNCA4LjYgMy40IDEyIDBsMzcuNy0zNy43IDE3NC43LTE3Ni40YzEuNi0xLjcgMS42LTYuOS0uMS0xMC4zeiIvPjwvc3ZnPg==";
+
+//urls
+$url_0: url('../images/select.png');
+$url_1: url('/images/sale.svg');
+$url_2: url('/images/new.svg');
+$url_3: url('/fonts/Montserrat-Hairline.eot');
+$url_4: url('/fonts/Montserrat-Hairline.eot?#iefix');
+$url_5: url('/fonts/Montserrat-Hairline.woff2');
+$url_6: url('/fonts/Montserrat-Hairline.woff');
+$url_7: url('/fonts/Montserrat-Hairline.ttf');
+$url_8: url('/fonts/Montserrat-Hairline.svg#Montserrat-Hairline');
+$url_9: url('/fonts/Montserrat-Regular.eot');
+$url_10: url('/fonts/Montserrat-Regular.eot?#iefix');
+$url_11: url('/fonts/Montserrat-Regular.woff2');
+$url_12: url('/fonts/Montserrat-Regular.woff');
+$url_13: url('/fonts/Montserrat-Regular.ttf');
+$url_14: url('/fonts/Montserrat-Regular.svg#Montserrat-Regular');
+$url_15: url('/fonts/Montserrat-Light.eot');
+$url_16: url('/fonts/Montserrat-Light.eot?#iefix');
+$url_17: url('/fonts/Montserrat-Light.woff2');
+$url_18: url('/fonts/Montserrat-Light.woff');
+$url_19: url('/fonts/Montserrat-Light.ttf');
+$url_20: url('/fonts/Montserrat-Light.svg#Montserrat-Light');
+$url_21: url('/fonts/Montserrat-SemiBold.eot');
+$url_22: url('/fonts/Montserrat-SemiBold.eot?#iefix');
+$url_23: url('/fonts/Montserrat-SemiBold.woff2');
+$url_24: url('/fonts/Montserrat-SemiBold.woff');
+$url_25: url('/fonts/Montserrat-SemiBold.ttf');
+$url_26: url('/fonts/Montserrat-SemiBold.svg#Montserrat-SemiBold');
+$url_27: url('/fonts/Montserrat-UltraLight.eot');
+$url_28: url('/fonts/Montserrat-UltraLight.eot?#iefix');
+$url_29: url('/fonts/Montserrat-UltraLight.woff2');
+$url_30: url('/fonts/Montserrat-UltraLight.woff');
+$url_31: url('/fonts/Montserrat-UltraLight.ttf');
+$url_32: url('/fonts/Montserrat-UltraLight.svg#Montserrat-UltraLight');
+$url_33: url('/fonts/Montserrat-ExtraBold.eot');
+$url_34: url('/fonts/Montserrat-ExtraBold.eot?#iefix');
+$url_35: url('/fonts/Montserrat-ExtraBold.woff2');
+$url_36: url('/fonts/Montserrat-ExtraBold.woff');
+$url_37: url('/fonts/Montserrat-ExtraBold.ttf');
+$url_38: url('/fonts/Montserrat-ExtraBold.svg#Montserrat-ExtraBold');
+$url_39: url('/fonts/Montserrat-Bold.eot');
+$url_40: url('/fonts/Montserrat-Bold.eot?#iefix');
+$url_41: url('/fonts/Montserrat-Bold.woff2');
+$url_42: url('/fonts/Montserrat-Bold.woff');
+$url_43: url('/fonts/Montserrat-Bold.ttf');
+$url_44: url('/fonts/Montserrat-Bold.svg#Montserrat-Bold');
+$url_45: url('/fonts/Montserrat-Black.eot');
+$url_46: url('/fonts/Montserrat-Black.eot?#iefix');
+$url_47: url('/fonts/Montserrat-Black.woff2');
+$url_48: url('/fonts/Montserrat-Black.woff');
+$url_49: url('/fonts/Montserrat-Black.ttf');
+$url_50: url('/fonts/Montserrat-Black.svg#Montserrat-Black');
+$url_51: url('../images/avatar.png');
+$url_52: url('../images/commercial.jpg');
+$url_53: url('../images/icons/promo.png');
+$url_54: url('../images/icons/new.png');
+$url_55: url('../images/icons/assortiment.png');
+$url_56: url('../images/icons/fruit.png');
+$url_57: url('../images/icons/charcuterie.png');
+$url_58: url('../images/icons/poisson.png');
+$url_59: url('../images/icons/oeuf.png');
+$url_60: url('../images/icons/menage.png');
+$url_61: url('../images/icons/maison.png');
+$url_62: url('../images/icons/jardin.png');
+$url_63: url('../images/icons/bricolage.png');
+$url_64: url('../images/icons/glace.png');
+$url_65: url('../images/icons/bazar.png');
+$url_66: url('../images/icons/bazar-lourd.png');
+$url_67: url('../images/icons/p-g-c.png');
+$url_68: url('../images/icons/produits-frais.png');
+$url_69: url('../images/icons/textile.png');
+$url_70: url('../images/icons/transport.png');
+$url_71: url('../images/icons/tabac.png');
+$url_72: url('../images/icons/zone-marche.png');
+$url_73: url('../images/new.svg');
+$url_74: url('../images/sale.svg');
+$url_75: url('../images/comment.png');
+$url_76: url('../images/info.png');
+
+// Components' sizes
+$header-height: 77px;
+$space-between-container-height:60px;
+$space-between-container-small-height:45px;
+$space-between-container-very-small-height:25px;
+$breadcrumb-trail-container-height:30px;
+$fixed-assortiment-infos-height:50px;
+$header-sale-category-width: 83px;
+$footer-height: 50px;
+$sidebar-width: 250px;
+
+// Sidebar cells' height
+$sidebar-cell-height: 45px;
+$sidebar-cell-vertical-padding: 13px;
+$sidebar-cell-picto-size: 18px;
+
+// Rhythm and spaces
+$content-padding: 10px;

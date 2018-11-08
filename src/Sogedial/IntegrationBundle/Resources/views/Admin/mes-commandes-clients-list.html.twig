@@ -1,0 +1,133 @@
+{% for  pendingKey, pendingOrder in commandesEncours %}
+    {% for key, orderRaw in pendingOrder %}
+        {% for orderLine in orderRaw %}
+            <tr>
+                <td class="link">
+                    <ul>
+                        {% if (admin is defined and admin == true) %}
+                            {% if pendingOrder.creator is defined and pendingOrder.creator != null %}
+                                <li>{{ pendingOrder.creator }}</li>
+                            {% elseif orderLine.creator is defined and orderLine.creator != null %}
+                                <li>{{ orderLine.creator }}</li>
+                            {% endif %}
+                        {% endif %}
+                        <li class="second-line">{{ orderLine.updatedAt|date('d.m.Y', timezone="Europe/Paris") }}</li>
+                        <li class="second-line">n° {{ orderLine.numero }}</li>
+                        {% if (admin is defined and admin == true) %}
+                            {% if pendingOrder.validator is defined and pendingOrder.validator != null %}
+                                <li class="second-line"> Créée par : {{ pendingOrder.validator }}</li>
+                            {% elseif orderLine.validator is defined and orderLine.validator != null %}
+                                <li class="second-line"> Créée par : {{ orderLine.validator }}</li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </td>
+                <td class="link">
+                    <ul>
+                        <li>
+                            {% if pendingOrder.entreprise is defined and pendingOrder.entreprise != null %}
+                                {{ pendingOrder.entreprise | upper }}
+                            {% elseif orderLine.entreprise is defined and orderLine.entreprise != null %}
+                                {{ orderLine.entreprise | upper }}
+                            {% endif %}
+                        </li>
+                    </ul>
+                </td>
+                {% if preCommandeMode is defined and preCommandeMode == true %}
+                    <td class="link">
+                        <ul>
+                            {% if pendingOrder.totalMoq is defined and pendingOrder.totalMoq != null %}
+                                <li>
+                                    {% if pendingOrder.totalMoq > 0 %}
+                                        <div class="notif-badge-container">
+                                            <span class="notif-badge-sub-container">
+                                                <span class="notif-badge">
+                                                    {{ pendingOrder.totalMoq }}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    {% else %}
+                                        {{ pendingOrder.totalMoq }}
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </td>
+                {% endif %}
+                <td class="link">
+                    <ul>
+                        <li>{{ orderLine.totalProducts }} référence(s)</li>
+                        {% if orderLine.totalQuantity is defined and orderLine.totalQuantity != null %}
+                            <li>
+                                {{ orderLine.totalQuantity }}
+                                {% if MasterEnterprise is defined and MasterEnterprise == 'Sofrigu' %}
+                                    {% if orderLine.totalQuantity > 1 %}
+                                        unit&eacute;s
+                                    {% else %}
+                                        unit&eacute;
+                                    {% endif %}
+                                {% else %}
+                                    colis
+                                {% endif %}
+                            </li>
+                        {% else %}
+                            <li>NC</li>
+                        {% endif %}
+                    </ul>
+                </td>
+                <td class="link">
+                    <ul class="delivery">
+                        <li>
+                            {% include "SogedialIntegrationBundle:Common:order-pictograme.html.twig"  with { "temperature": key, 'societe': MasterEnterprise|capitalize } %}
+                            {% if (MasterEnterprise|capitalize) != 'Sogedial' %}
+                                Le {{ orderLine.deliveryDate|date('d.m.Y', timezone="Europe/Paris") }}
+                            {% endif %}
+                        </li>
+                    </ul>
+                </td>
+                <td class="link">
+                    <ul class="price">
+                        <li>
+                            <span class="price_ttc">
+                                {% if orderLine.totalPrice != 'NC'%}
+                                    {{ orderLine.totalPrice | number_format(2, ".", " ") }}&#8239;&euro;
+                                {% else %}
+                                    NC
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </td>
+                <td class="link"><span class="state {% if orderLine.status starts with 'En attente' %} awaiting {% else %} sent {% endif %}">{{ orderLine.status }}</span></td>
+                <td class="center">
+                    {% if admin is defined and admin == true %}
+                        {% set pathCommande = path('sogedial_integration_admin_commande_detail', {'id': orderLine.id}) %}
+                    {% else %}
+                        {% if orderLine.id != null %}
+                            {% set pathCommande = path('SogedialSite_detail_historique_commande', { 'societe': societe, 'id': orderLine.id }) %}
+                        {% else %}
+                            {% set pathCommande = path('SogedialSite_detail_historique_commande', { 'societe': societe, 'id': 1 }) %}
+                        {% endif %}
+                    {% endif %}
+                    {# We have to put a hidden link up here so that this is the one selected when clicking on a table row with the "link" class #}
+                    <a class="link" href="{{ pathCommande }}" style="display: none;"></a>
+
+                    {% if admin is defined and admin == true and pendingOrder.totalMoq is defined and orderLine.status_id == 2 %}
+                        {% if pendingOrder.totalMoq > 0 or orderLine.status_id > 2 %}
+                            <a href="#" id="order" class="button no-margin blue button-validate disabled d-inline-block" >Valider</a>
+                        {% else %}
+                            <a href="{{ path('SogedialSite_command_valid', {'id': orderLine.id}) }}" id="order" class="button no-margin blue button-validate d-inline-block" >Valider</a>
+                        {% endif %}
+
+                    {% else %}
+                        <a class="left" href="{{ path('SogedialSite_recapOrderPdf', {'id' : orderLine.id}) }}" target="_blank"><i style="color: #00a6ff;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true" data-toggle="tooltip" title="Télécharger le bon de commande"></i></a>
+                        <a class="link" href="{{ pathCommande }}">
+                            <img class="detail-order" src="{{ image('images/arrow-right-grey.png') }}"/>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+    <tr class="spacer"></tr>
+{% endfor %}

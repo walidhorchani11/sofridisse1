@@ -1,0 +1,83 @@
+{% if codeSociete is defined and codeSociete == '401' %}
+    {% set template = 'SogedialIntegrationBundle:Admin:ajouter-prospect-template-tmp-sge.html.twig' %}
+{% else %}
+    {% set template = 'SogedialIntegrationBundle:Admin:ajouter-prospect-template.html.twig' %}
+{% endif %}
+
+{% extends template %}
+
+{% block stylesheets %}
+    {% stylesheets '@SogedialIntegrationBundle/Resources/public/css/jstree.min.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+{% block form %}
+    <div class="grid-s-12 material-form">
+        <div class="grid-row">
+            <div class="grid-s-12 grid-m-6 marg-v-20">
+                <div class="grid-row button-list">
+                    <div class="button-list-item button no-margin blue" id="toggle-check-all">Tout cocher</div>
+                    <div class="button-list-item button no-margin blue" id="toggle-open-first-level">Déployer Secteurs</div>
+                    <div class="button-list-item button no-margin blue" id="toggle-open-second-level">Déployer Rayons</div>
+                </div>
+            </div>
+            <div class="grid-s-12 grid-m-3 marg-v-20">
+                <form id="prospect-product-search-form" style="width:unset;">
+                    <div class="material-form-container grid-s-12 grid-padded">
+                        <div class="form-input no-margin-bottom">
+                            <input type="search" id="prospect-product-search-input" autocomplete="off" />
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label><span class="fa fa-search"></span> Rechercher un produit</label>
+                            <span id="error-search-message" style="color:red"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="grid-s-12 grid-m-3 marg-v-20">
+                <form class="material-form">
+                    <div class="material-form-container grid-s-12 grid-padded">
+                            <div class="form-select" style="margin-bottom:0;">
+                                <label>Assortiment d'un prospect existant</label>
+                                <div class="select-container">
+                                    <select id="choose-prospect-assortiment" name="load-assortiment-prospect">
+                                        <option value="">Choisir prospect</option>
+                                    </select>
+                                </div>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+        <div class="grid-s-12">
+            <div id="product-search-tree"></div>        
+            <div id="event_result"></div>
+        </div>
+    </div>
+
+    <div class="grid-s-12">
+        <div class="grid-row grid-center">
+            <button id="prospect-submit-button" href="#" class="button blue marg-v-10"><i class="fa fa-save fa-lg"></i> Valider</button>
+        </div>
+    </div>
+
+    <div id="loading-fullscreen" class="loading-fullscreen loading-fullscreen-hidden">
+        <div class="loader-commande-point-com loader-commande-point-com-white">
+            {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig" with {'svg_id':5} %}
+        </div>
+    </div>
+    
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+        '@SogedialIntegrationBundle/Resources/public/js/jstree.min.js'
+        '@SogedialIntegrationBundle/Resources/public/js/jstreetable.js'
+        '@SogedialIntegrationBundle/Resources/public/js/prospect.js'
+        '@SogedialIntegrationBundle/Resources/public/js/catalogue-tree.js'
+        '@SogedialIntegrationBundle/Resources/public/js/formFrontManager.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}

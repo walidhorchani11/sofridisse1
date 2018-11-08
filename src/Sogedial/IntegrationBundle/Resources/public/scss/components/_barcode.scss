@@ -1,0 +1,16 @@
+.barcode-container {
+  td {
+    background-color: inherit !important;
+  }
+
+  tr:nth-of-type(2) {
+    img:first-of-type,
+    img:nth-of-type(2) {
+      display: none;
+    }
+
+    img {
+      height: 40px;
+    }
+  }
+}

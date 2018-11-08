@@ -1,0 +1,41 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% trans_default_domain 'SogedialSiteBundle' %}
+
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>Admin</b>LTE</a>
+    </div>
+    <div class="login-box-body">
+        <p class="login-box-msg">Récupérer mon mot de passe</p>
+
+        <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="form-login">
+            <div class="error">
+                {% if invalid_username is defined %}
+                    <div style="color: #dd4b39">
+                        <label class="control-label" for="inputError"><i
+                                    class="fa fa-times-circle-o"></i> {{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}
+                        </label>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="{{ 'resetting.request.username'|trans }}"
+                       id="username" name="username" required="required">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-10 text-center">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat" id="submit"
+                            name="submit">{{ 'resetting.request.submit'|trans }}</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="social-auth-links text-center"></div><!-- /.social-auth-links -->
+        <a href="{{ path('SogedialSite_catalogue_integration') }}">Retourner à la page d'accueil</a><br>
+        <a href="#" class="text-center">{{ 'security.login.askaccess'|trans }}</a>
+    </div>
+</div>

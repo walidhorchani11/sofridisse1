@@ -1,0 +1,98 @@
+<table class="table-with-images table-with-headers">
+    <tbody>
+    <tr>
+        <th></th>
+        <th>Statut</th>
+        {% for user in users %}
+        <th>{{ user.nom }}</th>
+        {% endfor %}
+        <th>Prix</th>
+        <th>Poids</th>
+        <th>PCB</th>
+        <th>Palette</th>
+        <th>Total par produit<br>(colis)</th>
+        <th>Total par produit<br>(unité)</th>
+        <th>Total par produit<br>(euros)</th>
+        <th>Total par produit<br>(kg)</th>
+        <th>Total par palettes</th>
+    </tr>
+    <tr class="spacer"></tr>
+    {% for labelproduct, product in productRule["products"] %}
+        {% set trId = loop.index %}
+        <tr class="item"
+            data-pcb="{{product.pcb}}"
+            data-weight="{{product.weight}}"
+            data-pallet="{{product.pallet}}"
+            data-price="{{product.price}}"
+            id="product{{productId}}">
+            <td>
+                <ul class="item">
+                    <li class="wrappable">{{labelproduct}}</li>
+                </ul>
+            </td>
+            <td>
+                {% if productRule.status == 1 %}
+                    <p class="customer-status active">
+                        {{"validé"|title}}
+                    </p>
+                {% else %}
+                    <p class="customer-status blocked">
+                        {{"à valider"|title}}
+                    </p>
+                {% endif %}
+            </td>
+            {% set userId = 0 %}
+            {% set tdId = 0 %}
+            {% for user in users %}
+                {% if product.users[user.code] is defined %}
+                {% set tdId = tdId + 1 %}
+                <td data-code="{{product.users[user.code].code}}">
+
+                    <div class="prix_ht-size">
+                        <div
+                            data-tableid="{{tableId}}"
+                            data-trid="{{trId-1}}"
+                            data-tdid="{{tdId-1}}"
+                            class="prix_ht-center quantityForm {% if productRule.status == 1 %} disabled {% endif %}">
+                            <span class="select-minus minus">-</span>
+                                <input id="input{{userId}}" type="text" class="select-quantity quantity commande_exist" value="{{product.users[user.code].quantity}}" {% if productRule.status == 1 %} disabled {% endif %}/>
+                            <span class="select-plus plus">+</span>
+                        </div>
+                    </div>
+                </td>
+                {% else %}
+                <td>
+                </td>
+                {% endif %}
+                {% set userId = userId + 1 %}
+            {% endfor %}
+            <td>{{ product.price }}&nbsp;&euro;</td>
+            <td>{{ product.weight }}</td>
+            <td>{{ product.pcb }}</td>
+            <td>{{ product.pallet }}</td>
+            <td class="totalProductPackage">{{product.totalPerProduct}}</td>
+            <td class="totalProductUC">{{product.totalPerProduct * product.pcb}}</td>
+            <td><span class="totalProductPrice">{{product.totalPerProduct * product.price * product.pcb}}</span>&nbsp;&euro;</td>
+            <td><span class="totalProductWeight">{{product.totalPerProduct * product.weight}}</span>&nbsp;kg</td>
+            <td><span class="totalProductPallet">
+                {% if product.pallet > 0 %}
+                    {{product.totalPerProduct / product.pallet}}
+                {% else %}
+                    0
+                {% endif %}
+            </span></td>
+        </tr>
+        <tr class="spacer"></tr>
+        {% set productId = productId + 1 %}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <th>TOTAL</th>
+        <th colspan="{{5 + (users|length)}}"></th>
+        <th><span class="global_total_package">{{ productRule.totalGlobal }}</span></th>
+        <th><span class="global_total_uc">{{ productRule.totalGlobalUC }}</span></th>
+        <th><span class="global_total_price">{{ productRule.totalGlobalPrice }}</span>&nbsp;&euro;</th>
+        <th><span class="global_total_weight">{{ productRule.totalGlobalWeight }}</span>&nbsp;kg</th>
+        <th><span class="global_total_pallet">{{ productRule.totalGlobalPallet }}</span></th>
+    </tfoot>
+</table>

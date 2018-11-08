@@ -1,0 +1,101 @@
+{% block javascripts %}
+    <script>
+        var message = {};
+        {% if message is defined and message is not null %}message = { "id" : "{{message.id}}" }{% else %}null{% endif %};
+    </script>
+{% endblock %}
+
+<div class="space-between-container">
+    <div class="page-title">Messages clients</div>
+    {# <div class="grid-s-12">
+        <div class="grid-row ">
+            <a href="#"><button type="submit" class="button blue marg-v-10"><i class="fa fa-check-square-o"></i> Tout sélectionner</button></a>
+        </div>
+    </div> #}
+</div>
+
+<div class="scrollable-content scrollable-content-messages-clients-list">
+    {# <div class="scrollable-content scrollable-content-list-clients-messages grid-s-12" id="selected_clients">
+        <form name="selection_client">
+            <table class="table-with-headers sticky-header-table">
+                <thead>
+                    <tr>
+                        <th>Nom client</th>
+                        <th>Code client</th>
+                        <th>Enseigne</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="spacer"></tr>
+                    {% for client in mesClientsActifs %}
+                        <tr>
+                            <td>{{client.nom}}</td>
+                            <td>{{client.code}}</td>
+                            <td>{{client.enseigne}}</td>
+                            <td>
+                                <div class="material-form-container grid-s-12 grid-m-12 grid-padded">
+                                    <div class="form-input form-input-checkbox custom-radio">
+                                        <input type="radio" name="selection_client[client.id]" id="client_selected" value="0">
+                                        <label for="selection_client[client.id]"></label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div> #}
+    <div class="material grid-s-12">
+        <form class="grid-s-12 grid-m-6 material-form">
+            <div class="material-well">
+                <div class="material-form-container grid-s-12 grid-m-6 grid-padded">
+                    <div class="form-input">
+                        <input type="text" id="message_libelle" name="libelle_message" value="{% if mode != "new" and message is defined %}{{message.libelle}}{% endif %}"/>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label for="libelle_message">Libellé du message</label>
+                    </div>
+                </div>
+                <div class="material-form-container grid-s-12 grid-padded">
+                    <div class="form-textarea">
+                        <textarea id="message_content" name="message_content" rows="6" maxlength="350" class="message-client-textarea">{% if mode != "new" and message is defined %}{{message.text}}{% endif %}</textarea>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>    
+                        <label for="message_content">Contenu du message</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form class="grid-s-12 grid-m-6 material-form">
+            <div class="material-well">
+                <div class="material-form-container grid-s-12 grid-m-6 grid-padded">
+                    <div class="form-input form-date" id="js-datepicker1">
+                        <input type="text" id="date_debut" class="js-datepicker1 hasDatepicker" name="date-debut-validite" value="{% if mode != "new" and message is defined %}{{message.dateDebutValidite|date("Y-m-d")}}{% endif %}">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label for="date-debut-validite">Date de début (ex: 2018-01-31)</label>
+                    </div>
+                </div>
+
+                <div class="material-form-container grid-s-12 grid-m-6 grid-padded">
+                    <div class="form-input form-date" id="js-datepicker2">
+                        <input type="text" id="date_fin" class="js-datepicker2 hasDatepicker" name="date-fin-validite" value="{% if mode != "new" and message is defined %}{{message.dateFinValidite|date("Y-m-d")}}{% endif %}">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label for="date-fin-validite">Date de fin (ex: 2018-01-31)</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="grid-s-12">
+        {# Bouton sauvegarde #}
+        <div class="grid-row grid-center">
+            <button class="button blue marg-v-20" id="edit-or-create-message-client">
+                <i class="fa fa-check"></i> Valider
+            </button>
+        </div>
+    </div>
+</div>

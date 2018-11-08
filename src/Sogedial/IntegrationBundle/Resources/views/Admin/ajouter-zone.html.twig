@@ -1,0 +1,108 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block body %}
+    <section>
+        <div class="content">
+            <div id="breadcrumb">
+                <a href="{{ path('sogedial_integration_admin_dashbord') }}">Accueil</a>
+                > <a href="{{ path('sogedial_integration_admin_meszones') }}">Mes Zones </a>
+                > <a href="{{ path('sogedial_integration_admin_zone', {'id': zone.code} ) }}">{{ zone.code }} </a>
+                > Edition client
+            </div>
+            <div class="block">
+                <div>
+                    <div>
+                        <h2 class="title">Edition de la zone {{ zone.code }}</h2>
+                    </div>
+                    <div class="container-edit-client">
+                        <form method="POST" {{ form_start(form) }} role="form">
+                            {{ form_errors(form) }}
+
+                            <table class="edit-client-table">
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.nom) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.nom) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Température
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ zone.temperature }}
+                                        </span>                                    
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.lundi) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.lundi) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.mardi) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.mardi) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.mercredi) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.mercredi) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.jeudi) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.jeudi) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.vendredi) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.vendredi) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.samedi) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.samedi) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="">
+                                        {{ form_label(form.dimanche) }}
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.dimanche) }}
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div>
+                                <button type="submit" class="button border-blue" id="_submit"><i class="fa fa-save"></i> SAUVEGARDER</button>
+                            </div>
+                            {{ form_widget(form._token) }}
+                            {# form_rest(form) #}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

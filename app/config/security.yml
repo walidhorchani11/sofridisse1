@@ -1,0 +1,76 @@
+security:
+    encoders:
+        Sogedial\UserBundle\Entity\User: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main:
+            id: fos_user.user_provider.username
+        in_memory:
+            memory:
+                users:
+                    sogedial: { password: test }
+                    soge13na : {password: 8v98jAiE}
+                    soge21bz : {password: pPm978Zw}
+                    soge36ve : {password: 6JeBu9y5}
+                    soge44cr : {password: w5r2T6cA}
+                    soge59xt : {password: GxmN7u55}
+                    soge65wy : {password: 9N5sCp8f}
+                    soge76mu : {password: 5e26JZjb}
+                    soge82li : {password: fcR4A2e4}
+                    soge97ko : {password: YsLix728}
+
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js|i)/
+            security: false
+            
+        img_export:
+            pattern: ^/\d+/\d+/\d{13}.jpg
+            provider:  in_memory
+            http_basic:
+                realm: "Restrict access"
+
+
+        login:
+            pattern:   ^/[a-z][a-z]/(login$|register-client|resetting|search)
+            anonymous: true           
+
+
+        main:
+            pattern:   ^/
+            provider:  main
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                use_referer : true
+                success_handler: sogedial.authentication.success.handler
+            logout:
+                path:   fos_user_security_logout
+                target: /
+            remember_me:
+                key: %secret% # %secret% est un paramètre de parameters.yml
+                lifetime: 604800 # 1 week in seconds
+            anonymous: false
+            switch_user: true
+
+    access_control:
+        - { path: /bo, roles: ROLE_ADMIN }
+        - { path: /list-users, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /users-json-list, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /ajout-client, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /clients-without-access-list, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /clients-without-access-json-list, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /clients-with-access-list, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /clients-with-access-json-list, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /locked-clients, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /locked-json-clients, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /produit-without-source-json, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /produit-without-source, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /produit-all-json, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+        - { path: /produit-all, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+

@@ -1,0 +1,5 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:content.html.twig" with {'prochaineLivraison': prochaineLivraison, 'commandeEncours': commandeEncours, 'panierEncours': panierEncours, 'preCommandeMode': preCommandeMode, 'commercialInfo': commercialInfo} %}
+{% endblock %}

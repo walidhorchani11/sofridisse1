@@ -1,0 +1,95 @@
+<section>
+    <div class="content">
+        {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+        <div class="block">
+            <h2 class="title">Mes Zones</h2>
+
+            <div class="customer-filter">
+                <h3>Afficher</h3>
+            </div>
+
+            <table class="table-without-images table-with-headers">
+                <tr>
+                    <th>Nom</th>
+                    <th>Temperature</th>
+                    <th>Lundi</th>
+                    <th>Mardi</th>
+                    <th>Mercredi</th>
+                    <th>Jeudi</th>
+                    <th>Vendredi</th>
+                    <th>Samedi</th>
+                    <th>Dimanche</th>
+                    <th>Actions</th>
+                </tr>
+                <tr class="spacer"></tr>
+                {% if mesZones is defined and mesZones is not empty %}
+
+                    {% for zone in mesZones %}
+                        <tr>
+                            <td>
+                                <span>{{ zone.nom }}</span>
+                            </td>
+
+
+                            <td>
+                                <span>
+                                    {{ zone.temperature }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if zone.lundi != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if zone.mardi != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if zone.mercredi != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if zone.jeudi != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if zone.vendredi != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if zone.samedi != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>                                   
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if zone.dimanche != null %}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <p class="small-picto">
+                                    <a href="{{ path('SogedialSite_ajout_zone', {'codeZone': zone.code}) }}"
+                                       class="edit edit-pen"></a>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</section>

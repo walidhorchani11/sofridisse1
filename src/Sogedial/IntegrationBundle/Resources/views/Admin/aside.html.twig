@@ -1,0 +1,81 @@
+{% set splitArray = commercialInfo.numero1|split('', 2) %}
+{% set splitArray1 = commercialInfo.numero2|split('', 2) %}
+{% set splitArray2 = commercialInfo.fax|split('', 2) %}
+{% set mobilePhone = splitArray|join(' ') %}
+{% set fixPhone = splitArray1|join(' ') %}
+{% set faxPhone = splitArray2|join(' ') %}
+
+<aside class="main-menu">
+    <div class="sidebar-entreprise-container">
+        <div class="sidebar-entreprise-name">{{ entreprise | upper }}</div>
+    </div>
+    <div id="commercial">
+        <div class="group-clear">
+            <p class="avatar">{{ commercialInfo.prenom | first }}</p>
+            <span>Commercial</span>
+            <div class="name">{{ commercialInfo.nom | upper }} {{ commercialInfo.prenom | capitalize }}&nbsp;</div>
+        </div>
+        <p class="line"></p>
+        {% if (mobilePhone and mobilePhone != '') %}
+            <a href="#" class="contact phone">
+                <img src="{{ image('images/icon-phone.png') }}" alt="Téléphone"
+                    height="19px" width="20px"/>{{ mobilePhone }}
+            </a>
+        {% endif %}
+        {% if (fixPhone and fixPhone != '') %}
+            <a href="#" class="contact phone">
+                <img src="{{ image('images/icon-mobile.png') }}" alt="Portable" title="Portable"
+                    height="19px" width="20px"/>{{ fixPhone }}
+            </a>
+        {% endif %}
+        {% if (faxPhone and faxPhone != '') %}
+            <a href="#" class="contact phone">
+                <img src="{{ image('images/icon-fax.png') }}" alt="Fax" height="19" width="20"
+                    title="Fax"/>{{ faxPhone }}
+            </a>
+        {% endif %}
+        {% if (commercialInfo.email and commercialInfo.email != '') %}
+            <a href="#" class="contact mail">
+                <img src="{{ image('images/icon-mail.png') }}" alt="Mail" height="19px"
+                    width="20px"/>{{ commercialInfo.email |lower }}
+            </a>
+        {% endif %}
+    </div>
+    <div class="menu-scroll">
+        <ul>
+            {% if preCommandeAdmin %}
+                <li><a href="{{ path('sogedial_integration_admin_valid_moq_to_valid') }}">Validation quantités
+                {% if (pendingMoqCount > 0) %}
+                    <span class="notif-badge-container sidebar-menu-notif-container">
+                        <span class="notif-badge-sub-container">
+                            <span class="notif-badge">
+                                {% if (pendingMoqCount > 99) %} 99+ {% else %} {{ pendingMoqCount }} {% endif %}
+                            </span>
+                        </span>
+                    </span>
+                {% endif %}
+                </a></li>
+            {% endif %}
+            <li><a href="{{ path('sogedial_integration_admin_commandes_clients') }}">
+                Commandes clients
+                {% if (pendingOrdersCount > 0) %}
+                    <span class="notif-badge-container sidebar-menu-notif-container">
+                        <span class="notif-badge-sub-container">
+                            <span class="notif-badge">
+                                {% if (pendingOrdersCount > 99) %} 99+ {% else %} {{ pendingOrdersCount }} {% endif %}
+                            </span>
+                        </span>
+                    </span>
+                {% endif %}
+            </a></li>
+            <li><a href="{{ path('sogedial_integration_admin_mesclients') }}">Mes clients</a></li>
+            <li><a href="{{ path('sogedial_integration_admin_mesprospects') }}">Mes prospects</a></li>
+            <li><a href="{{ path('sogedial_integration_admin_meszones') }}">Mes Zones</a></li>
+            <li><a href="{{ path('sogedial_integration_admin_tracking_clients') }}">Tracking clients</a></li>
+            {#<li><a href="{{ path('sogedial_integration_admin_catalogue_sans_photo') }}">Produits sans photos</a></li>#}
+            {#<li><a href="{{ path('sogedial_integration_admin_catalogue') }}">Catalogue</a></li>#}
+            <li><a href="{{ path('SogedialSite_integration_upload_ccv_file') }}">Settings</a></li>
+            <li><a href="{{ path('SogedialSite_integration_messages_clients') }}" class="last">Messages clients</a></li>
+        </ul>
+    </div>
+</aside>

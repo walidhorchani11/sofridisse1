@@ -1,0 +1,45 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/routing_dev.yml"
+        strict_requirements: true
+    profiler: { only_exceptions: false }
+
+doctrine:
+    orm:
+        auto_generate_proxy_classes: 2
+
+twig:
+    globals:
+      assets_base_urls: http://local.sogedial
+      
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type:   firephp
+        #    level:  info
+        #chromephp:
+        #    type:   chromephp
+        #    level:  info
+
+assetic:
+    use_controller: true
+
+swiftmailer:
+    disable_delivery:  false
+    delivery_address: ["sekou.koita@groupesafo.com", "ridha.bensaber@groupesafo.com"]

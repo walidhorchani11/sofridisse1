@@ -1,0 +1,17 @@
+<td class="infobar-table-sale-category" {% if selectionDropdown is defined and selectionDropdown == true %}id="infobar-table-assortiments"{% endif %}>
+    <a href="{% if link != null %}{{ link }}{% else %}#{% endif %}" {# {% if classDisabled == true %}class="disabled infobar-table-sale-category-link" {% else %} #}class="infobar-table-sale-category-link" {# {% endif %} #}>
+        <div class="infobar-table-category-picto-container">
+            <img class="infobar-table-category-picto" src="{{ image(pictoPath) }}"></img>
+            {% if counter > 0 %}
+                <div class="notif-badge-container">
+                    <div class="notif-badge-sub-container">
+                        <div class="notif-badge">
+                            {% if (counter <= 99) %} {{ counter }} {% else %} 99+ {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="infobar-table-category-title">{{ title }}</div>
+    </a>
+</td>

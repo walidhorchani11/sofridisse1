@@ -1,0 +1,54 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block body %}
+    <section>
+        <div class="content add-prospect">
+            <div class="breadcrumb-trail-container">
+                {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+            </div>
+            <div class="block">
+                <div class="space-between-container-small">
+                    <div class="grid-s-6">
+                        <h2 class="title">Edition du client {{ codeClient|split('-')[1] }} - {{ client.nom }} / {{ username }}</h2>
+                    </div>
+                    <div class="grid-s-6 grid-padded">
+                        <ul class="prospect-nav grid-pull-right">
+                            {% for stepLabel, stepInfo in steps if stepInfo['enabled'] == true %}
+                                <li>
+                                    <a
+                                        href="{{ path(clientEditRoute, { 'step': stepLabel, 'codeClient': codeClient }) }}"
+                                        class="button blue {% if (stepInfo.id > currentStep.id) and (mode == 'create') %}prospect-nav-disabled{% endif %}"
+                                    >
+                                        {{ stepLabel }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="container-edit-client material">
+                    {% block form %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}    
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/formFrontManager.js' %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+    <script>
+        $(document).ready(function(){
+            function checkIfNewClient(inputClicked){
+                if (inputClicked.val() === "new"){
+                    $("#newClientWell").fadeIn("fast");
+                } else {
+                    $("#newClientWell").fadeOut("fast");
+                }
+            }
+
+            $("input[name=meta_client_choose]").click(function(){
+                checkIfNewClient($(this));
+            })
+        })
+    </script>
+{% endblock %}

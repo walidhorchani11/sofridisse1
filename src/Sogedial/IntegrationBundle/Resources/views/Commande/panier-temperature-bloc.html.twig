@@ -1,0 +1,58 @@
+<tr id="{{ temperature }}" data-count="{{ nbrProduct }}" data-subtotal="{{ subTotal }}" class="hidden">
+    <td class="order-recap-temperature">
+        {% if temperature == 'ambient' %}
+            <p class="medium-picto yellow">
+            <img src="{{ image('images/corn.svg') }}" alt="Sec"></p>
+            <span class="category">Sec</span>
+        {% elseif temperature == 'positiveCold' %}
+            <p class="medium-picto green">
+            <img src="{{ image('images/apple.svg') }}" alt="Frais"></p>
+            <span class="category">Frais</span>
+        {% elseif temperature == 'negativeCold' %}
+            <p class="medium-picto blue">
+            <img src="{{ image('images/snow.svg') }}" alt="Surgelé"></p>
+            <span class="category">Surgelé</span>
+        {% endif %}
+    </td>
+    {% if multisiteService.hasFeature('poidsVolume') %}
+        {% if temperature == 'ambient' %}
+            <td class="order-recap-temperature">
+                <div class="normal-line-height">
+                    <div><span id="ambientWeight">0</span>&nbsp;kg</div>
+                    <div><span id="ambientVolume">0</span>&nbsp;m<sup>3</sup></div>
+                </div>
+            </td>
+        {% elseif temperature == 'positiveCold' %}
+            <td class="order-recap-temperature">
+                <div class="normal-line-height">
+                    <div><span id="positiveColdWeight">0</span>&nbsp;kg</div>
+                    <div><span id="positiveColdVolume">0</span>&nbsp;m<sup>3</sup></div>
+                </div>
+            </td>
+        {% elseif temperature == 'negativeCold' %}
+            <td class="order-recap-temperature">
+                <div class="normal-line-height">
+                    <div><span id="negativeColdWeight">0</span>&nbsp;kg</div>
+                    <div><span id="negativeColdVolume">0</span>&nbsp;m<sup>3</sup></div>
+                </div>
+            </td>
+        {% endif %}
+    {% endif %}
+    <td class="order-recap-count">
+        <span class="item-unit"
+              id="panier-basket-item-unit">{{ nbrProduct }}{% if nbrProduct > 1 %} produits {% else %} produit {% endif %} </span>
+    </td>
+    <td class="order-recap-date">
+        {% if features["date-panier"] is defined %}
+            {% if (preCommandeMode is not defined) or (preCommandeMode is defined and preCommandeMode == false ) %}
+                <span class="delivery_date">Date de livraison :</span>
+                <input class="dry-date" type="text" readonly="true">
+            {% elseif (preCommandeMode is defined and preCommandeMode == true ) %}
+                <span class="delivery_date">Date de livraison estimée au :</span>
+                <span class="dry-date">{{dateLivraisonEstimee|date("d/m/Y") }}</span>
+            {% endif %}
+        {% endif %}
+    </td>
+    <td class="total_price">{{ subTotal|number_format(2, ".", " ") }}&#8239;&euro; {% include "SogedialIntegrationBundle:Common:pricing.unity.html.twig"  with {'societe': societe } %}</td>
+    <td class="spacer"></td>
+</tr>

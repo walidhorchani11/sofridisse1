@@ -1,0 +1,64 @@
+@font-face {
+  font-family: safo-font('sans-serif', 'extra-light');
+  font-style: normal;
+  font-weight: 200;
+
+  src: $url_3;
+  src: $url_4 format("embedded-opentype"), $url_5 format("woff2"), $url_6 format("woff"), $url_7 format("truetype"), $url_8 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif');
+  font-style: normal;
+  font-weight: normal;
+
+  src: $url_9;
+  src: $url_10 format("embedded-opentype"), $url_11 format("woff2"), $url_12 format("woff"), $url_13 format("truetype"), $url_14 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif', 'light');
+  font-style: normal;
+  font-weight: 300;
+
+  src: $url_15;
+  src: $url_16 format("embedded-opentype"), $url_17 format("woff2"), $url_18 format("woff"), $url_19 format("truetype"), $url_20 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif', 'semi-bold');
+  font-style: normal;
+  font-weight: 600;
+
+  src: $url_21;
+  src: $url_22 format("embedded-opentype"), $url_23 format("woff2"), $url_24 format("woff"), $url_25 format("truetype"), $url_26 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif', 'ultra-light');
+  font-style: normal;
+  font-weight: 200;
+
+  src: $url_27;
+  src: $url_28 format("embedded-opentype"), $url_29 format("woff2"), $url_30 format("woff"), $url_31 format("truetype"), $url_32 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif', 'extra-bold');
+  font-style: normal;
+  font-weight: 800;
+
+  src: $url_33;
+  src: $url_34 format("embedded-opentype"), $url_35 format("woff2"), $url_36 format("woff"), $url_37 format("truetype"), $url_38 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif', 'bold');
+  font-style: normal;
+  font-weight: bold;
+
+  src: $url_39;
+  src: $url_40 format("embedded-opentype"), $url_41 format("woff2"), $url_42 format("woff"), $url_43 format("truetype"), $url_44 format("svg");
+}
+@font-face {
+  font-family: safo-font('sans-serif', 'black');
+  font-style: normal;
+  font-weight: 900;
+
+  src: $url_45;
+  src: $url_46 format("embedded-opentype"), $url_47 format("woff2"), $url_48 format("woff"), $url_49 format("truetype"), $url_50 format("svg");
+}

@@ -1,0 +1,7 @@
+default:
+    extensions:
+        Behat\Symfony2Extension: ~
+    suites:
+        sogedial_suite:
+            type: symfony_bundle
+            bundle: SogedialSiteBundle

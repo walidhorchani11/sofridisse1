@@ -1,0 +1,9 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block bodyId %}
+<body id="my-orders" class="secondary-header order-pages simple-version customer commercial"> {% endblock %}
+
+{% block body %}
+{% include "SogedialIntegrationBundle:Admin:zone.content.html.twig"
+with {'zoneInfo' : zone } only %}
+{% endblock %}

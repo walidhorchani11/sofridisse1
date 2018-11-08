@@ -1,0 +1,16 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block title %}Tracking client{% endblock %}
+{% block bodyId %}
+<body id="customer" class="commercial">{% endblock %}
+
+{% block body %}
+	{% include "SogedialIntegrationBundle:Admin:tracking.content.html.twig" with {'trackedUsers': trackedUsers } only %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $(".sticky-header-table").stickyTableHeaders();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+
+{% block body %}
+    <section>
+        <div class="content">
+
+            {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+
+            <div>
+                <h2 class="title">Mise à jour des CCV  clients.</h2>
+            </div>
+
+            <tr class="spacer"></tr>
+            <tr class="spacer"></tr>
+            <tr class="spacer"></tr>
+            <div>
+                <form role="form" method="post" {{ form_enctype(form) }}>
+                    <div>   {{ form_label(form.attachment) }}</div>
+                    <div>   {{ form_widget(form.attachment) }}</div>
+                    <tr class="spacer"></tr>
+                    <div>  {{ form_rest(form) }}</div>
+
+                    <div>
+                        <button type="submit" class="button blue button-download" id="_submit">Télecharger</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

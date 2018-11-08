@@ -1,0 +1,81 @@
+{% extends "SogedialIntegrationBundle:Admin/ModificationClient:ajouter-client-template.html.twig" %}
+{% block form %}
+    <h2 class="title">Géolocalisation</h2>
+    <div class="space-between-container">
+        <form method="POST" {{ form_enctype(geolocationForm) }} role="geolocationForm" style="vertical-align: top;">
+            {{ form_errors(geolocationForm) }}
+            <table class="edit-client-table">
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(geolocationForm.adresse1) }}</td>
+                    <td id="address-address">
+                        {{ form_widget(geolocationForm.adresse1) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(geolocationForm.codePostale) }}</td>
+                    <td id="address-postal-code">
+                        {{ form_widget(geolocationForm.codePostale) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(geolocationForm.ville) }}</td>
+                    <td id="address-city">
+                        {{ form_widget(geolocationForm.ville) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(geolocationForm.pays) }}</td>
+                    <td id="address-country">
+                        {{ form_widget(geolocationForm.pays) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="address-submit-address" type="button" value="Trouver les coordonnées">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(geolocationForm.latitude) }}</td>
+                    <td id="address-lat">
+                        {{ form_widget(geolocationForm.latitude) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(geolocationForm.longitude) }}</td>
+                    <td id="address-lng">
+                        {{ form_widget(geolocationForm.longitude) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="address-submit-latlng" type="button" value="Trouver l'adresse correspondante">
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <button type="submit" class="button border-blue" id="_submit_geolocation"><i class="fa fa-save"></i> SAUVEGARDER</button>
+            </div>
+            {{ form_widget(geolocationForm._token) }}
+        </form>
+        <div id="map"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@SogedialIntegrationBundle/Resources/public/js/client-geocoding.js' %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAVzUzDBn8UxY77s8XAiw85x_Pt5jsa0s&callback=initMap">
+    </script>
+{% endblock %}

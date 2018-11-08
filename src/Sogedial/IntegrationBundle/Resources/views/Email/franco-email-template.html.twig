@@ -1,0 +1,8 @@
+<p>Bonjour,</p>
+
+<p>Le client <strong>{{ clientName| capitalize }}</strong> vient de valider la commande N° <strong>{{ orderNumber }}</strong> d'un montant total de <strong>{{ totalAmount | number_format(2, ",", ",") }}</strong>&#8239;&euro;</p>
+
+{% if comment != "" %}
+    Commentaire du client:
+    <p>{{comment}}</p>
+{% endif %}

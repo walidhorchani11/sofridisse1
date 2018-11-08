@@ -1,0 +1,69 @@
+<section>
+    <div class="content">
+        <div class="breadcrumb-trail-container">
+            {{ wo_render_breadcrumbs({ listId: 'wo-breadcrumbs-dashboard-icon' }) }}
+        </div>
+        <div class="block">
+
+            <div class="space-between-container">
+                <div class="customer-filter">
+                    <h3>Afficher</h3>
+                    <a href="{{ path('sogedial_integration_admin_commandes_clients_approved') }}">
+                        <p class="customer-status active">
+                            Validée ({{ commandeCounterByStatus.approved  }})
+                        </p>
+                    </a>
+                    <a href="{{ path('sogedial_integration_admin_commandes_clients_pending') }}">
+                        <p class="customer-status blocked">
+                            En attente ({{ commandeCounterByStatus.pending }})
+                        </p>
+                    </a>
+                    <a href="{{ path('sogedial_integration_admin_commandes_clients') }}">
+                        <p class="customer-status inactive" style="background-color: turquoise">
+                            ALL ({{ commandeCounterByStatus.all }})
+                        </p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="scrollable-content scrollable-content-commande-list" id="product-list">
+                <table class="table-without-images table-with-headers sticky-header-table">
+                    <thead>
+                        <tr>
+                            <th>Commande</th>
+                            <th>Société</th>
+                            {% if preCommandeMode is defined and preCommandeMode == true %}
+                                <th>MOQ</th>
+                            {% endif %}
+                            <th>Produits</th>
+                            {% if MasterEnterprise|capitalize == "Sogedial" %}
+                                <th>Température</th>
+                            {% else %}
+                                <th>Livraison</th>
+                            {% endif %}
+                            <th>Total</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="spacer"></tr>
+                        {% if commandesEncours is defined and commandesEncours is not empty %}
+                            {% include "SogedialIntegrationBundle:Admin:mes-commandes-clients-list.html.twig"  with { "commandesEncours": commandesEncours, "admin": true, "preCommandeMode" : preCommandeMode, 'societe': societe } %}
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div id="loadingDiv" style="display: none">
+                    <div class="loader-commande-point-com">
+                        {% include "SogedialIntegrationBundle:Utils:loaderCommandePointCom.html.twig"  with {'svg_id':1} %}
+                    </div>
+                    {# <p>Chargement</p>
+                    <div class="loader">Chargement...</div> #}
+                </div>
+                <div id="endLoadingDiv" style="display: none">
+                    <p> Fin de la liste </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

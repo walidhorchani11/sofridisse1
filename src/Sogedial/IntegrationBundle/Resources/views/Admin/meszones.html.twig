@@ -1,0 +1,5 @@
+{% extends "SogedialIntegrationBundle:Layout:layout.html.twig" %}
+{% block title %}Mes Clients - Dashboard Commercial {% endblock %}
+{% block body %}
+    {% include "SogedialIntegrationBundle:Admin:meszones.content.html.twig" with {'mesZones': mesZones} only %}
+{% endblock %}

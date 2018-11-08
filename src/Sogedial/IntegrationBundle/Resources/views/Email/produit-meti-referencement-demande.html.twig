@@ -1,0 +1,14 @@
+<span>Bonjour,</span><br/>
+<p>Les produits suivants pré-commandés sur commande.com ne sont pas encore référencés dans la base METI de {{libelleEnseigne}} :</p>
+<ul>
+    {% for produitPrecoToRef in produitsPrecoToRef %}
+    <li>
+        <p>Produit : {{ produitPrecoToRef.produit_as400 }}</p>
+        <p>Dénomination : {{ produitPrecoToRef.denomination }}</p>
+        <p>Numéro de commande : {{ produitPrecoToRef.num_cmd }}</p>
+        <p>Date de validation commande : {{ produitPrecoToRef.date_validation }}</p>
+        <p>Date de livraison estimée : {{ produitPrecoToRef.date_delivery }}</p>
+        <br/>
+    </li>
+    {% endfor %}
+</ul>

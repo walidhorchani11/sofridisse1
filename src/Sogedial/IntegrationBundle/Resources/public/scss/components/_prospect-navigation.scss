@@ -1,0 +1,43 @@
+.prospect-nav {
+    $nav-item-width: 40px;
+
+  li {
+    float: left;
+    position: relative;;
+
+    &:not(:last-of-type) {
+        margin-right: calc(#{$nav-item-width} / 2);
+
+        &:after {
+            content: '';
+            width: calc(#{$nav-item-width} / 2);
+            height: 2px;
+            background-color: safo-color("primary-dark");
+            position: absolute;
+            right: calc(-#{$nav-item-width} / 2);
+            top: calc(#{$nav-item-width} / 2);
+        }
+    }
+  }
+
+  a {
+    $padding: 10px;
+
+    min-width: $nav-item-width - (2 * $padding);
+    height: $nav-item-width;
+    padding: 0 $padding;
+    margin: 0;
+    line-height: $nav-item-width;
+  }
+
+  .prospect-nav {
+    &-item{
+      font-size: 18px;
+    }
+  }
+
+  .prospect-nav-disabled {
+    pointer-events: none;
+    background-color: safo-color("text-neutral", 5);
+  }
+}

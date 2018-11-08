@@ -1,0 +1,67 @@
+body {
+  background-image: linear-gradient(to bottom, #0263A2 0%, #013469 100%);
+  box-sizing: border-box;
+  height: 100vh;
+  margin: auto;
+  display: table;
+  font-family: 'Montserrat Regular';
+  font-size: 15px;
+  color: #FFF;
+}
+
+.container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.container img {
+  width: 200px;
+  margin-bottom: 30px;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.error-code {
+  font-size: 20px;
+}
+
+.container a {
+  color: #FFF;
+}
+
+.button {
+  margin-top: 20px;
+  border-radius: 30px;
+  height: 46px;
+  line-height: 46px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 0 40px;
+  font-size: 12px;
+  color: #FFF;
+  cursor: pointer;
+}
+
+.button.border-blue {
+  background-color: transparent;
+  border: 1px solid #00A6FF;
+  color: #00A6FF;
+  height: 44px;
+  line-height: 44px;
+  margin: 30px auto;
+}
+
+@font-face {
+    font-family: 'Montserrat Regular';
+    src: url("../fonts/Montserrat-Regular.eot");
+    src: url("../fonts/Montserrat-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/Montserrat-Regular.woff2") format("woff2"), url("../fonts/Montserrat-Regular.woff") format("woff"), url("../fonts/Montserrat-Regular.ttf") format("truetype"), url("../fonts/Montserrat-Regular.svg#Montserrat-Regular") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}

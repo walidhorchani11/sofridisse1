@@ -1,0 +1,11 @@
+{% extends "SogedialIntegrationBundle:Toasts:fullwidth-warning-layout.html.twig" %}
+{% set dismissable = false %}
+{% block content %}
+    Fin de commande : {{ formattedNextValidationDate }}, pour une livraison prévue le {{ formattedNextDeliveryDate }}. Il vous reste
+        {% include "SogedialIntegrationBundle:Utils:remaining-time.html.twig" with {
+            'remDays': remDays,
+            'remHours': remHours,
+            'remMins': remMins
+        } %}
+    pour valider votre panier.
+{% endblock %}

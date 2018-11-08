@@ -1,0 +1,84 @@
+{% for client in mesClients %}
+    <tr class="spacer"></tr>
+    <tr>
+        <td>
+            <span>
+                <!--<a href="{{ path('sogedial_integration_admin_client', {'id': client.code} ) }}">{{ client.code }}</a>-->
+                {% if client.enabled is not null %}
+                    {% if client.enabled %}
+                        <a href="{{ path('sogedial_integration_dashbord', { 'societe': client.nomEnvironnement, '_switch_user' :  client.username, '_societe_cc' : _societe_cc }) }}">{{ client.code|split('-')|length > 1 ? client.code|split('-')[1] : client.code|split('-')[0] }}</a>
+                    {% else %}
+                        <span>{{ client.code|split('-')|length > 1 ? client.code|split('-')[1] : client.code|split('-')[0] }}</span>
+                    {% endif %}
+                {% else %}
+                        <span>{{ client.code|split('-')|length > 1 ? client.code|split('-')[1] : client.code|split('-')[0] }}</span>
+                {% endif %}
+            </span>
+        </td>
+        <td class="link">
+            <span>{{ client.nom }}</span>
+        </td>
+        <td class="link">
+            {% if client.has_meta == true %}
+                {% if client.enabled == true %}
+                    <p class="customer-status active">
+                        Activé</p>
+                {% else %}
+                    <p class="customer-status blocked">Bloqué</p>
+                {% endif %}
+            {% else %}
+                <p class="customer-status inactive">Inactif</p>
+            {% endif %}
+        </td>
+        <td class="link">
+            <span>{{ client.email }}</span>
+        </td>
+        <td class="link">
+            <span>{{ client.libelleEnseigne }}</span>
+        </td>
+        <td class="link">
+            <span>{{ client.codeTarification }}</span>
+        </td>
+        {# Nombre de produits dans l'assortiment : Stand by car trop gourmand #}
+        {#  <td class="link">
+            <span>{{ client.nbProducts }}</span>
+        </td> #}
+        <td class="link">
+            <span>{{ client.nbConnexion }}</span>
+        </td>
+        <td>
+            <p class="small-picto">
+                <a href="{{ path('SogedialSite_ajout_client', {
+                    'codeClient': client.code,
+                    'mode': (client.has_meta ? 'edit' : 'create')
+                }) }}"
+                    class="edit edit-pen link" data-toggle="tooltip" title="&Eacute;diter" ></a>
+            </p>
+            {% if client.has_meta == true %}
+            <p class="small-picto">
+                <a href="{{ path('sogedial_integration_admin_client_assortiments', {
+                    'id': client.code
+                }) }}"
+                    class="edit edit-assortiment link {% if client.enabled == false %}disabled{% endif %}" data-toggle="tooltip" title="G&eacute;rer les assortiments"></a>
+            </p>
+            {% else %}
+            <p class="small-picto">
+                <a href="" class="edit edit-assortiment link disabled"></a>
+            </p>
+            {% endif %}
+            <p class="small-picto">
+                {% if client.has_meta == true %}
+                    {% if client.enabled == true %}
+                        <a href="{{ path('SogedialSite_user_disable', {'codeClient': client.code}) }}"
+                            class="edit edit-lock-open" data-toggle="tooltip" title="Bloquer"></a>
+                    {% else %}
+                        <a href="{{ path('SogedialSite_user_enable', {'codeClient': client.code}) }}"
+                            class="edit edit-lock-closed" data-toggle="tooltip" title="D&eacute;bloquer"></a>
+                    {% endif %}
+                {% else %}
+                    <a href="#" class="edit edit-lock-inactive"></a>
+                {% endif %}
+            </p>
+        </td>
+    </tr>
+{% endfor %}
